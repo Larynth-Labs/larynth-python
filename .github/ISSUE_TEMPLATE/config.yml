@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://docs.larynth.com/sdks/python
+    about: Guides and API reference
+  - name: Report a security vulnerability
+    url: https://github.com/Larynth-Labs/larynth-python/security/advisories/new
+    about: Do not open a public issue for vulnerabilities
