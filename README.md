@@ -11,7 +11,7 @@ Python SDK for the Larynth voice AI API, with webhook signature verification. Fu
 pip install larynth
 ```
 
-Requires Python 3.10 or newer.
+Requires Python 3.11 or newer.
 
 > **0.x: beta, may change.** Minor versions can include breaking changes until 1.0.
 
