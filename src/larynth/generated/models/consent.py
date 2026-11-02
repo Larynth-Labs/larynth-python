@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, Self, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
-from typing_extensions import Self
 
 from ..models.consent_kind import ConsentKind, check_consent_kind
 from ..models.consent_scope_type import ConsentScopeType, check_consent_scope_type

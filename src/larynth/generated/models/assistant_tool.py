@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from attrs import define as _attrs_define
-from typing_extensions import Self
 
 from ..models.assistant_tool_class import AssistantToolClass, check_assistant_tool_class
 from ..models.assistant_tool_kind import AssistantToolKind, check_assistant_tool_kind

@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, Self, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
-from typing_extensions import Self
 
 from ..models.rate_currency import RateCurrency, check_rate_currency
 from ..models.rate_direction import RateDirection, check_rate_direction

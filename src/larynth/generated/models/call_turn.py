@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, Self, TypeVar
 
 from attrs import define as _attrs_define
-from typing_extensions import Self
 
 from ..models.call_turn_spec_tts import CallTurnSpecTts, check_call_turn_spec_tts
 from ..models.call_turn_speculation import (

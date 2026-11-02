@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, Self, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
-from typing_extensions import Self
 
 from ..models.ledger_entry_account import LedgerEntryAccount, check_ledger_entry_account
 from ..models.ledger_entry_kind import LedgerEntryKind, check_ledger_entry_kind
