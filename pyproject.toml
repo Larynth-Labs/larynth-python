@@ -34,7 +34,7 @@ Issues = "https://github.com/Larynth-Labs/larynth-python/issues"
 Changelog = "https://github.com/Larynth-Labs/larynth-python/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
-test = ["pytest==8.4.2"]
+test = ["pytest==9.2.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
