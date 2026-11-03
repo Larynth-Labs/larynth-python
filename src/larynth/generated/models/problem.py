@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.problem_request_kind import ProblemRequestKind, check_problem_request_kind
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -24,9 +25,13 @@ class Problem:
         status (int):
         title (str):
         type_ (str): Stable URI identifying the error code
+        api_base (str | Unset): API base URL of the workspace's home region (workspace.other_region)
+        attempts_left (int | Unset): Code attempts left in this sign-in step
         detail (str | Unset):
         errors (list[ErrorDetail] | Unset):
         instance (str | Unset):
+        reauth_methods (list[str] | Unset): Ways to re-authenticate, in preference order (auth.reauth_required)
+        request_kind (ProblemRequestKind | Unset): Spending request kind to file instead (spending.approval_required)
         retry_at (datetime.datetime | Unset): Next moment the request may succeed (calling windows)
     """
 
@@ -34,9 +39,13 @@ class Problem:
     status: int
     title: str
     type_: str
+    api_base: str | Unset = UNSET
+    attempts_left: int | Unset = UNSET
     detail: str | Unset = UNSET
     errors: list[ErrorDetail] | Unset = UNSET
     instance: str | Unset = UNSET
+    reauth_methods: list[str] | Unset = UNSET
+    request_kind: ProblemRequestKind | Unset = UNSET
     retry_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -49,6 +58,10 @@ class Problem:
 
         type_ = self.type_
 
+        api_base = self.api_base
+
+        attempts_left = self.attempts_left
+
         detail = self.detail
 
         errors: list[dict[str, Any]] | Unset = UNSET
@@ -59,6 +72,14 @@ class Problem:
                 errors.append(errors_item)
 
         instance = self.instance
+
+        reauth_methods: list[str] | Unset = UNSET
+        if not isinstance(self.reauth_methods, Unset):
+            reauth_methods = self.reauth_methods
+
+        request_kind: str | Unset = UNSET
+        if not isinstance(self.request_kind, Unset):
+            request_kind = self.request_kind
 
         retry_at: str | Unset = UNSET
         if not isinstance(self.retry_at, Unset):
@@ -74,12 +95,20 @@ class Problem:
                 "type": type_,
             }
         )
+        if api_base is not UNSET:
+            field_dict["api_base"] = api_base
+        if attempts_left is not UNSET:
+            field_dict["attempts_left"] = attempts_left
         if detail is not UNSET:
             field_dict["detail"] = detail
         if errors is not UNSET:
             field_dict["errors"] = errors
         if instance is not UNSET:
             field_dict["instance"] = instance
+        if reauth_methods is not UNSET:
+            field_dict["reauth_methods"] = reauth_methods
+        if request_kind is not UNSET:
+            field_dict["request_kind"] = request_kind
         if retry_at is not UNSET:
             field_dict["retry_at"] = retry_at
 
@@ -98,6 +127,10 @@ class Problem:
 
         type_ = d.pop("type")
 
+        api_base = d.pop("api_base", UNSET)
+
+        attempts_left = d.pop("attempts_left", UNSET)
+
         detail = d.pop("detail", UNSET)
 
         _errors = d.pop("errors", UNSET)
@@ -111,6 +144,15 @@ class Problem:
 
         instance = d.pop("instance", UNSET)
 
+        reauth_methods = cast(list[str], d.pop("reauth_methods", UNSET))
+
+        _request_kind = d.pop("request_kind", UNSET)
+        request_kind: ProblemRequestKind | Unset
+        if isinstance(_request_kind, Unset):
+            request_kind = UNSET
+        else:
+            request_kind = check_problem_request_kind(_request_kind)
+
         _retry_at = d.pop("retry_at", UNSET)
         retry_at: datetime.datetime | Unset
         if isinstance(_retry_at, Unset):
@@ -123,9 +165,13 @@ class Problem:
             status=status,
             title=title,
             type_=type_,
+            api_base=api_base,
+            attempts_left=attempts_left,
             detail=detail,
             errors=errors,
             instance=instance,
+            reauth_methods=reauth_methods,
+            request_kind=request_kind,
             retry_at=retry_at,
         )
 

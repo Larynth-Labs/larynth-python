@@ -106,7 +106,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: UpdateAssistantRequest,
 ) -> Response[Assistant | Problem]:
-    """Rename an assistant
+    """Rename an assistant or change its job line and reply-time target
 
     Args:
         id (UUID):
@@ -138,7 +138,7 @@ def sync(
     client: AuthenticatedClient,
     body: UpdateAssistantRequest,
 ) -> Assistant | Problem | None:
-    """Rename an assistant
+    """Rename an assistant or change its job line and reply-time target
 
     Args:
         id (UUID):
@@ -165,7 +165,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: UpdateAssistantRequest,
 ) -> Response[Assistant | Problem]:
-    """Rename an assistant
+    """Rename an assistant or change its job line and reply-time target
 
     Args:
         id (UUID):
@@ -195,7 +195,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: UpdateAssistantRequest,
 ) -> Assistant | Problem | None:
-    """Rename an assistant
+    """Rename an assistant or change its job line and reply-time target
 
     Args:
         id (UUID):

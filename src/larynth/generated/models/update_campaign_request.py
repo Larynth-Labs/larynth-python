@@ -25,7 +25,8 @@ T = TypeVar("T", bound="UpdateCampaignRequest")
 class UpdateCampaignRequest:
     """
     Attributes:
-        amd_mode (UpdateCampaignRequestAmdMode | Unset):
+        amd_mode (UpdateCampaignRequestAmdMode | Unset): agent uses the agent call_handling voicemail setting; unset on
+            create is agent
         amd_profile_id (UUID | Unset):
         assistant_id (UUID | Unset):
         cps (float | Unset):

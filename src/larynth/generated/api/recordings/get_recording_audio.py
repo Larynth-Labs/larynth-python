@@ -8,12 +8,17 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.problem import Problem
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: UUID,
+    *,
+    range_: str | Unset = UNSET,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    if not isinstance(range_, Unset):
+        headers["Range"] = range_
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -22,6 +27,7 @@ def _get_kwargs(
         ),
     }
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -47,6 +53,21 @@ def _parse_response(
         response_404 = Problem.from_dict(response.json())
 
         return response_404
+
+    if response.status_code == 409:
+        response_409 = Problem.from_dict(response.json())
+
+        return response_409
+
+    if response.status_code == 410:
+        response_410 = Problem.from_dict(response.json())
+
+        return response_410
+
+    if response.status_code == 416:
+        response_416 = Problem.from_dict(response.json())
+
+        return response_416
 
     if response.status_code == 422:
         response_422 = Problem.from_dict(response.json())
@@ -84,11 +105,13 @@ def sync_detailed(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    range_: str | Unset = UNSET,
 ) -> Response[Problem]:
-    """Stream the decrypted WAV; audited
+    """Stream the decrypted WAV, with byte ranges; each playback is logged
 
     Args:
         id (UUID):
+        range_ (str | Unset): bytes=<start>-[<end>]; recordings over 60 minutes answer 200 only
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,6 +123,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        range_=range_,
     )
 
     response = client.get_httpx_client().request(
@@ -113,11 +137,13 @@ def sync(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    range_: str | Unset = UNSET,
 ) -> Problem | None:
-    """Stream the decrypted WAV; audited
+    """Stream the decrypted WAV, with byte ranges; each playback is logged
 
     Args:
         id (UUID):
+        range_ (str | Unset): bytes=<start>-[<end>]; recordings over 60 minutes answer 200 only
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -130,6 +156,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        range_=range_,
     ).parsed
 
 
@@ -137,11 +164,13 @@ async def asyncio_detailed(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    range_: str | Unset = UNSET,
 ) -> Response[Problem]:
-    """Stream the decrypted WAV; audited
+    """Stream the decrypted WAV, with byte ranges; each playback is logged
 
     Args:
         id (UUID):
+        range_ (str | Unset): bytes=<start>-[<end>]; recordings over 60 minutes answer 200 only
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,6 +182,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        range_=range_,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -164,11 +194,13 @@ async def asyncio(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    range_: str | Unset = UNSET,
 ) -> Problem | None:
-    """Stream the decrypted WAV; audited
+    """Stream the decrypted WAV, with byte ranges; each playback is logged
 
     Args:
         id (UUID):
+        range_ (str | Unset): bytes=<start>-[<end>]; recordings over 60 minutes answer 200 only
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -182,5 +214,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            range_=range_,
         )
     ).parsed

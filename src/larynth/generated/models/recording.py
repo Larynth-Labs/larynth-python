@@ -7,6 +7,10 @@ from uuid import UUID
 
 from attrs import define as _attrs_define
 
+from ..models.recording_deleted_reason import (
+    RecordingDeletedReason,
+    check_recording_deleted_reason,
+)
 from ..models.recording_state import RecordingState, check_recording_state
 from ..types import UNSET, Unset
 
@@ -25,6 +29,9 @@ class Recording:
         source (str):
         state (RecordingState):
         bytes_ (int | Unset):
+        deleted_at (datetime.datetime | Unset):
+        deleted_by_name (str | Unset):
+        deleted_reason (RecordingDeletedReason | Unset):
         dropped (int | Unset):
         frames (int | Unset):
         plaintext_sha256 (str | Unset):
@@ -40,6 +47,9 @@ class Recording:
     source: str
     state: RecordingState
     bytes_: int | Unset = UNSET
+    deleted_at: datetime.datetime | Unset = UNSET
+    deleted_by_name: str | Unset = UNSET
+    deleted_reason: RecordingDeletedReason | Unset = UNSET
     dropped: int | Unset = UNSET
     frames: int | Unset = UNSET
     plaintext_sha256: str | Unset = UNSET
@@ -62,6 +72,16 @@ class Recording:
         state: str = self.state
 
         bytes_ = self.bytes_
+
+        deleted_at: str | Unset = UNSET
+        if not isinstance(self.deleted_at, Unset):
+            deleted_at = self.deleted_at.isoformat()
+
+        deleted_by_name = self.deleted_by_name
+
+        deleted_reason: str | Unset = UNSET
+        if not isinstance(self.deleted_reason, Unset):
+            deleted_reason = self.deleted_reason
 
         dropped = self.dropped
 
@@ -92,6 +112,12 @@ class Recording:
         )
         if bytes_ is not UNSET:
             field_dict["bytes"] = bytes_
+        if deleted_at is not UNSET:
+            field_dict["deleted_at"] = deleted_at
+        if deleted_by_name is not UNSET:
+            field_dict["deleted_by_name"] = deleted_by_name
+        if deleted_reason is not UNSET:
+            field_dict["deleted_reason"] = deleted_reason
         if dropped is not UNSET:
             field_dict["dropped"] = dropped
         if frames is not UNSET:
@@ -124,6 +150,22 @@ class Recording:
 
         bytes_ = d.pop("bytes", UNSET)
 
+        _deleted_at = d.pop("deleted_at", UNSET)
+        deleted_at: datetime.datetime | Unset
+        if isinstance(_deleted_at, Unset):
+            deleted_at = UNSET
+        else:
+            deleted_at = datetime.datetime.fromisoformat(_deleted_at)
+
+        deleted_by_name = d.pop("deleted_by_name", UNSET)
+
+        _deleted_reason = d.pop("deleted_reason", UNSET)
+        deleted_reason: RecordingDeletedReason | Unset
+        if isinstance(_deleted_reason, Unset):
+            deleted_reason = UNSET
+        else:
+            deleted_reason = check_recording_deleted_reason(_deleted_reason)
+
         dropped = d.pop("dropped", UNSET)
 
         frames = d.pop("frames", UNSET)
@@ -153,6 +195,9 @@ class Recording:
             source=source,
             state=state,
             bytes_=bytes_,
+            deleted_at=deleted_at,
+            deleted_by_name=deleted_by_name,
+            deleted_reason=deleted_reason,
             dropped=dropped,
             frames=frames,
             plaintext_sha256=plaintext_sha256,

@@ -32,7 +32,8 @@ class CreateCampaignRequest:
         assistant_id (UUID):
         name (str):
         purpose (CreateCampaignRequestPurpose):
-        amd_mode (CreateCampaignRequestAmdMode | Unset):
+        amd_mode (CreateCampaignRequestAmdMode | Unset): agent uses the agent call_handling voicemail setting; unset on
+            create is agent
         amd_profile_id (UUID | Unset):
         cps (float | Unset):
         end_at (datetime.datetime | Unset):
