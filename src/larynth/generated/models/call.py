@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -17,11 +17,25 @@ from ..models.call_codec import CallCodec, check_call_codec
 from ..models.call_direction import CallDirection, check_call_direction
 from ..models.call_hangup_by import CallHangupBy, check_call_hangup_by
 from ..models.call_mode import CallMode, check_call_mode
+from ..models.call_not_billed_reason import (
+    CallNotBilledReason,
+    check_call_not_billed_reason,
+)
+from ..models.call_outcome import CallOutcome, check_call_outcome
+from ..models.call_outcome_group import CallOutcomeGroup, check_call_outcome_group
+from ..models.call_sentiment import CallSentiment, check_call_sentiment
 from ..models.call_status import CallStatus, check_call_status
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.amd_answer_headers import AMDAnswerHeaders
+    from ..models.call_flag import CallFlag
+    from ..models.call_latency import CallLatency
+    from ..models.call_quality import CallQuality
+    from ..models.call_receipt import CallReceipt
+    from ..models.call_recording_info import CallRecordingInfo
+    from ..models.call_transfer import CallTransfer
+    from ..models.caller_block_ref import CallerBlockRef
 
 
 T = TypeVar("T", bound="Call")
@@ -37,7 +51,9 @@ class Call:
         mode (CallMode):
         opted_out (bool):
         recording_allowed (bool):
+        spam_flagged (bool):
         status (CallStatus):
+        tags (list[str]):
         updated_at (datetime.datetime):
         agent_billable_ms (int | Unset): Part of billable_ms handled by the agent
         agent_price_micro (int | Unset): Settled price of the agent part in micro-USD
@@ -56,21 +72,36 @@ class Call:
         bridged_ms (int | Unset): Part of billable_ms bridged to a human after a transfer
         bridged_price_micro (int | Unset): Settled price of the bridged part in micro-USD, billed at the transfer_minute
             rate
+        caller_blocked (CallerBlockRef | Unset):
+        caller_name (str | Unset): The contact name, else the name the caller gave
         campaign_contact_id (UUID | Unset):
         campaign_id (UUID | Unset):
         cause (str | Unset):
         codec (CallCodec | Unset):
+        contact_id (UUID | Unset):
+        cursor (str | Unset): Opaque; pass as after or before to page from this call
         disclosure_played_at (datetime.datetime | Unset):
         ended_at (datetime.datetime | Unset):
+        flagged (CallFlag | Unset):
         from_e164 (str | Unset):
         hangup_by (CallHangupBy | Unset):
+        latency (CallLatency | Unset):
+        not_billed_reason (CallNotBilledReason | Unset):
         number_id (UUID | Unset):
-        outcome (str | Unset):
+        outcome (CallOutcome | Unset): Fixed platform list; null while live and until analysis finishes
+        outcome_group (CallOutcomeGroup | Unset):
         price_micro (int | Unset): Settled price in micro-USD
+        quality (CallQuality | Unset):
+        quality_score (int | Unset): Automatic call quality check score
+        receipt (CallReceipt | Unset):
+        recording (CallRecordingInfo | Unset):
         recording_notice_played_at (datetime.datetime | Unset):
+        sentiment (CallSentiment | Unset): Caller sentiment from the post-call analysis, on every call
         sip_code (int | Unset):
+        successful (bool | Unset):
         summary (str | Unset): Short post-call summary, present on list items once analysed
         to_e164 (str | Unset):
+        transfer (CallTransfer | Unset):
     """
 
     call_id: str
@@ -79,7 +110,9 @@ class Call:
     mode: CallMode
     opted_out: bool
     recording_allowed: bool
+    spam_flagged: bool
     status: CallStatus
+    tags: list[str]
     updated_at: datetime.datetime
     agent_billable_ms: int | Unset = UNSET
     agent_price_micro: int | Unset = UNSET
@@ -97,21 +130,36 @@ class Call:
     billable_ms: int | Unset = UNSET
     bridged_ms: int | Unset = UNSET
     bridged_price_micro: int | Unset = UNSET
+    caller_blocked: CallerBlockRef | Unset = UNSET
+    caller_name: str | Unset = UNSET
     campaign_contact_id: UUID | Unset = UNSET
     campaign_id: UUID | Unset = UNSET
     cause: str | Unset = UNSET
     codec: CallCodec | Unset = UNSET
+    contact_id: UUID | Unset = UNSET
+    cursor: str | Unset = UNSET
     disclosure_played_at: datetime.datetime | Unset = UNSET
     ended_at: datetime.datetime | Unset = UNSET
+    flagged: CallFlag | Unset = UNSET
     from_e164: str | Unset = UNSET
     hangup_by: CallHangupBy | Unset = UNSET
+    latency: CallLatency | Unset = UNSET
+    not_billed_reason: CallNotBilledReason | Unset = UNSET
     number_id: UUID | Unset = UNSET
-    outcome: str | Unset = UNSET
+    outcome: CallOutcome | Unset = UNSET
+    outcome_group: CallOutcomeGroup | Unset = UNSET
     price_micro: int | Unset = UNSET
+    quality: CallQuality | Unset = UNSET
+    quality_score: int | Unset = UNSET
+    receipt: CallReceipt | Unset = UNSET
+    recording: CallRecordingInfo | Unset = UNSET
     recording_notice_played_at: datetime.datetime | Unset = UNSET
+    sentiment: CallSentiment | Unset = UNSET
     sip_code: int | Unset = UNSET
+    successful: bool | Unset = UNSET
     summary: str | Unset = UNSET
     to_e164: str | Unset = UNSET
+    transfer: CallTransfer | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         call_id = self.call_id
@@ -126,7 +174,11 @@ class Call:
 
         recording_allowed = self.recording_allowed
 
+        spam_flagged = self.spam_flagged
+
         status: str = self.status
+
+        tags = self.tags
 
         updated_at = self.updated_at.isoformat()
 
@@ -174,6 +226,12 @@ class Call:
 
         bridged_price_micro = self.bridged_price_micro
 
+        caller_blocked: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.caller_blocked, Unset):
+            caller_blocked = self.caller_blocked.to_dict()
+
+        caller_name = self.caller_name
+
         campaign_contact_id: str | Unset = UNSET
         if not isinstance(self.campaign_contact_id, Unset):
             campaign_contact_id = str(self.campaign_contact_id)
@@ -188,6 +246,12 @@ class Call:
         if not isinstance(self.codec, Unset):
             codec = self.codec
 
+        contact_id: str | Unset = UNSET
+        if not isinstance(self.contact_id, Unset):
+            contact_id = str(self.contact_id)
+
+        cursor = self.cursor
+
         disclosure_played_at: str | Unset = UNSET
         if not isinstance(self.disclosure_played_at, Unset):
             disclosure_played_at = self.disclosure_played_at.isoformat()
@@ -196,29 +260,71 @@ class Call:
         if not isinstance(self.ended_at, Unset):
             ended_at = self.ended_at.isoformat()
 
+        flagged: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.flagged, Unset):
+            flagged = self.flagged.to_dict()
+
         from_e164 = self.from_e164
 
         hangup_by: str | Unset = UNSET
         if not isinstance(self.hangup_by, Unset):
             hangup_by = self.hangup_by
 
+        latency: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.latency, Unset):
+            latency = self.latency.to_dict()
+
+        not_billed_reason: str | Unset = UNSET
+        if not isinstance(self.not_billed_reason, Unset):
+            not_billed_reason = self.not_billed_reason
+
         number_id: str | Unset = UNSET
         if not isinstance(self.number_id, Unset):
             number_id = str(self.number_id)
 
-        outcome = self.outcome
+        outcome: str | Unset = UNSET
+        if not isinstance(self.outcome, Unset):
+            outcome = self.outcome
+
+        outcome_group: str | Unset = UNSET
+        if not isinstance(self.outcome_group, Unset):
+            outcome_group = self.outcome_group
 
         price_micro = self.price_micro
+
+        quality: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.quality, Unset):
+            quality = self.quality.to_dict()
+
+        quality_score = self.quality_score
+
+        receipt: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.receipt, Unset):
+            receipt = self.receipt.to_dict()
+
+        recording: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.recording, Unset):
+            recording = self.recording.to_dict()
 
         recording_notice_played_at: str | Unset = UNSET
         if not isinstance(self.recording_notice_played_at, Unset):
             recording_notice_played_at = self.recording_notice_played_at.isoformat()
 
+        sentiment: str | Unset = UNSET
+        if not isinstance(self.sentiment, Unset):
+            sentiment = self.sentiment
+
         sip_code = self.sip_code
+
+        successful = self.successful
 
         summary = self.summary
 
         to_e164 = self.to_e164
+
+        transfer: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.transfer, Unset):
+            transfer = self.transfer.to_dict()
 
         field_dict: dict[str, Any] = {}
 
@@ -230,7 +336,9 @@ class Call:
                 "mode": mode,
                 "opted_out": opted_out,
                 "recording_allowed": recording_allowed,
+                "spam_flagged": spam_flagged,
                 "status": status,
+                "tags": tags,
                 "updated_at": updated_at,
             }
         )
@@ -266,6 +374,10 @@ class Call:
             field_dict["bridged_ms"] = bridged_ms
         if bridged_price_micro is not UNSET:
             field_dict["bridged_price_micro"] = bridged_price_micro
+        if caller_blocked is not UNSET:
+            field_dict["caller_blocked"] = caller_blocked
+        if caller_name is not UNSET:
+            field_dict["caller_name"] = caller_name
         if campaign_contact_id is not UNSET:
             field_dict["campaign_contact_id"] = campaign_contact_id
         if campaign_id is not UNSET:
@@ -274,34 +386,67 @@ class Call:
             field_dict["cause"] = cause
         if codec is not UNSET:
             field_dict["codec"] = codec
+        if contact_id is not UNSET:
+            field_dict["contact_id"] = contact_id
+        if cursor is not UNSET:
+            field_dict["cursor"] = cursor
         if disclosure_played_at is not UNSET:
             field_dict["disclosure_played_at"] = disclosure_played_at
         if ended_at is not UNSET:
             field_dict["ended_at"] = ended_at
+        if flagged is not UNSET:
+            field_dict["flagged"] = flagged
         if from_e164 is not UNSET:
             field_dict["from_e164"] = from_e164
         if hangup_by is not UNSET:
             field_dict["hangup_by"] = hangup_by
+        if latency is not UNSET:
+            field_dict["latency"] = latency
+        if not_billed_reason is not UNSET:
+            field_dict["not_billed_reason"] = not_billed_reason
         if number_id is not UNSET:
             field_dict["number_id"] = number_id
         if outcome is not UNSET:
             field_dict["outcome"] = outcome
+        if outcome_group is not UNSET:
+            field_dict["outcome_group"] = outcome_group
         if price_micro is not UNSET:
             field_dict["price_micro"] = price_micro
+        if quality is not UNSET:
+            field_dict["quality"] = quality
+        if quality_score is not UNSET:
+            field_dict["quality_score"] = quality_score
+        if receipt is not UNSET:
+            field_dict["receipt"] = receipt
+        if recording is not UNSET:
+            field_dict["recording"] = recording
         if recording_notice_played_at is not UNSET:
             field_dict["recording_notice_played_at"] = recording_notice_played_at
+        if sentiment is not UNSET:
+            field_dict["sentiment"] = sentiment
         if sip_code is not UNSET:
             field_dict["sip_code"] = sip_code
+        if successful is not UNSET:
+            field_dict["successful"] = successful
         if summary is not UNSET:
             field_dict["summary"] = summary
         if to_e164 is not UNSET:
             field_dict["to_e164"] = to_e164
+        if transfer is not UNSET:
+            field_dict["transfer"] = transfer
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.amd_answer_headers import AMDAnswerHeaders
+        from ..models.call_flag import CallFlag
+        from ..models.call_latency import CallLatency
+        from ..models.call_quality import CallQuality
+        from ..models.call_receipt import CallReceipt
+        from ..models.call_recording_info import CallRecordingInfo
+        from ..models.call_transfer import CallTransfer
+        from ..models.caller_block_ref import CallerBlockRef
 
         d = dict(src_dict)
         call_id = d.pop("call_id")
@@ -316,7 +461,11 @@ class Call:
 
         recording_allowed = d.pop("recording_allowed")
 
+        spam_flagged = d.pop("spam_flagged")
+
         status = check_call_status(d.pop("status"))
+
+        tags = cast(list[str], d.pop("tags"))
 
         updated_at = datetime.datetime.fromisoformat(d.pop("updated_at"))
 
@@ -384,6 +533,15 @@ class Call:
 
         bridged_price_micro = d.pop("bridged_price_micro", UNSET)
 
+        _caller_blocked = d.pop("caller_blocked", UNSET)
+        caller_blocked: CallerBlockRef | Unset
+        if isinstance(_caller_blocked, Unset):
+            caller_blocked = UNSET
+        else:
+            caller_blocked = CallerBlockRef.from_dict(_caller_blocked)
+
+        caller_name = d.pop("caller_name", UNSET)
+
         _campaign_contact_id = d.pop("campaign_contact_id", UNSET)
         campaign_contact_id: UUID | Unset
         if isinstance(_campaign_contact_id, Unset):
@@ -407,6 +565,15 @@ class Call:
         else:
             codec = check_call_codec(_codec)
 
+        _contact_id = d.pop("contact_id", UNSET)
+        contact_id: UUID | Unset
+        if isinstance(_contact_id, Unset):
+            contact_id = UNSET
+        else:
+            contact_id = UUID(_contact_id)
+
+        cursor = d.pop("cursor", UNSET)
+
         _disclosure_played_at = d.pop("disclosure_played_at", UNSET)
         disclosure_played_at: datetime.datetime | Unset
         if isinstance(_disclosure_played_at, Unset):
@@ -423,6 +590,13 @@ class Call:
         else:
             ended_at = datetime.datetime.fromisoformat(_ended_at)
 
+        _flagged = d.pop("flagged", UNSET)
+        flagged: CallFlag | Unset
+        if isinstance(_flagged, Unset):
+            flagged = UNSET
+        else:
+            flagged = CallFlag.from_dict(_flagged)
+
         from_e164 = d.pop("from_e164", UNSET)
 
         _hangup_by = d.pop("hangup_by", UNSET)
@@ -432,6 +606,20 @@ class Call:
         else:
             hangup_by = check_call_hangup_by(_hangup_by)
 
+        _latency = d.pop("latency", UNSET)
+        latency: CallLatency | Unset
+        if isinstance(_latency, Unset):
+            latency = UNSET
+        else:
+            latency = CallLatency.from_dict(_latency)
+
+        _not_billed_reason = d.pop("not_billed_reason", UNSET)
+        not_billed_reason: CallNotBilledReason | Unset
+        if isinstance(_not_billed_reason, Unset):
+            not_billed_reason = UNSET
+        else:
+            not_billed_reason = check_call_not_billed_reason(_not_billed_reason)
+
         _number_id = d.pop("number_id", UNSET)
         number_id: UUID | Unset
         if isinstance(_number_id, Unset):
@@ -439,9 +627,44 @@ class Call:
         else:
             number_id = UUID(_number_id)
 
-        outcome = d.pop("outcome", UNSET)
+        _outcome = d.pop("outcome", UNSET)
+        outcome: CallOutcome | Unset
+        if isinstance(_outcome, Unset):
+            outcome = UNSET
+        else:
+            outcome = check_call_outcome(_outcome)
+
+        _outcome_group = d.pop("outcome_group", UNSET)
+        outcome_group: CallOutcomeGroup | Unset
+        if isinstance(_outcome_group, Unset):
+            outcome_group = UNSET
+        else:
+            outcome_group = check_call_outcome_group(_outcome_group)
 
         price_micro = d.pop("price_micro", UNSET)
+
+        _quality = d.pop("quality", UNSET)
+        quality: CallQuality | Unset
+        if isinstance(_quality, Unset):
+            quality = UNSET
+        else:
+            quality = CallQuality.from_dict(_quality)
+
+        quality_score = d.pop("quality_score", UNSET)
+
+        _receipt = d.pop("receipt", UNSET)
+        receipt: CallReceipt | Unset
+        if isinstance(_receipt, Unset):
+            receipt = UNSET
+        else:
+            receipt = CallReceipt.from_dict(_receipt)
+
+        _recording = d.pop("recording", UNSET)
+        recording: CallRecordingInfo | Unset
+        if isinstance(_recording, Unset):
+            recording = UNSET
+        else:
+            recording = CallRecordingInfo.from_dict(_recording)
 
         _recording_notice_played_at = d.pop("recording_notice_played_at", UNSET)
         recording_notice_played_at: datetime.datetime | Unset
@@ -452,11 +675,27 @@ class Call:
                 _recording_notice_played_at
             )
 
+        _sentiment = d.pop("sentiment", UNSET)
+        sentiment: CallSentiment | Unset
+        if isinstance(_sentiment, Unset):
+            sentiment = UNSET
+        else:
+            sentiment = check_call_sentiment(_sentiment)
+
         sip_code = d.pop("sip_code", UNSET)
+
+        successful = d.pop("successful", UNSET)
 
         summary = d.pop("summary", UNSET)
 
         to_e164 = d.pop("to_e164", UNSET)
+
+        _transfer = d.pop("transfer", UNSET)
+        transfer: CallTransfer | Unset
+        if isinstance(_transfer, Unset):
+            transfer = UNSET
+        else:
+            transfer = CallTransfer.from_dict(_transfer)
 
         call = cls(
             call_id=call_id,
@@ -465,7 +704,9 @@ class Call:
             mode=mode,
             opted_out=opted_out,
             recording_allowed=recording_allowed,
+            spam_flagged=spam_flagged,
             status=status,
+            tags=tags,
             updated_at=updated_at,
             agent_billable_ms=agent_billable_ms,
             agent_price_micro=agent_price_micro,
@@ -483,21 +724,36 @@ class Call:
             billable_ms=billable_ms,
             bridged_ms=bridged_ms,
             bridged_price_micro=bridged_price_micro,
+            caller_blocked=caller_blocked,
+            caller_name=caller_name,
             campaign_contact_id=campaign_contact_id,
             campaign_id=campaign_id,
             cause=cause,
             codec=codec,
+            contact_id=contact_id,
+            cursor=cursor,
             disclosure_played_at=disclosure_played_at,
             ended_at=ended_at,
+            flagged=flagged,
             from_e164=from_e164,
             hangup_by=hangup_by,
+            latency=latency,
+            not_billed_reason=not_billed_reason,
             number_id=number_id,
             outcome=outcome,
+            outcome_group=outcome_group,
             price_micro=price_micro,
+            quality=quality,
+            quality_score=quality_score,
+            receipt=receipt,
+            recording=recording,
             recording_notice_played_at=recording_notice_played_at,
+            sentiment=sentiment,
             sip_code=sip_code,
+            successful=successful,
             summary=summary,
             to_e164=to_e164,
+            transfer=transfer,
         )
 
         return call
