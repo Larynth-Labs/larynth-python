@@ -5,6 +5,9 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.list_assistants_state import (
+    ListAssistantsState,
+)
 from ...models.list_assistants_status import (
     ListAssistantsStatus,
 )
@@ -18,6 +21,7 @@ def _get_kwargs(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListAssistantsStatus | Unset = UNSET,
+    state: ListAssistantsState | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -31,6 +35,12 @@ def _get_kwargs(
         json_status = status
 
     params["status"] = json_status
+
+    json_state: str | Unset = UNSET
+    if not isinstance(state, Unset):
+        json_state = state
+
+    params["state"] = json_state
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -104,6 +114,7 @@ def sync_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListAssistantsStatus | Unset = UNSET,
+    state: ListAssistantsState | Unset = UNSET,
 ) -> Response[PageAssistant | Problem]:
     """List assistants
 
@@ -111,6 +122,7 @@ def sync_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListAssistantsStatus | Unset):
+        state (ListAssistantsState | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -124,6 +136,7 @@ def sync_detailed(
         limit=limit,
         after=after,
         status=status,
+        state=state,
     )
 
     response = client.get_httpx_client().request(
@@ -139,6 +152,7 @@ def sync(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListAssistantsStatus | Unset = UNSET,
+    state: ListAssistantsState | Unset = UNSET,
 ) -> PageAssistant | Problem | None:
     """List assistants
 
@@ -146,6 +160,7 @@ def sync(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListAssistantsStatus | Unset):
+        state (ListAssistantsState | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,6 +175,7 @@ def sync(
         limit=limit,
         after=after,
         status=status,
+        state=state,
     ).parsed
 
 
@@ -169,6 +185,7 @@ async def asyncio_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListAssistantsStatus | Unset = UNSET,
+    state: ListAssistantsState | Unset = UNSET,
 ) -> Response[PageAssistant | Problem]:
     """List assistants
 
@@ -176,6 +193,7 @@ async def asyncio_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListAssistantsStatus | Unset):
+        state (ListAssistantsState | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -189,6 +207,7 @@ async def asyncio_detailed(
         limit=limit,
         after=after,
         status=status,
+        state=state,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -202,6 +221,7 @@ async def asyncio(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListAssistantsStatus | Unset = UNSET,
+    state: ListAssistantsState | Unset = UNSET,
 ) -> PageAssistant | Problem | None:
     """List assistants
 
@@ -209,6 +229,7 @@ async def asyncio(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListAssistantsStatus | Unset):
+        state (ListAssistantsState | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -224,5 +245,6 @@ async def asyncio(
             limit=limit,
             after=after,
             status=status,
+            state=state,
         )
     ).parsed

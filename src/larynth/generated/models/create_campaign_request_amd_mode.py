@@ -1,8 +1,9 @@
 from typing import Literal
 
-CreateCampaignRequestAmdMode = Literal["hangup_on_machine", "off", "voicemail"]
+CreateCampaignRequestAmdMode = Literal["agent", "hangup_on_machine", "off", "voicemail"]
 
 CREATE_CAMPAIGN_REQUEST_AMD_MODE_VALUES: set[CreateCampaignRequestAmdMode] = {
+    "agent",
     "hangup_on_machine",
     "off",
     "voicemail",

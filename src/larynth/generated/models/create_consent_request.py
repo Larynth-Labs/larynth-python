@@ -33,8 +33,11 @@ class CreateConsentRequest:
         kind (CreateConsentRequestKind):
         scope_type (CreateConsentRequestScopeType):
         source (CreateConsentRequestSource):
+        attest (bool | Unset): Dashboard callers must attest the evidence is genuine; the server stores who, when, IP
+            and user agent
         captured_ip (str | Unset):
         contact_id (UUID | Unset):
+        covers_marketing (bool | Unset): express_written only
         evidence_ref (str | Unset): One of evidence_ref or evidence_text is required
         evidence_text (str | Unset):
         scope_id (UUID | Unset): Campaign id; required when scope_type is campaign
@@ -45,8 +48,10 @@ class CreateConsentRequest:
     kind: CreateConsentRequestKind
     scope_type: CreateConsentRequestScopeType
     source: CreateConsentRequestSource
+    attest: bool | Unset = UNSET
     captured_ip: str | Unset = UNSET
     contact_id: UUID | Unset = UNSET
+    covers_marketing: bool | Unset = UNSET
     evidence_ref: str | Unset = UNSET
     evidence_text: str | Unset = UNSET
     scope_id: UUID | Unset = UNSET
@@ -62,11 +67,15 @@ class CreateConsentRequest:
 
         source: str = self.source
 
+        attest = self.attest
+
         captured_ip = self.captured_ip
 
         contact_id: str | Unset = UNSET
         if not isinstance(self.contact_id, Unset):
             contact_id = str(self.contact_id)
+
+        covers_marketing = self.covers_marketing
 
         evidence_ref = self.evidence_ref
 
@@ -87,10 +96,14 @@ class CreateConsentRequest:
                 "source": source,
             }
         )
+        if attest is not UNSET:
+            field_dict["attest"] = attest
         if captured_ip is not UNSET:
             field_dict["captured_ip"] = captured_ip
         if contact_id is not UNSET:
             field_dict["contact_id"] = contact_id
+        if covers_marketing is not UNSET:
+            field_dict["covers_marketing"] = covers_marketing
         if evidence_ref is not UNSET:
             field_dict["evidence_ref"] = evidence_ref
         if evidence_text is not UNSET:
@@ -113,6 +126,8 @@ class CreateConsentRequest:
 
         source = check_create_consent_request_source(d.pop("source"))
 
+        attest = d.pop("attest", UNSET)
+
         captured_ip = d.pop("captured_ip", UNSET)
 
         _contact_id = d.pop("contact_id", UNSET)
@@ -121,6 +136,8 @@ class CreateConsentRequest:
             contact_id = UNSET
         else:
             contact_id = UUID(_contact_id)
+
+        covers_marketing = d.pop("covers_marketing", UNSET)
 
         evidence_ref = d.pop("evidence_ref", UNSET)
 
@@ -139,8 +156,10 @@ class CreateConsentRequest:
             kind=kind,
             scope_type=scope_type,
             source=source,
+            attest=attest,
             captured_ip=captured_ip,
             contact_id=contact_id,
+            covers_marketing=covers_marketing,
             evidence_ref=evidence_ref,
             evidence_text=evidence_text,
             scope_id=scope_id,

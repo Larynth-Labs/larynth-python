@@ -1,10 +1,14 @@
 from typing import Literal
 
-ContactImportConsentSource = Literal["import", "other", "verbal_recorded", "web_form"]
+ContactImportConsentSource = Literal[
+    "customer_agreement", "import", "other", "paper_form", "verbal_recorded", "web_form"
+]
 
 CONTACT_IMPORT_CONSENT_SOURCE_VALUES: set[ContactImportConsentSource] = {
+    "customer_agreement",
     "import",
     "other",
+    "paper_form",
     "verbal_recorded",
     "web_form",
 }

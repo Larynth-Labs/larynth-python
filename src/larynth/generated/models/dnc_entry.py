@@ -22,24 +22,30 @@ class DNCEntry:
         created_by (str):
         e164 (str):
         id (UUID):
+        removable (bool): Only entries the business added by hand, CSV or API can be removed
         scope (DNCEntryScope):
         source (DNCEntrySource):
         call_id (str | Unset):
         category (str | Unset): Opt-out scope; empty covers every call
         reason (str | Unset):
         removed_at (datetime.datetime | Unset):
+        removed_by (str | Unset):
+        removed_reason (str | Unset):
     """
 
     created_at: datetime.datetime
     created_by: str
     e164: str
     id: UUID
+    removable: bool
     scope: DNCEntryScope
     source: DNCEntrySource
     call_id: str | Unset = UNSET
     category: str | Unset = UNSET
     reason: str | Unset = UNSET
     removed_at: datetime.datetime | Unset = UNSET
+    removed_by: str | Unset = UNSET
+    removed_reason: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         created_at = self.created_at.isoformat()
@@ -49,6 +55,8 @@ class DNCEntry:
         e164 = self.e164
 
         id = str(self.id)
+
+        removable = self.removable
 
         scope: str = self.scope
 
@@ -64,6 +72,10 @@ class DNCEntry:
         if not isinstance(self.removed_at, Unset):
             removed_at = self.removed_at.isoformat()
 
+        removed_by = self.removed_by
+
+        removed_reason = self.removed_reason
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -72,6 +84,7 @@ class DNCEntry:
                 "created_by": created_by,
                 "e164": e164,
                 "id": id,
+                "removable": removable,
                 "scope": scope,
                 "source": source,
             }
@@ -84,6 +97,10 @@ class DNCEntry:
             field_dict["reason"] = reason
         if removed_at is not UNSET:
             field_dict["removed_at"] = removed_at
+        if removed_by is not UNSET:
+            field_dict["removed_by"] = removed_by
+        if removed_reason is not UNSET:
+            field_dict["removed_reason"] = removed_reason
 
         return field_dict
 
@@ -97,6 +114,8 @@ class DNCEntry:
         e164 = d.pop("e164")
 
         id = UUID(d.pop("id"))
+
+        removable = d.pop("removable")
 
         scope = check_dnc_entry_scope(d.pop("scope"))
 
@@ -115,17 +134,24 @@ class DNCEntry:
         else:
             removed_at = datetime.datetime.fromisoformat(_removed_at)
 
+        removed_by = d.pop("removed_by", UNSET)
+
+        removed_reason = d.pop("removed_reason", UNSET)
+
         dnc_entry = cls(
             created_at=created_at,
             created_by=created_by,
             e164=e164,
             id=id,
+            removable=removable,
             scope=scope,
             source=source,
             call_id=call_id,
             category=category,
             reason=reason,
             removed_at=removed_at,
+            removed_by=removed_by,
+            removed_reason=removed_reason,
         )
 
         return dnc_entry
