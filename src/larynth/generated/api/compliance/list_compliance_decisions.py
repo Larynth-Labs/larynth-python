@@ -25,6 +25,7 @@ def _get_kwargs(
     result: ListComplianceDecisionsResult | Unset = UNSET,
     since: datetime.datetime | Unset = UNSET,
     until: datetime.datetime | Unset = UNSET,
+    rule: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -57,6 +58,8 @@ def _get_kwargs(
     if not isinstance(until, Unset):
         json_until = until.isoformat()
     params["until"] = json_until
+
+    params["rule"] = rule
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -135,6 +138,7 @@ def sync_detailed(
     result: ListComplianceDecisionsResult | Unset = UNSET,
     since: datetime.datetime | Unset = UNSET,
     until: datetime.datetime | Unset = UNSET,
+    rule: str | Unset = UNSET,
 ) -> Response[PageComplianceDecision | Problem]:
     """List pre-dial decisions
 
@@ -147,6 +151,7 @@ def sync_detailed(
         result (ListComplianceDecisionsResult | Unset):
         since (datetime.datetime | Unset):
         until (datetime.datetime | Unset):
+        rule (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -165,6 +170,7 @@ def sync_detailed(
         result=result,
         since=since,
         until=until,
+        rule=rule,
     )
 
     response = client.get_httpx_client().request(
@@ -185,6 +191,7 @@ def sync(
     result: ListComplianceDecisionsResult | Unset = UNSET,
     since: datetime.datetime | Unset = UNSET,
     until: datetime.datetime | Unset = UNSET,
+    rule: str | Unset = UNSET,
 ) -> PageComplianceDecision | Problem | None:
     """List pre-dial decisions
 
@@ -197,6 +204,7 @@ def sync(
         result (ListComplianceDecisionsResult | Unset):
         since (datetime.datetime | Unset):
         until (datetime.datetime | Unset):
+        rule (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -216,6 +224,7 @@ def sync(
         result=result,
         since=since,
         until=until,
+        rule=rule,
     ).parsed
 
 
@@ -230,6 +239,7 @@ async def asyncio_detailed(
     result: ListComplianceDecisionsResult | Unset = UNSET,
     since: datetime.datetime | Unset = UNSET,
     until: datetime.datetime | Unset = UNSET,
+    rule: str | Unset = UNSET,
 ) -> Response[PageComplianceDecision | Problem]:
     """List pre-dial decisions
 
@@ -242,6 +252,7 @@ async def asyncio_detailed(
         result (ListComplianceDecisionsResult | Unset):
         since (datetime.datetime | Unset):
         until (datetime.datetime | Unset):
+        rule (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -260,6 +271,7 @@ async def asyncio_detailed(
         result=result,
         since=since,
         until=until,
+        rule=rule,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -278,6 +290,7 @@ async def asyncio(
     result: ListComplianceDecisionsResult | Unset = UNSET,
     since: datetime.datetime | Unset = UNSET,
     until: datetime.datetime | Unset = UNSET,
+    rule: str | Unset = UNSET,
 ) -> PageComplianceDecision | Problem | None:
     """List pre-dial decisions
 
@@ -290,6 +303,7 @@ async def asyncio(
         result (ListComplianceDecisionsResult | Unset):
         since (datetime.datetime | Unset):
         until (datetime.datetime | Unset):
+        rule (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -310,5 +324,6 @@ async def asyncio(
             result=result,
             since=since,
             until=until,
+            rule=rule,
         )
     ).parsed

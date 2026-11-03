@@ -1,14 +1,16 @@
 from typing import Literal
 
 CreateContactImportBodyConsentSource = Literal[
-    "import", "other", "verbal_recorded", "web_form"
+    "customer_agreement", "import", "other", "paper_form", "verbal_recorded", "web_form"
 ]
 
 CREATE_CONTACT_IMPORT_BODY_CONSENT_SOURCE_VALUES: set[
     CreateContactImportBodyConsentSource
 ] = {
+    "customer_agreement",
     "import",
     "other",
+    "paper_form",
     "verbal_recorded",
     "web_form",
 }

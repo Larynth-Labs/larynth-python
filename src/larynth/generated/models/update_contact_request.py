@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 
+from ..models.update_contact_request_relationship import (
+    UpdateContactRequestRelationship,
+    check_update_contact_request_relationship,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -25,6 +29,8 @@ class UpdateContactRequest:
         first_name (str | Unset):
         last_name (str | Unset):
         region (str | Unset):
+        relationship (UpdateContactRequestRelationship | Unset):
+        tags (list[str] | Unset): Replaces the tags when present
         timezone (str | Unset):
     """
 
@@ -33,6 +39,8 @@ class UpdateContactRequest:
     first_name: str | Unset = UNSET
     last_name: str | Unset = UNSET
     region: str | Unset = UNSET
+    relationship: UpdateContactRequestRelationship | Unset = UNSET
+    tags: list[str] | Unset = UNSET
     timezone: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,6 +55,14 @@ class UpdateContactRequest:
         last_name = self.last_name
 
         region = self.region
+
+        relationship: str | Unset = UNSET
+        if not isinstance(self.relationship, Unset):
+            relationship = self.relationship
+
+        tags: list[str] | Unset = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
         timezone = self.timezone
 
@@ -63,6 +79,10 @@ class UpdateContactRequest:
             field_dict["last_name"] = last_name
         if region is not UNSET:
             field_dict["region"] = region
+        if relationship is not UNSET:
+            field_dict["relationship"] = relationship
+        if tags is not UNSET:
+            field_dict["tags"] = tags
         if timezone is not UNSET:
             field_dict["timezone"] = timezone
 
@@ -90,6 +110,15 @@ class UpdateContactRequest:
 
         region = d.pop("region", UNSET)
 
+        _relationship = d.pop("relationship", UNSET)
+        relationship: UpdateContactRequestRelationship | Unset
+        if isinstance(_relationship, Unset):
+            relationship = UNSET
+        else:
+            relationship = check_update_contact_request_relationship(_relationship)
+
+        tags = cast(list[str], d.pop("tags", UNSET))
+
         timezone = d.pop("timezone", UNSET)
 
         update_contact_request = cls(
@@ -98,6 +127,8 @@ class UpdateContactRequest:
             first_name=first_name,
             last_name=last_name,
             region=region,
+            relationship=relationship,
+            tags=tags,
             timezone=timezone,
         )
 

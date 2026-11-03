@@ -1,0 +1,56 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, Self, TypeVar
+
+from attrs import define as _attrs_define
+
+if TYPE_CHECKING:
+    from ..models.calling_rule import CallingRule
+
+
+T = TypeVar("T", bound="ListCallingRule")
+
+
+@_attrs_define
+class ListCallingRule:
+    """
+    Attributes:
+        data (list[CallingRule]):
+    """
+
+    data: list[CallingRule]
+
+    def to_dict(self) -> dict[str, Any]:
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+            data.append(data_item)
+
+        field_dict: dict[str, Any] = {}
+
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.calling_rule import CallingRule
+
+        d = dict(src_dict)
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = CallingRule.from_dict(data_item_data)
+
+            data.append(data_item)
+
+        list_calling_rule = cls(
+            data=data,
+        )
+
+        return list_calling_rule

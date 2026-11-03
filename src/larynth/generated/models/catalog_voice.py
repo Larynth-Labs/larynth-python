@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -23,10 +23,15 @@ class CatalogVoice:
         attributes (CatalogVoiceAttributes):
         id (UUID):
         language (str):
+        languages (list[str]): Languages the voice speaks well; the first is its main language
         name (str):
+        premium_micro_per_min (int): Added to the call-minute rate; 0 when no premium rate row exists. Equals what
+            billing charges
         provider_key (str):
         status (CatalogVoiceStatus):
+        tags (list[str]):
         voice_key (str):
+        description (str | Unset): Plain description written by Larynth
         model_id (UUID | Unset):
         preview_url (str | Unset):
     """
@@ -34,10 +39,14 @@ class CatalogVoice:
     attributes: CatalogVoiceAttributes
     id: UUID
     language: str
+    languages: list[str]
     name: str
+    premium_micro_per_min: int
     provider_key: str
     status: CatalogVoiceStatus
+    tags: list[str]
     voice_key: str
+    description: str | Unset = UNSET
     model_id: UUID | Unset = UNSET
     preview_url: str | Unset = UNSET
 
@@ -48,13 +57,21 @@ class CatalogVoice:
 
         language = self.language
 
+        languages = self.languages
+
         name = self.name
+
+        premium_micro_per_min = self.premium_micro_per_min
 
         provider_key = self.provider_key
 
         status: str = self.status
 
+        tags = self.tags
+
         voice_key = self.voice_key
+
+        description = self.description
 
         model_id: str | Unset = UNSET
         if not isinstance(self.model_id, Unset):
@@ -69,12 +86,17 @@ class CatalogVoice:
                 "attributes": attributes,
                 "id": id,
                 "language": language,
+                "languages": languages,
                 "name": name,
+                "premium_micro_per_min": premium_micro_per_min,
                 "provider_key": provider_key,
                 "status": status,
+                "tags": tags,
                 "voice_key": voice_key,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
         if model_id is not UNSET:
             field_dict["model_id"] = model_id
         if preview_url is not UNSET:
@@ -93,13 +115,21 @@ class CatalogVoice:
 
         language = d.pop("language")
 
+        languages = cast(list[str], d.pop("languages"))
+
         name = d.pop("name")
+
+        premium_micro_per_min = d.pop("premium_micro_per_min")
 
         provider_key = d.pop("provider_key")
 
         status = check_catalog_voice_status(d.pop("status"))
 
+        tags = cast(list[str], d.pop("tags"))
+
         voice_key = d.pop("voice_key")
+
+        description = d.pop("description", UNSET)
 
         _model_id = d.pop("model_id", UNSET)
         model_id: UUID | Unset
@@ -114,10 +144,14 @@ class CatalogVoice:
             attributes=attributes,
             id=id,
             language=language,
+            languages=languages,
             name=name,
+            premium_micro_per_min=premium_micro_per_min,
             provider_key=provider_key,
             status=status,
+            tags=tags,
             voice_key=voice_key,
+            description=description,
             model_id=model_id,
             preview_url=preview_url,
         )
