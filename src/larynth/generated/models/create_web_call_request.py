@@ -19,7 +19,8 @@ class CreateWebCallRequest:
     """
     Attributes:
         sdp_offer (str): Complete (non-trickle) SDP offer
-        use_draft (bool | Unset): Use the latest version instead of the published one Default: False.
+        use_draft (bool | Unset): Use the open draft (else the latest version) instead of the published one Default:
+            False.
         variables (CreateWebCallRequestVariables | Unset):
     """
 

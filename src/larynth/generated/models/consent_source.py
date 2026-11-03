@@ -1,11 +1,21 @@
 from typing import Literal
 
-ConsentSource = Literal["api", "import", "other", "verbal_recorded", "web_form"]
+ConsentSource = Literal[
+    "api",
+    "customer_agreement",
+    "import",
+    "other",
+    "paper_form",
+    "verbal_recorded",
+    "web_form",
+]
 
 CONSENT_SOURCE_VALUES: set[ConsentSource] = {
     "api",
+    "customer_agreement",
     "import",
     "other",
+    "paper_form",
     "verbal_recorded",
     "web_form",
 }

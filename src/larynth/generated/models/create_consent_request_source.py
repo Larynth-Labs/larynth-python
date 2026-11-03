@@ -1,10 +1,14 @@
 from typing import Literal
 
-CreateConsentRequestSource = Literal["api", "other", "verbal_recorded", "web_form"]
+CreateConsentRequestSource = Literal[
+    "api", "customer_agreement", "other", "paper_form", "verbal_recorded", "web_form"
+]
 
 CREATE_CONSENT_REQUEST_SOURCE_VALUES: set[CreateConsentRequestSource] = {
     "api",
+    "customer_agreement",
     "other",
+    "paper_form",
     "verbal_recorded",
     "web_form",
 }

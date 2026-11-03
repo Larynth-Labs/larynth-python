@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.list_dnc_source import ListDncSource
 from ...models.page_dnc_entry import PageDNCEntry
 from ...models.problem import Problem
 from ...types import UNSET, Response, Unset
@@ -16,6 +17,8 @@ def _get_kwargs(
     after: str | Unset = UNSET,
     e164: str | Unset = UNSET,
     include_removed: bool | Unset = UNSET,
+    source: ListDncSource | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -27,6 +30,14 @@ def _get_kwargs(
     params["e164"] = e164
 
     params["include_removed"] = include_removed
+
+    json_source: str | Unset = UNSET
+    if not isinstance(source, Unset):
+        json_source = source
+
+    params["source"] = json_source
+
+    params["q"] = q
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -101,6 +112,8 @@ def sync_detailed(
     after: str | Unset = UNSET,
     e164: str | Unset = UNSET,
     include_removed: bool | Unset = UNSET,
+    source: ListDncSource | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[PageDNCEntry | Problem]:
     """List internal do-not-call entries
 
@@ -109,6 +122,8 @@ def sync_detailed(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         e164 (str | Unset):
         include_removed (bool | Unset):
+        source (ListDncSource | Unset):
+        q (str | Unset): Number digits
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,6 +138,8 @@ def sync_detailed(
         after=after,
         e164=e164,
         include_removed=include_removed,
+        source=source,
+        q=q,
     )
 
     response = client.get_httpx_client().request(
@@ -139,6 +156,8 @@ def sync(
     after: str | Unset = UNSET,
     e164: str | Unset = UNSET,
     include_removed: bool | Unset = UNSET,
+    source: ListDncSource | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> PageDNCEntry | Problem | None:
     """List internal do-not-call entries
 
@@ -147,6 +166,8 @@ def sync(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         e164 (str | Unset):
         include_removed (bool | Unset):
+        source (ListDncSource | Unset):
+        q (str | Unset): Number digits
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -162,6 +183,8 @@ def sync(
         after=after,
         e164=e164,
         include_removed=include_removed,
+        source=source,
+        q=q,
     ).parsed
 
 
@@ -172,6 +195,8 @@ async def asyncio_detailed(
     after: str | Unset = UNSET,
     e164: str | Unset = UNSET,
     include_removed: bool | Unset = UNSET,
+    source: ListDncSource | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[PageDNCEntry | Problem]:
     """List internal do-not-call entries
 
@@ -180,6 +205,8 @@ async def asyncio_detailed(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         e164 (str | Unset):
         include_removed (bool | Unset):
+        source (ListDncSource | Unset):
+        q (str | Unset): Number digits
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -194,6 +221,8 @@ async def asyncio_detailed(
         after=after,
         e164=e164,
         include_removed=include_removed,
+        source=source,
+        q=q,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -208,6 +237,8 @@ async def asyncio(
     after: str | Unset = UNSET,
     e164: str | Unset = UNSET,
     include_removed: bool | Unset = UNSET,
+    source: ListDncSource | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> PageDNCEntry | Problem | None:
     """List internal do-not-call entries
 
@@ -216,6 +247,8 @@ async def asyncio(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         e164 (str | Unset):
         include_removed (bool | Unset):
+        source (ListDncSource | Unset):
+        q (str | Unset): Number digits
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -232,5 +265,7 @@ async def asyncio(
             after=after,
             e164=e164,
             include_removed=include_removed,
+            source=source,
+            q=q,
         )
     ).parsed

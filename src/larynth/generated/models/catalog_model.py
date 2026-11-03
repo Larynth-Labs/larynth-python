@@ -8,6 +8,8 @@ from attrs import define as _attrs_define
 
 from ..models.catalog_model_kind import CatalogModelKind, check_catalog_model_kind
 from ..models.catalog_model_status import CatalogModelStatus, check_catalog_model_status
+from ..models.catalog_model_tier import CatalogModelTier, check_catalog_model_tier
+from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.catalog_model_defaults import CatalogModelDefaults
@@ -30,10 +32,17 @@ class CatalogModel:
         languages (list[str]):
         model_key (str):
         params_schema (CatalogModelParamsSchema):
+        premium_micro_per_min (int): Added to the call-minute rate; 0 when no premium rate row exists. Equals what
+            billing charges
         provider_key (str):
         provider_name (str):
+        recommended (bool): The recommended model of its tier
         status (CatalogModelStatus):
         wire_rates (list[int]):
+        description (str | Unset): Plain description written by Larynth
+        tier (CatalogModelTier | Unset): Quality tier the editor shows by default; unset for models listed only under
+            Advanced
+        typical_reply_ms (int | Unset): Typical time this model adds to a reply, measured on our cells
     """
 
     defaults: CatalogModelDefaults
@@ -45,10 +54,15 @@ class CatalogModel:
     languages: list[str]
     model_key: str
     params_schema: CatalogModelParamsSchema
+    premium_micro_per_min: int
     provider_key: str
     provider_name: str
+    recommended: bool
     status: CatalogModelStatus
     wire_rates: list[int]
+    description: str | Unset = UNSET
+    tier: CatalogModelTier | Unset = UNSET
+    typical_reply_ms: int | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         defaults = self.defaults.to_dict()
@@ -69,13 +83,25 @@ class CatalogModel:
 
         params_schema = self.params_schema.to_dict()
 
+        premium_micro_per_min = self.premium_micro_per_min
+
         provider_key = self.provider_key
 
         provider_name = self.provider_name
 
+        recommended = self.recommended
+
         status: str = self.status
 
         wire_rates = self.wire_rates
+
+        description = self.description
+
+        tier: str | Unset = UNSET
+        if not isinstance(self.tier, Unset):
+            tier = self.tier
+
+        typical_reply_ms = self.typical_reply_ms
 
         field_dict: dict[str, Any] = {}
 
@@ -90,12 +116,20 @@ class CatalogModel:
                 "languages": languages,
                 "model_key": model_key,
                 "params_schema": params_schema,
+                "premium_micro_per_min": premium_micro_per_min,
                 "provider_key": provider_key,
                 "provider_name": provider_name,
+                "recommended": recommended,
                 "status": status,
                 "wire_rates": wire_rates,
             }
         )
+        if description is not UNSET:
+            field_dict["description"] = description
+        if tier is not UNSET:
+            field_dict["tier"] = tier
+        if typical_reply_ms is not UNSET:
+            field_dict["typical_reply_ms"] = typical_reply_ms
 
         return field_dict
 
@@ -123,13 +157,28 @@ class CatalogModel:
 
         params_schema = CatalogModelParamsSchema.from_dict(d.pop("params_schema"))
 
+        premium_micro_per_min = d.pop("premium_micro_per_min")
+
         provider_key = d.pop("provider_key")
 
         provider_name = d.pop("provider_name")
 
+        recommended = d.pop("recommended")
+
         status = check_catalog_model_status(d.pop("status"))
 
         wire_rates = cast(list[int], d.pop("wire_rates"))
+
+        description = d.pop("description", UNSET)
+
+        _tier = d.pop("tier", UNSET)
+        tier: CatalogModelTier | Unset
+        if isinstance(_tier, Unset):
+            tier = UNSET
+        else:
+            tier = check_catalog_model_tier(_tier)
+
+        typical_reply_ms = d.pop("typical_reply_ms", UNSET)
 
         catalog_model = cls(
             defaults=defaults,
@@ -141,10 +190,15 @@ class CatalogModel:
             languages=languages,
             model_key=model_key,
             params_schema=params_schema,
+            premium_micro_per_min=premium_micro_per_min,
             provider_key=provider_key,
             provider_name=provider_name,
+            recommended=recommended,
             status=status,
             wire_rates=wire_rates,
+            description=description,
+            tier=tier,
+            typical_reply_ms=typical_reply_ms,
         )
 
         return catalog_model

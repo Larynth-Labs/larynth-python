@@ -9,12 +9,14 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.campaign import Campaign
 from ...models.problem import Problem
-from ...types import Response
+from ...models.start_campaign_request import StartCampaignRequest
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: UUID,
     *,
+    body: StartCampaignRequest | Unset = UNSET,
     idempotency_key: str,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -26,6 +28,11 @@ def _get_kwargs(
             id=quote(str(id), safe=""),
         ),
     }
+
+    if not isinstance(body, Unset):
+        _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
 
     _kwargs["headers"] = headers
     return _kwargs
@@ -110,6 +117,7 @@ def sync_detailed(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    body: StartCampaignRequest | Unset = UNSET,
     idempotency_key: str,
 ) -> Response[Campaign | Problem]:
     """Start dialing
@@ -118,6 +126,7 @@ def sync_detailed(
         id (UUID):
         idempotency_key (str): Replays within 24 h return the stored response; the same key with a
             different body returns 409
+        body (StartCampaignRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -129,6 +138,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        body=body,
         idempotency_key=idempotency_key,
     )
 
@@ -143,6 +153,7 @@ def sync(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    body: StartCampaignRequest | Unset = UNSET,
     idempotency_key: str,
 ) -> Campaign | Problem | None:
     """Start dialing
@@ -151,6 +162,7 @@ def sync(
         id (UUID):
         idempotency_key (str): Replays within 24 h return the stored response; the same key with a
             different body returns 409
+        body (StartCampaignRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -163,6 +175,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        body=body,
         idempotency_key=idempotency_key,
     ).parsed
 
@@ -171,6 +184,7 @@ async def asyncio_detailed(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    body: StartCampaignRequest | Unset = UNSET,
     idempotency_key: str,
 ) -> Response[Campaign | Problem]:
     """Start dialing
@@ -179,6 +193,7 @@ async def asyncio_detailed(
         id (UUID):
         idempotency_key (str): Replays within 24 h return the stored response; the same key with a
             different body returns 409
+        body (StartCampaignRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -190,6 +205,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        body=body,
         idempotency_key=idempotency_key,
     )
 
@@ -202,6 +218,7 @@ async def asyncio(
     id: UUID,
     *,
     client: AuthenticatedClient,
+    body: StartCampaignRequest | Unset = UNSET,
     idempotency_key: str,
 ) -> Campaign | Problem | None:
     """Start dialing
@@ -210,6 +227,7 @@ async def asyncio(
         id (UUID):
         idempotency_key (str): Replays within 24 h return the stored response; the same key with a
             different body returns 409
+        body (StartCampaignRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -223,6 +241,7 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            body=body,
             idempotency_key=idempotency_key,
         )
     ).parsed

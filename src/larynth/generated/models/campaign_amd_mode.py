@@ -1,8 +1,9 @@
 from typing import Literal
 
-CampaignAmdMode = Literal["hangup_on_machine", "off", "voicemail"]
+CampaignAmdMode = Literal["agent", "hangup_on_machine", "off", "voicemail"]
 
 CAMPAIGN_AMD_MODE_VALUES: set[CampaignAmdMode] = {
+    "agent",
     "hangup_on_machine",
     "off",
     "voicemail",

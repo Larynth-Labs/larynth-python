@@ -1,7 +1,7 @@
 from typing import Literal
 
 ListNumbersStatus = Literal[
-    "active", "failed", "ordering", "released", "releasing", "suspended"
+    "active", "failed", "ordering", "released", "releasing", "suspended", "verifying"
 ]
 
 LIST_NUMBERS_STATUS_VALUES: set[ListNumbersStatus] = {
@@ -11,6 +11,7 @@ LIST_NUMBERS_STATUS_VALUES: set[ListNumbersStatus] = {
     "released",
     "releasing",
     "suspended",
+    "verifying",
 }
 
 

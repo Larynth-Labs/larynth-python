@@ -96,7 +96,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Number | Problem]:
-    """Release a number; asynchronous
+    """Release a number; asynchronous. 409 numbers.in_use while it is a running campaign's only caller ID
+    or the opt-out line
 
     Args:
         id (UUID):
@@ -125,7 +126,8 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Number | Problem | None:
-    """Release a number; asynchronous
+    """Release a number; asynchronous. 409 numbers.in_use while it is a running campaign's only caller ID
+    or the opt-out line
 
     Args:
         id (UUID):
@@ -149,7 +151,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Number | Problem]:
-    """Release a number; asynchronous
+    """Release a number; asynchronous. 409 numbers.in_use while it is a running campaign's only caller ID
+    or the opt-out line
 
     Args:
         id (UUID):
@@ -176,7 +179,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Number | Problem | None:
-    """Release a number; asynchronous
+    """Release a number; asynchronous. 409 numbers.in_use while it is a running campaign's only caller ID
+    or the opt-out line
 
     Args:
         id (UUID):
