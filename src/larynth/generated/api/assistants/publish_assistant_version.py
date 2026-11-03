@@ -7,15 +7,22 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.assistant_version import AssistantVersion
 from ...models.problem import Problem
-from ...types import Response
+from ...models.publish_assistant_version_request import PublishAssistantVersionRequest
+from ...models.publish_result import PublishResult
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: UUID,
     v: int,
+    *,
+    body: PublishAssistantVersionRequest | Unset = UNSET,
+    if_match: str | Unset = UNSET,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    if not isinstance(if_match, Unset):
+        headers["If-Match"] = if_match
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -25,14 +32,20 @@ def _get_kwargs(
         ),
     }
 
+    if not isinstance(body, Unset):
+        _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> AssistantVersion | Problem | None:
+) -> Problem | PublishResult | None:
     if response.status_code == 200:
-        response_200 = AssistantVersion.from_dict(response.json())
+        response_200 = PublishResult.from_dict(response.json())
 
         return response_200
 
@@ -66,6 +79,11 @@ def _parse_response(
 
         return response_422
 
+    if response.status_code == 428:
+        response_428 = Problem.from_dict(response.json())
+
+        return response_428
+
     if response.status_code == 429:
         response_429 = Problem.from_dict(response.json())
 
@@ -84,7 +102,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[AssistantVersion | Problem]:
+) -> Response[Problem | PublishResult]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -98,24 +116,31 @@ def sync_detailed(
     v: int,
     *,
     client: AuthenticatedClient,
-) -> Response[AssistantVersion | Problem]:
-    """Publish a version; it becomes immutable
+    body: PublishAssistantVersionRequest | Unset = UNSET,
+    if_match: str | Unset = UNSET,
+) -> Response[Problem | PublishResult]:
+    """Publish a version; it becomes immutable. Publishing an older version is a rollback
 
     Args:
         id (UUID):
         v (int):
+        if_match (str | Unset): Draft revision from the draft ETag; required when v is the open
+            draft
+        body (PublishAssistantVersionRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AssistantVersion | Problem]
+        Response[Problem | PublishResult]
     """
 
     kwargs = _get_kwargs(
         id=id,
         v=v,
+        body=body,
+        if_match=if_match,
     )
 
     response = client.get_httpx_client().request(
@@ -130,25 +155,32 @@ def sync(
     v: int,
     *,
     client: AuthenticatedClient,
-) -> AssistantVersion | Problem | None:
-    """Publish a version; it becomes immutable
+    body: PublishAssistantVersionRequest | Unset = UNSET,
+    if_match: str | Unset = UNSET,
+) -> Problem | PublishResult | None:
+    """Publish a version; it becomes immutable. Publishing an older version is a rollback
 
     Args:
         id (UUID):
         v (int):
+        if_match (str | Unset): Draft revision from the draft ETag; required when v is the open
+            draft
+        body (PublishAssistantVersionRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AssistantVersion | Problem
+        Problem | PublishResult
     """
 
     return sync_detailed(
         id=id,
         v=v,
         client=client,
+        body=body,
+        if_match=if_match,
     ).parsed
 
 
@@ -157,24 +189,31 @@ async def asyncio_detailed(
     v: int,
     *,
     client: AuthenticatedClient,
-) -> Response[AssistantVersion | Problem]:
-    """Publish a version; it becomes immutable
+    body: PublishAssistantVersionRequest | Unset = UNSET,
+    if_match: str | Unset = UNSET,
+) -> Response[Problem | PublishResult]:
+    """Publish a version; it becomes immutable. Publishing an older version is a rollback
 
     Args:
         id (UUID):
         v (int):
+        if_match (str | Unset): Draft revision from the draft ETag; required when v is the open
+            draft
+        body (PublishAssistantVersionRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AssistantVersion | Problem]
+        Response[Problem | PublishResult]
     """
 
     kwargs = _get_kwargs(
         id=id,
         v=v,
+        body=body,
+        if_match=if_match,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -187,19 +226,24 @@ async def asyncio(
     v: int,
     *,
     client: AuthenticatedClient,
-) -> AssistantVersion | Problem | None:
-    """Publish a version; it becomes immutable
+    body: PublishAssistantVersionRequest | Unset = UNSET,
+    if_match: str | Unset = UNSET,
+) -> Problem | PublishResult | None:
+    """Publish a version; it becomes immutable. Publishing an older version is a rollback
 
     Args:
         id (UUID):
         v (int):
+        if_match (str | Unset): Draft revision from the draft ETag; required when v is the open
+            draft
+        body (PublishAssistantVersionRequest | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AssistantVersion | Problem
+        Problem | PublishResult
     """
 
     return (
@@ -207,5 +251,7 @@ async def asyncio(
             id=id,
             v=v,
             client=client,
+            body=body,
+            if_match=if_match,
         )
     ).parsed
