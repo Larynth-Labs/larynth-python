@@ -28,6 +28,7 @@ class Number:
         updated_at (datetime.datetime):
         assistant_id (UUID | Unset):
         forward_to_e164 (str | Unset):
+        label (str | Unset):
         purchased_at (datetime.datetime | Unset):
         region (str | Unset):
         released_at (datetime.datetime | Unset):
@@ -43,6 +44,7 @@ class Number:
     updated_at: datetime.datetime
     assistant_id: UUID | Unset = UNSET
     forward_to_e164: str | Unset = UNSET
+    label: str | Unset = UNSET
     purchased_at: datetime.datetime | Unset = UNSET
     region: str | Unset = UNSET
     released_at: datetime.datetime | Unset = UNSET
@@ -69,6 +71,8 @@ class Number:
             assistant_id = str(self.assistant_id)
 
         forward_to_e164 = self.forward_to_e164
+
+        label = self.label
 
         purchased_at: str | Unset = UNSET
         if not isinstance(self.purchased_at, Unset):
@@ -98,6 +102,8 @@ class Number:
             field_dict["assistant_id"] = assistant_id
         if forward_to_e164 is not UNSET:
             field_dict["forward_to_e164"] = forward_to_e164
+        if label is not UNSET:
+            field_dict["label"] = label
         if purchased_at is not UNSET:
             field_dict["purchased_at"] = purchased_at
         if region is not UNSET:
@@ -135,6 +141,8 @@ class Number:
 
         forward_to_e164 = d.pop("forward_to_e164", UNSET)
 
+        label = d.pop("label", UNSET)
+
         _purchased_at = d.pop("purchased_at", UNSET)
         purchased_at: datetime.datetime | Unset
         if isinstance(_purchased_at, Unset):
@@ -162,6 +170,7 @@ class Number:
             updated_at=updated_at,
             assistant_id=assistant_id,
             forward_to_e164=forward_to_e164,
+            label=label,
             purchased_at=purchased_at,
             region=region,
             released_at=released_at,

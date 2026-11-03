@@ -10,6 +10,14 @@ from ..models.assistant_version_spec_mode import (
     AssistantVersionSpecMode,
     check_assistant_version_spec_mode,
 )
+from ..models.assistant_version_spec_transfer_fallback import (
+    AssistantVersionSpecTransferFallback,
+    check_assistant_version_spec_transfer_fallback,
+)
+from ..models.assistant_version_spec_turn_preset import (
+    AssistantVersionSpecTurnPreset,
+    check_assistant_version_spec_turn_preset,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -18,6 +26,9 @@ if TYPE_CHECKING:
     from ..models.assistant_version_spec_s2s_params import AssistantVersionSpecS2SParams
     from ..models.assistant_version_spec_stt_params import AssistantVersionSpecSttParams
     from ..models.assistant_version_spec_tts_params import AssistantVersionSpecTtsParams
+    from ..models.call_handling import CallHandling
+    from ..models.disclosure_spec import DisclosureSpec
+    from ..models.guardrails_spec import GuardrailsSpec
     from ..models.interruption_profile import InterruptionProfile
     from ..models.latency_settings import LatencySettings
     from ..models.post_call_settings import PostCallSettings
@@ -35,11 +46,16 @@ class AssistantVersionSpec:
         language (str):
         mode (AssistantVersionSpecMode):
         system_prompt (str):
+        call_handling (CallHandling | Unset):
         denoise (bool | Unset):
+        disclosure (DisclosureSpec | Unset):
         fillers (list[str] | Unset):
+        guardrails (GuardrailsSpec | Unset):
         interruption_profile (InterruptionProfile | Unset):
         knowledge_base_ids (list[str] | Unset): Knowledge bases the assistant can search with the search_knowledge tool;
             each must be ready when the version is published
+        languages_extra (list[str] | Unset): Languages the agent switches to when the caller speaks them; only languages
+            the catalog marks switchable
         latency (LatencySettings | Unset):
         llm_fallback_model_ids (list[str] | Unset):
         llm_model_id (UUID | Unset): Required for cascade
@@ -51,9 +67,12 @@ class AssistantVersionSpec:
         stt_model_id (UUID | Unset): Required for cascade
         stt_params (AssistantVersionSpecSttParams | Unset):
         tools (list[AssistantTool] | Unset):
+        transfer_fallback (AssistantVersionSpecTransferFallback | Unset): What happens when nobody picks up a transfer
         tts_model_id (UUID | Unset): Required for cascade
         tts_params (AssistantVersionSpecTtsParams | Unset):
         tts_voice_id (UUID | Unset): Required for cascade
+        turn_preset (AssistantVersionSpecTurnPreset | Unset): Turn-taking preset from listTurnPresets; custom means
+            turn_profile and interruption_profile hold the advanced values. Unset is balanced
         turn_profile (TurnProfile | Unset):
     """
 
@@ -61,10 +80,14 @@ class AssistantVersionSpec:
     language: str
     mode: AssistantVersionSpecMode
     system_prompt: str
+    call_handling: CallHandling | Unset = UNSET
     denoise: bool | Unset = UNSET
+    disclosure: DisclosureSpec | Unset = UNSET
     fillers: list[str] | Unset = UNSET
+    guardrails: GuardrailsSpec | Unset = UNSET
     interruption_profile: InterruptionProfile | Unset = UNSET
     knowledge_base_ids: list[str] | Unset = UNSET
+    languages_extra: list[str] | Unset = UNSET
     latency: LatencySettings | Unset = UNSET
     llm_fallback_model_ids: list[str] | Unset = UNSET
     llm_model_id: UUID | Unset = UNSET
@@ -76,9 +99,11 @@ class AssistantVersionSpec:
     stt_model_id: UUID | Unset = UNSET
     stt_params: AssistantVersionSpecSttParams | Unset = UNSET
     tools: list[AssistantTool] | Unset = UNSET
+    transfer_fallback: AssistantVersionSpecTransferFallback | Unset = UNSET
     tts_model_id: UUID | Unset = UNSET
     tts_params: AssistantVersionSpecTtsParams | Unset = UNSET
     tts_voice_id: UUID | Unset = UNSET
+    turn_preset: AssistantVersionSpecTurnPreset | Unset = UNSET
     turn_profile: TurnProfile | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -90,11 +115,23 @@ class AssistantVersionSpec:
 
         system_prompt = self.system_prompt
 
+        call_handling: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.call_handling, Unset):
+            call_handling = self.call_handling.to_dict()
+
         denoise = self.denoise
+
+        disclosure: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.disclosure, Unset):
+            disclosure = self.disclosure.to_dict()
 
         fillers: list[str] | Unset = UNSET
         if not isinstance(self.fillers, Unset):
             fillers = self.fillers
+
+        guardrails: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.guardrails, Unset):
+            guardrails = self.guardrails.to_dict()
 
         interruption_profile: dict[str, Any] | Unset = UNSET
         if not isinstance(self.interruption_profile, Unset):
@@ -103,6 +140,10 @@ class AssistantVersionSpec:
         knowledge_base_ids: list[str] | Unset = UNSET
         if not isinstance(self.knowledge_base_ids, Unset):
             knowledge_base_ids = self.knowledge_base_ids
+
+        languages_extra: list[str] | Unset = UNSET
+        if not isinstance(self.languages_extra, Unset):
+            languages_extra = self.languages_extra
 
         latency: dict[str, Any] | Unset = UNSET
         if not isinstance(self.latency, Unset):
@@ -149,6 +190,10 @@ class AssistantVersionSpec:
                 tools_item = tools_item_data.to_dict()
                 tools.append(tools_item)
 
+        transfer_fallback: str | Unset = UNSET
+        if not isinstance(self.transfer_fallback, Unset):
+            transfer_fallback = self.transfer_fallback
+
         tts_model_id: str | Unset = UNSET
         if not isinstance(self.tts_model_id, Unset):
             tts_model_id = str(self.tts_model_id)
@@ -160,6 +205,10 @@ class AssistantVersionSpec:
         tts_voice_id: str | Unset = UNSET
         if not isinstance(self.tts_voice_id, Unset):
             tts_voice_id = str(self.tts_voice_id)
+
+        turn_preset: str | Unset = UNSET
+        if not isinstance(self.turn_preset, Unset):
+            turn_preset = self.turn_preset
 
         turn_profile: dict[str, Any] | Unset = UNSET
         if not isinstance(self.turn_profile, Unset):
@@ -175,14 +224,22 @@ class AssistantVersionSpec:
                 "system_prompt": system_prompt,
             }
         )
+        if call_handling is not UNSET:
+            field_dict["call_handling"] = call_handling
         if denoise is not UNSET:
             field_dict["denoise"] = denoise
+        if disclosure is not UNSET:
+            field_dict["disclosure"] = disclosure
         if fillers is not UNSET:
             field_dict["fillers"] = fillers
+        if guardrails is not UNSET:
+            field_dict["guardrails"] = guardrails
         if interruption_profile is not UNSET:
             field_dict["interruption_profile"] = interruption_profile
         if knowledge_base_ids is not UNSET:
             field_dict["knowledge_base_ids"] = knowledge_base_ids
+        if languages_extra is not UNSET:
+            field_dict["languages_extra"] = languages_extra
         if latency is not UNSET:
             field_dict["latency"] = latency
         if llm_fallback_model_ids is not UNSET:
@@ -205,12 +262,16 @@ class AssistantVersionSpec:
             field_dict["stt_params"] = stt_params
         if tools is not UNSET:
             field_dict["tools"] = tools
+        if transfer_fallback is not UNSET:
+            field_dict["transfer_fallback"] = transfer_fallback
         if tts_model_id is not UNSET:
             field_dict["tts_model_id"] = tts_model_id
         if tts_params is not UNSET:
             field_dict["tts_params"] = tts_params
         if tts_voice_id is not UNSET:
             field_dict["tts_voice_id"] = tts_voice_id
+        if turn_preset is not UNSET:
+            field_dict["turn_preset"] = turn_preset
         if turn_profile is not UNSET:
             field_dict["turn_profile"] = turn_profile
 
@@ -231,6 +292,9 @@ class AssistantVersionSpec:
         from ..models.assistant_version_spec_tts_params import (
             AssistantVersionSpecTtsParams,
         )
+        from ..models.call_handling import CallHandling
+        from ..models.disclosure_spec import DisclosureSpec
+        from ..models.guardrails_spec import GuardrailsSpec
         from ..models.interruption_profile import InterruptionProfile
         from ..models.latency_settings import LatencySettings
         from ..models.post_call_settings import PostCallSettings
@@ -245,9 +309,30 @@ class AssistantVersionSpec:
 
         system_prompt = d.pop("system_prompt")
 
+        _call_handling = d.pop("call_handling", UNSET)
+        call_handling: CallHandling | Unset
+        if isinstance(_call_handling, Unset):
+            call_handling = UNSET
+        else:
+            call_handling = CallHandling.from_dict(_call_handling)
+
         denoise = d.pop("denoise", UNSET)
 
+        _disclosure = d.pop("disclosure", UNSET)
+        disclosure: DisclosureSpec | Unset
+        if isinstance(_disclosure, Unset):
+            disclosure = UNSET
+        else:
+            disclosure = DisclosureSpec.from_dict(_disclosure)
+
         fillers = cast(list[str], d.pop("fillers", UNSET))
+
+        _guardrails = d.pop("guardrails", UNSET)
+        guardrails: GuardrailsSpec | Unset
+        if isinstance(_guardrails, Unset):
+            guardrails = UNSET
+        else:
+            guardrails = GuardrailsSpec.from_dict(_guardrails)
 
         _interruption_profile = d.pop("interruption_profile", UNSET)
         interruption_profile: InterruptionProfile | Unset
@@ -257,6 +342,8 @@ class AssistantVersionSpec:
             interruption_profile = InterruptionProfile.from_dict(_interruption_profile)
 
         knowledge_base_ids = cast(list[str], d.pop("knowledge_base_ids", UNSET))
+
+        languages_extra = cast(list[str], d.pop("languages_extra", UNSET))
 
         _latency = d.pop("latency", UNSET)
         latency: LatencySettings | Unset
@@ -327,6 +414,15 @@ class AssistantVersionSpec:
 
                 tools.append(tools_item)
 
+        _transfer_fallback = d.pop("transfer_fallback", UNSET)
+        transfer_fallback: AssistantVersionSpecTransferFallback | Unset
+        if isinstance(_transfer_fallback, Unset):
+            transfer_fallback = UNSET
+        else:
+            transfer_fallback = check_assistant_version_spec_transfer_fallback(
+                _transfer_fallback
+            )
+
         _tts_model_id = d.pop("tts_model_id", UNSET)
         tts_model_id: UUID | Unset
         if isinstance(_tts_model_id, Unset):
@@ -348,6 +444,13 @@ class AssistantVersionSpec:
         else:
             tts_voice_id = UUID(_tts_voice_id)
 
+        _turn_preset = d.pop("turn_preset", UNSET)
+        turn_preset: AssistantVersionSpecTurnPreset | Unset
+        if isinstance(_turn_preset, Unset):
+            turn_preset = UNSET
+        else:
+            turn_preset = check_assistant_version_spec_turn_preset(_turn_preset)
+
         _turn_profile = d.pop("turn_profile", UNSET)
         turn_profile: TurnProfile | Unset
         if isinstance(_turn_profile, Unset):
@@ -360,10 +463,14 @@ class AssistantVersionSpec:
             language=language,
             mode=mode,
             system_prompt=system_prompt,
+            call_handling=call_handling,
             denoise=denoise,
+            disclosure=disclosure,
             fillers=fillers,
+            guardrails=guardrails,
             interruption_profile=interruption_profile,
             knowledge_base_ids=knowledge_base_ids,
+            languages_extra=languages_extra,
             latency=latency,
             llm_fallback_model_ids=llm_fallback_model_ids,
             llm_model_id=llm_model_id,
@@ -375,9 +482,11 @@ class AssistantVersionSpec:
             stt_model_id=stt_model_id,
             stt_params=stt_params,
             tools=tools,
+            transfer_fallback=transfer_fallback,
             tts_model_id=tts_model_id,
             tts_params=tts_params,
             tts_voice_id=tts_voice_id,
+            turn_preset=turn_preset,
             turn_profile=turn_profile,
         )
 

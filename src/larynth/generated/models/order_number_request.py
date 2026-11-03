@@ -22,12 +22,14 @@ class OrderNumberRequest:
         e164 (str):
         assistant_id (UUID | Unset): Required when route_type is assistant
         forward_to_e164 (str | Unset): Required when route_type is forward
+        label (str | Unset): Name shown in the Line column; empty clears it
         route_type (OrderNumberRequestRouteType | Unset):
     """
 
     e164: str
     assistant_id: UUID | Unset = UNSET
     forward_to_e164: str | Unset = UNSET
+    label: str | Unset = UNSET
     route_type: OrderNumberRequestRouteType | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -38,6 +40,8 @@ class OrderNumberRequest:
             assistant_id = str(self.assistant_id)
 
         forward_to_e164 = self.forward_to_e164
+
+        label = self.label
 
         route_type: str | Unset = UNSET
         if not isinstance(self.route_type, Unset):
@@ -54,6 +58,8 @@ class OrderNumberRequest:
             field_dict["assistant_id"] = assistant_id
         if forward_to_e164 is not UNSET:
             field_dict["forward_to_e164"] = forward_to_e164
+        if label is not UNSET:
+            field_dict["label"] = label
         if route_type is not UNSET:
             field_dict["route_type"] = route_type
 
@@ -73,6 +79,8 @@ class OrderNumberRequest:
 
         forward_to_e164 = d.pop("forward_to_e164", UNSET)
 
+        label = d.pop("label", UNSET)
+
         _route_type = d.pop("route_type", UNSET)
         route_type: OrderNumberRequestRouteType | Unset
         if isinstance(_route_type, Unset):
@@ -84,6 +92,7 @@ class OrderNumberRequest:
             e164=e164,
             assistant_id=assistant_id,
             forward_to_e164=forward_to_e164,
+            label=label,
             route_type=route_type,
         )
 

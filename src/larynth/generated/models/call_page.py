@@ -9,19 +9,21 @@ if TYPE_CHECKING:
     from ..models.call import Call
 
 
-T = TypeVar("T", bound="PageCall")
+T = TypeVar("T", bound="CallPage")
 
 
 @_attrs_define
-class PageCall:
+class CallPage:
     """
     Attributes:
         data (list[Call]):
-        next_cursor (None | str): Cursor for the next page; null on the last page
+        next_cursor (None | str): Cursor for the older page; null on the last page
+        prev_cursor (None | str): Cursor for the newer page; null on the first page
     """
 
     data: list[Call]
     next_cursor: None | str
+    prev_cursor: None | str
 
     def to_dict(self) -> dict[str, Any]:
         data = []
@@ -32,12 +34,16 @@ class PageCall:
         next_cursor: None | str
         next_cursor = self.next_cursor
 
+        prev_cursor: None | str
+        prev_cursor = self.prev_cursor
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
             {
                 "data": data,
                 "next_cursor": next_cursor,
+                "prev_cursor": prev_cursor,
             }
         )
 
@@ -62,9 +68,17 @@ class PageCall:
 
         next_cursor = _parse_next_cursor(d.pop("next_cursor"))
 
-        page_call = cls(
+        def _parse_prev_cursor(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        prev_cursor = _parse_prev_cursor(d.pop("prev_cursor"))
+
+        call_page = cls(
             data=data,
             next_cursor=next_cursor,
+            prev_cursor=prev_cursor,
         )
 
-        return page_call
+        return call_page
