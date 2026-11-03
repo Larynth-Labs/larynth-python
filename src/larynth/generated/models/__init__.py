@@ -168,6 +168,7 @@ from .page_webhook_delivery import PageWebhookDelivery
 from .page_webhook_endpoint import PageWebhookEndpoint
 from .post_call_settings import PostCallSettings
 from .problem import Problem
+from .problem_request_kind import ProblemRequestKind
 from .rate import Rate
 from .rate_currency import RateCurrency
 from .rate_direction import RateDirection
@@ -368,6 +369,7 @@ __all__ = (
     "PageWebhookEndpoint",
     "PostCallSettings",
     "Problem",
+    "ProblemRequestKind",
     "Rate",
     "RateCurrency",
     "RateDirection",
