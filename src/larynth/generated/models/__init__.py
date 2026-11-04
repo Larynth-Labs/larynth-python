@@ -67,6 +67,11 @@ from .blocked_caller import BlockedCaller
 from .bulk_result import BulkResult
 from .bulk_update_contacts_request import BulkUpdateContactsRequest
 from .bulk_update_contacts_request_action import BulkUpdateContactsRequestAction
+from .bundle import Bundle
+from .bundle_list import BundleList
+from .bundle_lot import BundleLot
+from .bundle_subscription import BundleSubscription
+from .bundle_subscription_status import BundleSubscriptionStatus
 from .call import Call
 from .call_amd_early_media_tone import CallAmdEarlyMediaTone
 from .call_amd_verdict import CallAmdVerdict
@@ -251,9 +256,12 @@ from .create_revocation_request import CreateRevocationRequest
 from .create_revocation_request_channel import CreateRevocationRequestChannel
 from .create_web_call_request import CreateWebCallRequest
 from .create_web_call_request_variables import CreateWebCallRequestVariables
+from .create_webhook_replay_request import CreateWebhookReplayRequest
+from .create_webhook_replay_request_status import CreateWebhookReplayRequestStatus
 from .create_webhook_request import CreateWebhookRequest
 from .create_webhook_request_event_types_item import CreateWebhookRequestEventTypesItem
 from .create_website_source_request import CreateWebsiteSourceRequest
+from .daily_spend_limit import DailySpendLimit
 from .diff_line import DiffLine
 from .diff_line_op import DiffLineOp
 from .disclosure_spec import DisclosureSpec
@@ -266,6 +274,7 @@ from .dnc_entry_scope import DNCEntryScope
 from .dnc_entry_source import DNCEntrySource
 from .dnc_import import DncImport
 from .dnc_import_status import DncImportStatus
+from .download_link import DownloadLink
 from .draft_warning import DraftWarning
 from .draft_warning_code import DraftWarningCode
 from .draft_warning_params import DraftWarningParams
@@ -277,6 +286,9 @@ from .estimate_campaign_request import EstimateCampaignRequest
 from .extraction_field import ExtractionField
 from .extraction_field_type import ExtractionFieldType
 from .forward_source import ForwardSource
+from .free_rule import FreeRule
+from .free_rule_params import FreeRuleParams
+from .get_billing_usage_group_by import GetBillingUsageGroupBy
 from .get_calling_rules_purpose import GetCallingRulesPurpose
 from .get_calls_summary_billed import GetCallsSummaryBilled
 from .get_calls_summary_direction import GetCallsSummaryDirection
@@ -318,6 +330,8 @@ from .knowledge_source_kind import KnowledgeSourceKind
 from .knowledge_source_status import KnowledgeSourceStatus
 from .latency_settings import LatencySettings
 from .launch_attestation import LaunchAttestation
+from .launch_price import LaunchPrice
+from .launch_price_applies_to_item import LaunchPriceAppliesToItem
 from .ledger_entry import LedgerEntry
 from .ledger_entry_account import LedgerEntryAccount
 from .ledger_entry_kind import LedgerEntryKind
@@ -352,11 +366,15 @@ from .list_ledger_kind import ListLedgerKind
 from .list_numbers_can_call_out import ListNumbersCanCallOut
 from .list_numbers_kind import ListNumbersKind
 from .list_numbers_status import ListNumbersStatus
+from .list_payments_kind import ListPaymentsKind
+from .list_payments_status import ListPaymentsStatus
 from .list_revocations_channel import ListRevocationsChannel
 from .list_spam_allow import ListSpamAllow
+from .list_statement_lines_group import ListStatementLinesGroup
 from .list_tag_count import ListTagCount
 from .list_turn_preset import ListTurnPreset
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
+from .list_webhook_messages_status import ListWebhookMessagesStatus
 from .live_call import LiveCall
 from .live_call_direction import LiveCallDirection
 from .live_call_flag import LiveCallFlag
@@ -365,6 +383,9 @@ from .live_call_line import LiveCallLine
 from .live_call_line_speaker import LiveCallLineSpeaker
 from .live_call_status import LiveCallStatus
 from .live_calls import LiveCalls
+from .monthly_spend_limit import MonthlySpendLimit
+from .monthly_statement import MonthlyStatement
+from .monthly_statement_list import MonthlyStatementList
 from .number import Number
 from .number_branded import NumberBranded
 from .number_branded_status import NumberBrandedStatus
@@ -406,12 +427,22 @@ from .page_knowledge_base import PageKnowledgeBase
 from .page_knowledge_source import PageKnowledgeSource
 from .page_ledger_entry import PageLedgerEntry
 from .page_number import PageNumber
+from .page_payment import PagePayment
 from .page_rate import PageRate
 from .page_recording import PageRecording
 from .page_revocation import PageRevocation
 from .page_webhook_delivery import PageWebhookDelivery
 from .page_webhook_endpoint import PageWebhookEndpoint
+from .page_webhook_message import PageWebhookMessage
 from .pause_assistant_request import PauseAssistantRequest
+from .payment import Payment
+from .payment_card import PaymentCard
+from .payment_kind import PaymentKind
+from .payment_method import PaymentMethod
+from .payment_method_list import PaymentMethodList
+from .payment_method_used_by_item import PaymentMethodUsedByItem
+from .payment_status import PaymentStatus
+from .platform_spend_caps import PlatformSpendCaps
 from .post_call_settings import PostCallSettings
 from .preflight_check import PreflightCheck
 from .preflight_check_code import PreflightCheckCode
@@ -423,11 +454,19 @@ from .preview_campaign_audience_request_purpose import (
     PreviewCampaignAudienceRequestPurpose,
 )
 from .problem import Problem
+from .problem_period import ProblemPeriod
 from .problem_request_kind import ProblemRequestKind
+from .problem_used_by_item import ProblemUsedByItem
 from .pronunciation import Pronunciation
 from .publish_assistant_version_request import PublishAssistantVersionRequest
 from .publish_result import PublishResult
 from .rate import Rate
+from .rate_card import RateCard
+from .rate_card_group import RateCardGroup
+from .rate_card_group_key import RateCardGroupKey
+from .rate_card_line import RateCardLine
+from .rate_card_line_rounding import RateCardLineRounding
+from .rate_card_line_unit import RateCardLineUnit
 from .rate_currency import RateCurrency
 from .rate_direction import RateDirection
 from .rate_kind import RateKind
@@ -456,8 +495,13 @@ from .simulations_summary import SimulationsSummary
 from .skipped_count import SkippedCount
 from .skipped_count_reason_code import SkippedCountReasonCode
 from .spam_allow import SpamAllow
+from .spend_limits import SpendLimits
 from .start_campaign_request import StartCampaignRequest
 from .state_audience import StateAudience
+from .statement_line import StatementLine
+from .statement_line_kind import StatementLineKind
+from .statement_line_page import StatementLinePage
+from .statement_line_params import StatementLineParams
 from .tag_count import TagCount
 from .test_webhook_request import TestWebhookRequest
 from .test_webhook_request_event_type import TestWebhookRequestEventType
@@ -473,6 +517,8 @@ from .timeline_page import TimelinePage
 from .timezone_share import TimezoneShare
 from .transfer_destination import TransferDestination
 from .transfer_destination_mode import TransferDestinationMode
+from .trial_terms import TrialTerms
+from .trial_terms_covers_item import TrialTermsCoversItem
 from .turn_latency import TurnLatency
 from .turn_preset import TurnPreset
 from .turn_preset_key import TurnPresetKey
@@ -489,6 +535,10 @@ from .update_knowledge_base_request import UpdateKnowledgeBaseRequest
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
+from .usage import Usage
+from .usage_group_by import UsageGroupBy
+from .usage_lines import UsageLines
+from .usage_row import UsageRow
 from .vocabulary import Vocabulary
 from .web_call import WebCall
 from .web_call_rounding import WebCallRounding
@@ -498,6 +548,14 @@ from .webhook_endpoint import WebhookEndpoint
 from .webhook_endpoint_status import WebhookEndpointStatus
 from .webhook_endpoint_with_secret import WebhookEndpointWithSecret
 from .webhook_endpoint_with_secret_status import WebhookEndpointWithSecretStatus
+from .webhook_event_catalogue import WebhookEventCatalogue
+from .webhook_event_type import WebhookEventType
+from .webhook_event_type_group import WebhookEventTypeGroup
+from .webhook_message import WebhookMessage
+from .webhook_message_status import WebhookMessageStatus
+from .webhook_replay import WebhookReplay
+from .webhook_retry_policy import WebhookRetryPolicy
+from .webhook_stats import WebhookStats
 from .webhook_test_result import WebhookTestResult
 
 __all__ = (
@@ -566,6 +624,11 @@ __all__ = (
     "BulkResult",
     "BulkUpdateContactsRequest",
     "BulkUpdateContactsRequestAction",
+    "Bundle",
+    "BundleList",
+    "BundleLot",
+    "BundleSubscription",
+    "BundleSubscriptionStatus",
     "Call",
     "CallAmdEarlyMediaTone",
     "CallAmdVerdict",
@@ -746,12 +809,15 @@ __all__ = (
     "CreateRevocationRequestChannel",
     "CreateWebCallRequest",
     "CreateWebCallRequestVariables",
+    "CreateWebhookReplayRequest",
+    "CreateWebhookReplayRequestStatus",
     "CreateWebhookRequest",
     "CreateWebhookRequestEventTypesItem",
     "CreateWebsiteSourceRequest",
     "DNCEntry",
     "DNCEntryScope",
     "DNCEntrySource",
+    "DailySpendLimit",
     "DiffLine",
     "DiffLineOp",
     "DisclosureSpec",
@@ -761,6 +827,7 @@ __all__ = (
     "DncCheckResult",
     "DncImport",
     "DncImportStatus",
+    "DownloadLink",
     "DraftWarning",
     "DraftWarningCode",
     "DraftWarningParams",
@@ -772,6 +839,9 @@ __all__ = (
     "ExtractionField",
     "ExtractionFieldType",
     "ForwardSource",
+    "FreeRule",
+    "FreeRuleParams",
+    "GetBillingUsageGroupBy",
     "GetCallingRulesPurpose",
     "GetCallsSummaryBilled",
     "GetCallsSummaryDirection",
@@ -813,6 +883,8 @@ __all__ = (
     "KnowledgeSourceStatus",
     "LatencySettings",
     "LaunchAttestation",
+    "LaunchPrice",
+    "LaunchPriceAppliesToItem",
     "LedgerEntry",
     "LedgerEntryAccount",
     "LedgerEntryKind",
@@ -847,11 +919,15 @@ __all__ = (
     "ListNumbersCanCallOut",
     "ListNumbersKind",
     "ListNumbersStatus",
+    "ListPaymentsKind",
+    "ListPaymentsStatus",
     "ListRevocationsChannel",
     "ListSpamAllow",
+    "ListStatementLinesGroup",
     "ListTagCount",
     "ListTurnPreset",
     "ListWebhookDeliveriesStatus",
+    "ListWebhookMessagesStatus",
     "LiveCall",
     "LiveCallDirection",
     "LiveCallFlag",
@@ -860,6 +936,9 @@ __all__ = (
     "LiveCallLineSpeaker",
     "LiveCallStatus",
     "LiveCalls",
+    "MonthlySpendLimit",
+    "MonthlyStatement",
+    "MonthlyStatementList",
     "Number",
     "NumberBranded",
     "NumberBrandedStatus",
@@ -901,12 +980,22 @@ __all__ = (
     "PageKnowledgeSource",
     "PageLedgerEntry",
     "PageNumber",
+    "PagePayment",
     "PageRate",
     "PageRecording",
     "PageRevocation",
     "PageWebhookDelivery",
     "PageWebhookEndpoint",
+    "PageWebhookMessage",
     "PauseAssistantRequest",
+    "Payment",
+    "PaymentCard",
+    "PaymentKind",
+    "PaymentMethod",
+    "PaymentMethodList",
+    "PaymentMethodUsedByItem",
+    "PaymentStatus",
+    "PlatformSpendCaps",
     "PostCallSettings",
     "PreflightCheck",
     "PreflightCheckCode",
@@ -916,11 +1005,19 @@ __all__ = (
     "PreviewCampaignAudienceRequest",
     "PreviewCampaignAudienceRequestPurpose",
     "Problem",
+    "ProblemPeriod",
     "ProblemRequestKind",
+    "ProblemUsedByItem",
     "Pronunciation",
     "PublishAssistantVersionRequest",
     "PublishResult",
     "Rate",
+    "RateCard",
+    "RateCardGroup",
+    "RateCardGroupKey",
+    "RateCardLine",
+    "RateCardLineRounding",
+    "RateCardLineUnit",
     "RateCurrency",
     "RateDirection",
     "RateKind",
@@ -949,8 +1046,13 @@ __all__ = (
     "SkippedCount",
     "SkippedCountReasonCode",
     "SpamAllow",
+    "SpendLimits",
     "StartCampaignRequest",
     "StateAudience",
+    "StatementLine",
+    "StatementLineKind",
+    "StatementLinePage",
+    "StatementLineParams",
     "TagCount",
     "TestWebhookRequest",
     "TestWebhookRequestEventType",
@@ -966,6 +1068,8 @@ __all__ = (
     "TimezoneShare",
     "TransferDestination",
     "TransferDestinationMode",
+    "TrialTerms",
+    "TrialTermsCoversItem",
     "TurnLatency",
     "TurnPreset",
     "TurnPresetKey",
@@ -982,6 +1086,10 @@ __all__ = (
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",
+    "Usage",
+    "UsageGroupBy",
+    "UsageLines",
+    "UsageRow",
     "Vocabulary",
     "WebCall",
     "WebCallRounding",
@@ -991,5 +1099,13 @@ __all__ = (
     "WebhookEndpointStatus",
     "WebhookEndpointWithSecret",
     "WebhookEndpointWithSecretStatus",
+    "WebhookEventCatalogue",
+    "WebhookEventType",
+    "WebhookEventTypeGroup",
+    "WebhookMessage",
+    "WebhookMessageStatus",
+    "WebhookReplay",
+    "WebhookRetryPolicy",
+    "WebhookStats",
     "WebhookTestResult",
 )

@@ -24,10 +24,13 @@ class Rate:
         effective_from (datetime.datetime):
         id (UUID):
         kind (RateKind):
-        price_micro (int): Per minute for call_minute and transfer_minute, per month for number_month
+        price_micro (int): Per minute for the *_minute and premium kinds, per month for number_month*,
+            branded_brand_month, per display for branded_call
+        ai_model_id (UUID | Unset): premium_model only
         direction (RateDirection | Unset):
         effective_to (datetime.datetime | Unset):
         mode (RateMode | Unset):
+        voice_id (UUID | Unset): premium_voice only
     """
 
     currency: RateCurrency
@@ -35,9 +38,11 @@ class Rate:
     id: UUID
     kind: RateKind
     price_micro: int
+    ai_model_id: UUID | Unset = UNSET
     direction: RateDirection | Unset = UNSET
     effective_to: datetime.datetime | Unset = UNSET
     mode: RateMode | Unset = UNSET
+    voice_id: UUID | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         currency: str = self.currency
@@ -49,6 +54,10 @@ class Rate:
         kind: str = self.kind
 
         price_micro = self.price_micro
+
+        ai_model_id: str | Unset = UNSET
+        if not isinstance(self.ai_model_id, Unset):
+            ai_model_id = str(self.ai_model_id)
 
         direction: str | Unset = UNSET
         if not isinstance(self.direction, Unset):
@@ -62,6 +71,10 @@ class Rate:
         if not isinstance(self.mode, Unset):
             mode = self.mode
 
+        voice_id: str | Unset = UNSET
+        if not isinstance(self.voice_id, Unset):
+            voice_id = str(self.voice_id)
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -73,12 +86,16 @@ class Rate:
                 "price_micro": price_micro,
             }
         )
+        if ai_model_id is not UNSET:
+            field_dict["ai_model_id"] = ai_model_id
         if direction is not UNSET:
             field_dict["direction"] = direction
         if effective_to is not UNSET:
             field_dict["effective_to"] = effective_to
         if mode is not UNSET:
             field_dict["mode"] = mode
+        if voice_id is not UNSET:
+            field_dict["voice_id"] = voice_id
 
         return field_dict
 
@@ -94,6 +111,13 @@ class Rate:
         kind = check_rate_kind(d.pop("kind"))
 
         price_micro = d.pop("price_micro")
+
+        _ai_model_id = d.pop("ai_model_id", UNSET)
+        ai_model_id: UUID | Unset
+        if isinstance(_ai_model_id, Unset):
+            ai_model_id = UNSET
+        else:
+            ai_model_id = UUID(_ai_model_id)
 
         _direction = d.pop("direction", UNSET)
         direction: RateDirection | Unset
@@ -116,15 +140,24 @@ class Rate:
         else:
             mode = check_rate_mode(_mode)
 
+        _voice_id = d.pop("voice_id", UNSET)
+        voice_id: UUID | Unset
+        if isinstance(_voice_id, Unset):
+            voice_id = UNSET
+        else:
+            voice_id = UUID(_voice_id)
+
         rate = cls(
             currency=currency,
             effective_from=effective_from,
             id=id,
             kind=kind,
             price_micro=price_micro,
+            ai_model_id=ai_model_id,
             direction=direction,
             effective_to=effective_to,
             mode=mode,
+            voice_id=voice_id,
         )
 
         return rate
