@@ -1,12 +1,23 @@
 from typing import Literal
 
-AssistantToolKind = Literal["end_call", "http_request", "opt_out", "transfer"]
-
-ASSISTANT_TOOL_KIND_VALUES: set[AssistantToolKind] = {
+AssistantToolKind = Literal[
+    "calendar",
     "end_call",
     "http_request",
+    "mcp",
     "opt_out",
     "transfer",
+    "workspace_http",
+]
+
+ASSISTANT_TOOL_KIND_VALUES: set[AssistantToolKind] = {
+    "calendar",
+    "end_call",
+    "http_request",
+    "mcp",
+    "opt_out",
+    "transfer",
+    "workspace_http",
 }
 
 

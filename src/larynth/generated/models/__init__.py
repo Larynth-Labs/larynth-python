@@ -6,11 +6,13 @@ from .add_spam_allow_request import AddSpamAllowRequest
 from .after_hours_target import AfterHoursTarget
 from .after_hours_target_mode import AfterHoursTargetMode
 from .amd_answer_headers import AMDAnswerHeaders
+from .answer_knowledge_gap_request import AnswerKnowledgeGapRequest
 from .area_code import AreaCode
 from .assistant import Assistant
 from .assistant_coverage import AssistantCoverage
 from .assistant_coverage_band import AssistantCoverageBand
 from .assistant_draft import AssistantDraft
+from .assistant_draft_agent_type import AssistantDraftAgentType
 from .assistant_draft_info import AssistantDraftInfo
 from .assistant_draft_language_voices import AssistantDraftLanguageVoices
 from .assistant_draft_llm_params import AssistantDraftLlmParams
@@ -34,11 +36,13 @@ from .assistant_tool_json_schema import AssistantToolJsonSchema
 from .assistant_tool_kind import AssistantToolKind
 from .assistant_type import AssistantType
 from .assistant_version import AssistantVersion
+from .assistant_version_agent_type import AssistantVersionAgentType
 from .assistant_version_language_voices import AssistantVersionLanguageVoices
 from .assistant_version_llm_params import AssistantVersionLlmParams
 from .assistant_version_mode import AssistantVersionMode
 from .assistant_version_s2s_params import AssistantVersionS2SParams
 from .assistant_version_spec import AssistantVersionSpec
+from .assistant_version_spec_agent_type import AssistantVersionSpecAgentType
 from .assistant_version_spec_language_voices import AssistantVersionSpecLanguageVoices
 from .assistant_version_spec_llm_params import AssistantVersionSpecLlmParams
 from .assistant_version_spec_mode import AssistantVersionSpecMode
@@ -64,9 +68,29 @@ from .available_number_kind import AvailableNumberKind
 from .balance import Balance
 from .balance_currency import BalanceCurrency
 from .blocked_caller import BlockedCaller
+from .booking import Booking
+from .booking_assistant import BookingAssistant
+from .booking_caller import BookingCaller
+from .booking_defaults import BookingDefaults
+from .booking_defaults_approval import BookingDefaultsApproval
+from .booking_defaults_invite_caller import BookingDefaultsInviteCaller
+from .booking_hours import BookingHours
+from .booking_hours_source import BookingHoursSource
+from .booking_service import BookingService
+from .booking_status import BookingStatus
 from .bulk_result import BulkResult
 from .bulk_update_contacts_request import BulkUpdateContactsRequest
 from .bulk_update_contacts_request_action import BulkUpdateContactsRequestAction
+from .bundle import Bundle
+from .bundle_list import BundleList
+from .bundle_lot import BundleLot
+from .bundle_subscription import BundleSubscription
+from .bundle_subscription_status import BundleSubscriptionStatus
+from .calendar_connection import CalendarConnection
+from .calendar_connection_status import CalendarConnectionStatus
+from .calendar_resource import CalendarResource
+from .calendar_resource_kind import CalendarResourceKind
+from .calendar_tool_config import CalendarToolConfig
 from .call import Call
 from .call_amd_early_media_tone import CallAmdEarlyMediaTone
 from .call_amd_verdict import CallAmdVerdict
@@ -81,6 +105,9 @@ from .call_event import CallEvent
 from .call_event_kind import CallEventKind
 from .call_event_payload import CallEventPayload
 from .call_flag import CallFlag
+from .call_flow import CallFlow
+from .call_flow_events import CallFlowEvents
+from .call_flow_variables import CallFlowVariables
 from .call_handling import CallHandling
 from .call_handling_ambient_sound import CallHandlingAmbientSound
 from .call_handling_dtmf_end_key import CallHandlingDtmfEndKey
@@ -246,14 +273,20 @@ from .create_contact_request_relationship import CreateContactRequestRelationshi
 from .create_dnc_import_body import CreateDncImportBody
 from .create_dnc_request import CreateDNCRequest
 from .create_knowledge_base_request import CreateKnowledgeBaseRequest
+from .create_knowledge_faq_source_request import CreateKnowledgeFaqSourceRequest
 from .create_knowledge_file_source_body import CreateKnowledgeFileSourceBody
 from .create_revocation_request import CreateRevocationRequest
 from .create_revocation_request_channel import CreateRevocationRequestChannel
 from .create_web_call_request import CreateWebCallRequest
+from .create_web_call_request_flow_variables import CreateWebCallRequestFlowVariables
 from .create_web_call_request_variables import CreateWebCallRequestVariables
+from .create_webhook_replay_request import CreateWebhookReplayRequest
+from .create_webhook_replay_request_status import CreateWebhookReplayRequestStatus
 from .create_webhook_request import CreateWebhookRequest
 from .create_webhook_request_event_types_item import CreateWebhookRequestEventTypesItem
 from .create_website_source_request import CreateWebsiteSourceRequest
+from .daily_spend_limit import DailySpendLimit
+from .decide_booking_request import DecideBookingRequest
 from .diff_line import DiffLine
 from .diff_line_op import DiffLineOp
 from .disclosure_spec import DisclosureSpec
@@ -266,6 +299,7 @@ from .dnc_entry_scope import DNCEntryScope
 from .dnc_entry_source import DNCEntrySource
 from .dnc_import import DncImport
 from .dnc_import_status import DncImportStatus
+from .download_link import DownloadLink
 from .draft_warning import DraftWarning
 from .draft_warning_code import DraftWarningCode
 from .draft_warning_params import DraftWarningParams
@@ -276,7 +310,33 @@ from .error_detail import ErrorDetail
 from .estimate_campaign_request import EstimateCampaignRequest
 from .extraction_field import ExtractionField
 from .extraction_field_type import ExtractionFieldType
+from .flow_assignment import FlowAssignment
+from .flow_bridge import FlowBridge
+from .flow_condition import FlowCondition
+from .flow_edge import FlowEdge
+from .flow_event import FlowEvent
+from .flow_event_kind import FlowEventKind
+from .flow_event_variables import FlowEventVariables
+from .flow_event_via import FlowEventVia
+from .flow_field import FlowField
+from .flow_global_spec import FlowGlobalSpec
+from .flow_issues import FlowIssues
+from .flow_limits import FlowLimits
+from .flow_llm_override import FlowLLMOverride
+from .flow_node import FlowNode
+from .flow_node_outputs import FlowNodeOutputs
+from .flow_rule import FlowRule
+from .flow_say import FlowSay
+from .flow_spec import FlowSpec
+from .flow_subflow import FlowSubflow
+from .flow_target import FlowTarget
+from .flow_validation_issue import FlowValidationIssue
+from .flow_validation_issue_severity import FlowValidationIssueSeverity
+from .flow_variable import FlowVariable
 from .forward_source import ForwardSource
+from .free_rule import FreeRule
+from .free_rule_params import FreeRuleParams
+from .get_billing_usage_group_by import GetBillingUsageGroupBy
 from .get_calling_rules_purpose import GetCallingRulesPurpose
 from .get_calls_summary_billed import GetCallsSummaryBilled
 from .get_calls_summary_direction import GetCallsSummaryDirection
@@ -307,10 +367,24 @@ from .import_problem_kind import ImportProblemKind
 from .inbox_snippet import InboxSnippet
 from .inbox_snippet_speaker import InboxSnippetSpeaker
 from .instructions_diff import InstructionsDiff
+from .integration_provider import IntegrationProvider
+from .integration_provider_auth import IntegrationProviderAuth
+from .integration_provider_kind import IntegrationProviderKind
+from .integration_provider_status import IntegrationProviderStatus
 from .interruption_profile import InterruptionProfile
 from .knowledge_base import KnowledgeBase
 from .knowledge_base_status import KnowledgeBaseStatus
+from .knowledge_base_use import KnowledgeBaseUse
+from .knowledge_document import KnowledgeDocument
+from .knowledge_faq_entry import KnowledgeFaqEntry
+from .knowledge_faq_source import KnowledgeFaqSource
+from .knowledge_faq_source_kind import KnowledgeFaqSourceKind
+from .knowledge_faq_source_status import KnowledgeFaqSourceStatus
+from .knowledge_gap import KnowledgeGap
+from .knowledge_gap_state import KnowledgeGapState
 from .knowledge_hit import KnowledgeHit
+from .knowledge_limits import KnowledgeLimits
+from .knowledge_resync import KnowledgeResync
 from .knowledge_search_result import KnowledgeSearchResult
 from .knowledge_search_result_mode import KnowledgeSearchResultMode
 from .knowledge_source import KnowledgeSource
@@ -318,6 +392,8 @@ from .knowledge_source_kind import KnowledgeSourceKind
 from .knowledge_source_status import KnowledgeSourceStatus
 from .latency_settings import LatencySettings
 from .launch_attestation import LaunchAttestation
+from .launch_price import LaunchPrice
+from .launch_price_applies_to_item import LaunchPriceAppliesToItem
 from .ledger_entry import LedgerEntry
 from .ledger_entry_account import LedgerEntryAccount
 from .ledger_entry_kind import LedgerEntryKind
@@ -326,6 +402,10 @@ from .left_out_contact_reason import LeftOutContactReason
 from .list_area_code import ListAreaCode
 from .list_assistants_state import ListAssistantsState
 from .list_assistants_status import ListAssistantsStatus
+from .list_bookings_status_item import ListBookingsStatusItem
+from .list_bookings_when import ListBookingsWhen
+from .list_calendar_connection import ListCalendarConnection
+from .list_calendar_resource import ListCalendarResource
 from .list_calling_rule import ListCallingRule
 from .list_calls_billed import ListCallsBilled
 from .list_calls_direction import ListCallsDirection
@@ -347,16 +427,23 @@ from .list_contacts_view import ListContactsView
 from .list_dnc_source import ListDncSource
 from .list_guardrail_built_in import ListGuardrailBuiltIn
 from .list_holiday_calendar import ListHolidayCalendar
+from .list_integration_provider import ListIntegrationProvider
+from .list_knowledge_gaps_state import ListKnowledgeGapsState
 from .list_ledger_account import ListLedgerAccount
 from .list_ledger_kind import ListLedgerKind
+from .list_mcp_server import ListMcpServer
 from .list_numbers_can_call_out import ListNumbersCanCallOut
 from .list_numbers_kind import ListNumbersKind
 from .list_numbers_status import ListNumbersStatus
+from .list_payments_kind import ListPaymentsKind
+from .list_payments_status import ListPaymentsStatus
 from .list_revocations_channel import ListRevocationsChannel
 from .list_spam_allow import ListSpamAllow
+from .list_statement_lines_group import ListStatementLinesGroup
 from .list_tag_count import ListTagCount
 from .list_turn_preset import ListTurnPreset
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
+from .list_webhook_messages_status import ListWebhookMessagesStatus
 from .live_call import LiveCall
 from .live_call_direction import LiveCallDirection
 from .live_call_flag import LiveCallFlag
@@ -365,6 +452,20 @@ from .live_call_line import LiveCallLine
 from .live_call_line_speaker import LiveCallLineSpeaker
 from .live_call_status import LiveCallStatus
 from .live_calls import LiveCalls
+from .mcp_auth import McpAuth
+from .mcp_auth_kind import McpAuthKind
+from .mcp_server import McpServer
+from .mcp_server_status import McpServerStatus
+from .mcp_server_transport import McpServerTransport
+from .mcp_tool import McpTool
+from .mcp_tool_description import McpToolDescription
+from .mcp_tool_input_schema import McpToolInputSchema
+from .mcp_tool_previous import McpToolPrevious
+from .mcp_tool_previous_input_schema import McpToolPreviousInputSchema
+from .mcp_tool_state import McpToolState
+from .monthly_spend_limit import MonthlySpendLimit
+from .monthly_statement import MonthlyStatement
+from .monthly_statement_list import MonthlyStatementList
 from .number import Number
 from .number_branded import NumberBranded
 from .number_branded_status import NumberBrandedStatus
@@ -391,6 +492,7 @@ from .page_assistant_publish import PageAssistantPublish
 from .page_assistant_version import PageAssistantVersion
 from .page_available_number import PageAvailableNumber
 from .page_blocked_caller import PageBlockedCaller
+from .page_booking import PageBooking
 from .page_call_event import PageCallEvent
 from .page_call_turn import PageCallTurn
 from .page_campaign_contact import PageCampaignContact
@@ -403,15 +505,28 @@ from .page_contact_import import PageContactImport
 from .page_dnc_check import PageDncCheck
 from .page_dnc_entry import PageDNCEntry
 from .page_knowledge_base import PageKnowledgeBase
+from .page_knowledge_document import PageKnowledgeDocument
+from .page_knowledge_gap import PageKnowledgeGap
 from .page_knowledge_source import PageKnowledgeSource
 from .page_ledger_entry import PageLedgerEntry
 from .page_number import PageNumber
+from .page_payment import PagePayment
 from .page_rate import PageRate
 from .page_recording import PageRecording
 from .page_revocation import PageRevocation
 from .page_webhook_delivery import PageWebhookDelivery
 from .page_webhook_endpoint import PageWebhookEndpoint
+from .page_webhook_message import PageWebhookMessage
+from .page_workspace_tool import PageWorkspaceTool
 from .pause_assistant_request import PauseAssistantRequest
+from .payment import Payment
+from .payment_card import PaymentCard
+from .payment_kind import PaymentKind
+from .payment_method import PaymentMethod
+from .payment_method_list import PaymentMethodList
+from .payment_method_used_by_item import PaymentMethodUsedByItem
+from .payment_status import PaymentStatus
+from .platform_spend_caps import PlatformSpendCaps
 from .post_call_settings import PostCallSettings
 from .preflight_check import PreflightCheck
 from .preflight_check_code import PreflightCheckCode
@@ -423,11 +538,19 @@ from .preview_campaign_audience_request_purpose import (
     PreviewCampaignAudienceRequestPurpose,
 )
 from .problem import Problem
+from .problem_period import ProblemPeriod
 from .problem_request_kind import ProblemRequestKind
+from .problem_used_by_item import ProblemUsedByItem
 from .pronunciation import Pronunciation
 from .publish_assistant_version_request import PublishAssistantVersionRequest
 from .publish_result import PublishResult
 from .rate import Rate
+from .rate_card import RateCard
+from .rate_card_group import RateCardGroup
+from .rate_card_group_key import RateCardGroupKey
+from .rate_card_line import RateCardLine
+from .rate_card_line_rounding import RateCardLineRounding
+from .rate_card_line_unit import RateCardLineUnit
 from .rate_currency import RateCurrency
 from .rate_direction import RateDirection
 from .rate_kind import RateKind
@@ -436,6 +559,7 @@ from .recording import Recording
 from .recording_deleted_reason import RecordingDeletedReason
 from .recording_peaks import RecordingPeaks
 from .recording_state import RecordingState
+from .refresh_draft_tools_request import RefreshDraftToolsRequest
 from .retry_policy import RetryPolicy
 from .revocation import Revocation
 from .revocation_channel import RevocationChannel
@@ -456,8 +580,13 @@ from .simulations_summary import SimulationsSummary
 from .skipped_count import SkippedCount
 from .skipped_count_reason_code import SkippedCountReasonCode
 from .spam_allow import SpamAllow
+from .spend_limits import SpendLimits
 from .start_campaign_request import StartCampaignRequest
 from .state_audience import StateAudience
+from .statement_line import StatementLine
+from .statement_line_kind import StatementLineKind
+from .statement_line_page import StatementLinePage
+from .statement_line_params import StatementLineParams
 from .tag_count import TagCount
 from .test_webhook_request import TestWebhookRequest
 from .test_webhook_request_event_type import TestWebhookRequestEventType
@@ -471,13 +600,20 @@ from .timeline_item_kind import TimelineItemKind
 from .timeline_item_params import TimelineItemParams
 from .timeline_page import TimelinePage
 from .timezone_share import TimezoneShare
+from .tool_invocation_summary import ToolInvocationSummary
+from .tool_invocation_summary_outcome import ToolInvocationSummaryOutcome
+from .tool_response_handling import ToolResponseHandling
+from .tool_use import ToolUse
 from .transfer_destination import TransferDestination
 from .transfer_destination_mode import TransferDestinationMode
+from .trial_terms import TrialTerms
+from .trial_terms_covers_item import TrialTermsCoversItem
 from .turn_latency import TurnLatency
 from .turn_preset import TurnPreset
 from .turn_preset_key import TurnPresetKey
 from .turn_profile import TurnProfile
 from .update_assistant_request import UpdateAssistantRequest
+from .update_calendar_connection_request import UpdateCalendarConnectionRequest
 from .update_call_request import UpdateCallRequest
 from .update_campaign_request import UpdateCampaignRequest
 from .update_campaign_request_amd_mode import UpdateCampaignRequestAmdMode
@@ -486,9 +622,16 @@ from .update_contact_request import UpdateContactRequest
 from .update_contact_request_attributes import UpdateContactRequestAttributes
 from .update_contact_request_relationship import UpdateContactRequestRelationship
 from .update_knowledge_base_request import UpdateKnowledgeBaseRequest
+from .update_knowledge_document_request import UpdateKnowledgeDocumentRequest
+from .update_knowledge_faq_source_request import UpdateKnowledgeFaqSourceRequest
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
+from .usage import Usage
+from .usage_group_by import UsageGroupBy
+from .usage_lines import UsageLines
+from .usage_row import UsageRow
+from .validate_assistant_flow_request import ValidateAssistantFlowRequest
 from .vocabulary import Vocabulary
 from .web_call import WebCall
 from .web_call_rounding import WebCallRounding
@@ -498,7 +641,35 @@ from .webhook_endpoint import WebhookEndpoint
 from .webhook_endpoint_status import WebhookEndpointStatus
 from .webhook_endpoint_with_secret import WebhookEndpointWithSecret
 from .webhook_endpoint_with_secret_status import WebhookEndpointWithSecretStatus
+from .webhook_event_catalogue import WebhookEventCatalogue
+from .webhook_event_type import WebhookEventType
+from .webhook_event_type_group import WebhookEventTypeGroup
+from .webhook_message import WebhookMessage
+from .webhook_message_status import WebhookMessageStatus
+from .webhook_replay import WebhookReplay
+from .webhook_retry_policy import WebhookRetryPolicy
+from .webhook_stats import WebhookStats
 from .webhook_test_result import WebhookTestResult
+from .workspace_tool import WorkspaceTool
+from .workspace_tool_args_schema import WorkspaceToolArgsSchema
+from .workspace_tool_body_template import WorkspaceToolBodyTemplate
+from .workspace_tool_bound import WorkspaceToolBound
+from .workspace_tool_class import WorkspaceToolClass
+from .workspace_tool_headers import WorkspaceToolHeaders
+from .workspace_tool_input import WorkspaceToolInput
+from .workspace_tool_input_args_schema import WorkspaceToolInputArgsSchema
+from .workspace_tool_input_body_template import WorkspaceToolInputBodyTemplate
+from .workspace_tool_input_bound import WorkspaceToolInputBound
+from .workspace_tool_input_class import WorkspaceToolInputClass
+from .workspace_tool_input_headers import WorkspaceToolInputHeaders
+from .workspace_tool_input_method import WorkspaceToolInputMethod
+from .workspace_tool_input_query_template import WorkspaceToolInputQueryTemplate
+from .workspace_tool_input_secret_headers import WorkspaceToolInputSecretHeaders
+from .workspace_tool_kind import WorkspaceToolKind
+from .workspace_tool_method import WorkspaceToolMethod
+from .workspace_tool_query_template import WorkspaceToolQueryTemplate
+from .workspace_tool_secret_headers import WorkspaceToolSecretHeaders
+from .workspace_tool_status import WorkspaceToolStatus
 
 __all__ = (
     "AMDAnswerHeaders",
@@ -507,11 +678,13 @@ __all__ = (
     "AddSpamAllowRequest",
     "AfterHoursTarget",
     "AfterHoursTargetMode",
+    "AnswerKnowledgeGapRequest",
     "AreaCode",
     "Assistant",
     "AssistantCoverage",
     "AssistantCoverageBand",
     "AssistantDraft",
+    "AssistantDraftAgentType",
     "AssistantDraftInfo",
     "AssistantDraftLanguageVoices",
     "AssistantDraftLlmParams",
@@ -535,11 +708,13 @@ __all__ = (
     "AssistantToolKind",
     "AssistantType",
     "AssistantVersion",
+    "AssistantVersionAgentType",
     "AssistantVersionLanguageVoices",
     "AssistantVersionLlmParams",
     "AssistantVersionMode",
     "AssistantVersionS2SParams",
     "AssistantVersionSpec",
+    "AssistantVersionSpecAgentType",
     "AssistantVersionSpecLanguageVoices",
     "AssistantVersionSpecLlmParams",
     "AssistantVersionSpecMode",
@@ -563,9 +738,29 @@ __all__ = (
     "Balance",
     "BalanceCurrency",
     "BlockedCaller",
+    "Booking",
+    "BookingAssistant",
+    "BookingCaller",
+    "BookingDefaults",
+    "BookingDefaultsApproval",
+    "BookingDefaultsInviteCaller",
+    "BookingHours",
+    "BookingHoursSource",
+    "BookingService",
+    "BookingStatus",
     "BulkResult",
     "BulkUpdateContactsRequest",
     "BulkUpdateContactsRequestAction",
+    "Bundle",
+    "BundleList",
+    "BundleLot",
+    "BundleSubscription",
+    "BundleSubscriptionStatus",
+    "CalendarConnection",
+    "CalendarConnectionStatus",
+    "CalendarResource",
+    "CalendarResourceKind",
+    "CalendarToolConfig",
     "Call",
     "CallAmdEarlyMediaTone",
     "CallAmdVerdict",
@@ -580,6 +775,9 @@ __all__ = (
     "CallEventKind",
     "CallEventPayload",
     "CallFlag",
+    "CallFlow",
+    "CallFlowEvents",
+    "CallFlowVariables",
     "CallHandling",
     "CallHandlingAmbientSound",
     "CallHandlingDtmfEndKey",
@@ -741,17 +939,23 @@ __all__ = (
     "CreateDNCRequest",
     "CreateDncImportBody",
     "CreateKnowledgeBaseRequest",
+    "CreateKnowledgeFaqSourceRequest",
     "CreateKnowledgeFileSourceBody",
     "CreateRevocationRequest",
     "CreateRevocationRequestChannel",
     "CreateWebCallRequest",
+    "CreateWebCallRequestFlowVariables",
     "CreateWebCallRequestVariables",
+    "CreateWebhookReplayRequest",
+    "CreateWebhookReplayRequestStatus",
     "CreateWebhookRequest",
     "CreateWebhookRequestEventTypesItem",
     "CreateWebsiteSourceRequest",
     "DNCEntry",
     "DNCEntryScope",
     "DNCEntrySource",
+    "DailySpendLimit",
+    "DecideBookingRequest",
     "DiffLine",
     "DiffLineOp",
     "DisclosureSpec",
@@ -761,6 +965,7 @@ __all__ = (
     "DncCheckResult",
     "DncImport",
     "DncImportStatus",
+    "DownloadLink",
     "DraftWarning",
     "DraftWarningCode",
     "DraftWarningParams",
@@ -771,7 +976,33 @@ __all__ = (
     "EstimateCampaignRequest",
     "ExtractionField",
     "ExtractionFieldType",
+    "FlowAssignment",
+    "FlowBridge",
+    "FlowCondition",
+    "FlowEdge",
+    "FlowEvent",
+    "FlowEventKind",
+    "FlowEventVariables",
+    "FlowEventVia",
+    "FlowField",
+    "FlowGlobalSpec",
+    "FlowIssues",
+    "FlowLLMOverride",
+    "FlowLimits",
+    "FlowNode",
+    "FlowNodeOutputs",
+    "FlowRule",
+    "FlowSay",
+    "FlowSpec",
+    "FlowSubflow",
+    "FlowTarget",
+    "FlowValidationIssue",
+    "FlowValidationIssueSeverity",
+    "FlowVariable",
     "ForwardSource",
+    "FreeRule",
+    "FreeRuleParams",
+    "GetBillingUsageGroupBy",
     "GetCallingRulesPurpose",
     "GetCallsSummaryBilled",
     "GetCallsSummaryDirection",
@@ -802,10 +1033,24 @@ __all__ = (
     "InboxSnippet",
     "InboxSnippetSpeaker",
     "InstructionsDiff",
+    "IntegrationProvider",
+    "IntegrationProviderAuth",
+    "IntegrationProviderKind",
+    "IntegrationProviderStatus",
     "InterruptionProfile",
     "KnowledgeBase",
     "KnowledgeBaseStatus",
+    "KnowledgeBaseUse",
+    "KnowledgeDocument",
+    "KnowledgeFaqEntry",
+    "KnowledgeFaqSource",
+    "KnowledgeFaqSourceKind",
+    "KnowledgeFaqSourceStatus",
+    "KnowledgeGap",
+    "KnowledgeGapState",
     "KnowledgeHit",
+    "KnowledgeLimits",
+    "KnowledgeResync",
     "KnowledgeSearchResult",
     "KnowledgeSearchResultMode",
     "KnowledgeSource",
@@ -813,6 +1058,8 @@ __all__ = (
     "KnowledgeSourceStatus",
     "LatencySettings",
     "LaunchAttestation",
+    "LaunchPrice",
+    "LaunchPriceAppliesToItem",
     "LedgerEntry",
     "LedgerEntryAccount",
     "LedgerEntryKind",
@@ -821,6 +1068,10 @@ __all__ = (
     "ListAreaCode",
     "ListAssistantsState",
     "ListAssistantsStatus",
+    "ListBookingsStatusItem",
+    "ListBookingsWhen",
+    "ListCalendarConnection",
+    "ListCalendarResource",
     "ListCallingRule",
     "ListCallsBilled",
     "ListCallsDirection",
@@ -842,16 +1093,23 @@ __all__ = (
     "ListDncSource",
     "ListGuardrailBuiltIn",
     "ListHolidayCalendar",
+    "ListIntegrationProvider",
+    "ListKnowledgeGapsState",
     "ListLedgerAccount",
     "ListLedgerKind",
+    "ListMcpServer",
     "ListNumbersCanCallOut",
     "ListNumbersKind",
     "ListNumbersStatus",
+    "ListPaymentsKind",
+    "ListPaymentsStatus",
     "ListRevocationsChannel",
     "ListSpamAllow",
+    "ListStatementLinesGroup",
     "ListTagCount",
     "ListTurnPreset",
     "ListWebhookDeliveriesStatus",
+    "ListWebhookMessagesStatus",
     "LiveCall",
     "LiveCallDirection",
     "LiveCallFlag",
@@ -860,6 +1118,20 @@ __all__ = (
     "LiveCallLineSpeaker",
     "LiveCallStatus",
     "LiveCalls",
+    "McpAuth",
+    "McpAuthKind",
+    "McpServer",
+    "McpServerStatus",
+    "McpServerTransport",
+    "McpTool",
+    "McpToolDescription",
+    "McpToolInputSchema",
+    "McpToolPrevious",
+    "McpToolPreviousInputSchema",
+    "McpToolState",
+    "MonthlySpendLimit",
+    "MonthlyStatement",
+    "MonthlyStatementList",
     "Number",
     "NumberBranded",
     "NumberBrandedStatus",
@@ -886,6 +1158,7 @@ __all__ = (
     "PageAssistantVersion",
     "PageAvailableNumber",
     "PageBlockedCaller",
+    "PageBooking",
     "PageCallEvent",
     "PageCallTurn",
     "PageCampaignContact",
@@ -898,15 +1171,28 @@ __all__ = (
     "PageDNCEntry",
     "PageDncCheck",
     "PageKnowledgeBase",
+    "PageKnowledgeDocument",
+    "PageKnowledgeGap",
     "PageKnowledgeSource",
     "PageLedgerEntry",
     "PageNumber",
+    "PagePayment",
     "PageRate",
     "PageRecording",
     "PageRevocation",
     "PageWebhookDelivery",
     "PageWebhookEndpoint",
+    "PageWebhookMessage",
+    "PageWorkspaceTool",
     "PauseAssistantRequest",
+    "Payment",
+    "PaymentCard",
+    "PaymentKind",
+    "PaymentMethod",
+    "PaymentMethodList",
+    "PaymentMethodUsedByItem",
+    "PaymentStatus",
+    "PlatformSpendCaps",
     "PostCallSettings",
     "PreflightCheck",
     "PreflightCheckCode",
@@ -916,11 +1202,19 @@ __all__ = (
     "PreviewCampaignAudienceRequest",
     "PreviewCampaignAudienceRequestPurpose",
     "Problem",
+    "ProblemPeriod",
     "ProblemRequestKind",
+    "ProblemUsedByItem",
     "Pronunciation",
     "PublishAssistantVersionRequest",
     "PublishResult",
     "Rate",
+    "RateCard",
+    "RateCardGroup",
+    "RateCardGroupKey",
+    "RateCardLine",
+    "RateCardLineRounding",
+    "RateCardLineUnit",
     "RateCurrency",
     "RateDirection",
     "RateKind",
@@ -929,6 +1223,7 @@ __all__ = (
     "RecordingDeletedReason",
     "RecordingPeaks",
     "RecordingState",
+    "RefreshDraftToolsRequest",
     "RetryPolicy",
     "Revocation",
     "RevocationChannel",
@@ -949,8 +1244,13 @@ __all__ = (
     "SkippedCount",
     "SkippedCountReasonCode",
     "SpamAllow",
+    "SpendLimits",
     "StartCampaignRequest",
     "StateAudience",
+    "StatementLine",
+    "StatementLineKind",
+    "StatementLinePage",
+    "StatementLineParams",
     "TagCount",
     "TestWebhookRequest",
     "TestWebhookRequestEventType",
@@ -964,13 +1264,20 @@ __all__ = (
     "TimelineItemParams",
     "TimelinePage",
     "TimezoneShare",
+    "ToolInvocationSummary",
+    "ToolInvocationSummaryOutcome",
+    "ToolResponseHandling",
+    "ToolUse",
     "TransferDestination",
     "TransferDestinationMode",
+    "TrialTerms",
+    "TrialTermsCoversItem",
     "TurnLatency",
     "TurnPreset",
     "TurnPresetKey",
     "TurnProfile",
     "UpdateAssistantRequest",
+    "UpdateCalendarConnectionRequest",
     "UpdateCallRequest",
     "UpdateCampaignRequest",
     "UpdateCampaignRequestAmdMode",
@@ -979,9 +1286,16 @@ __all__ = (
     "UpdateContactRequestAttributes",
     "UpdateContactRequestRelationship",
     "UpdateKnowledgeBaseRequest",
+    "UpdateKnowledgeDocumentRequest",
+    "UpdateKnowledgeFaqSourceRequest",
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",
+    "Usage",
+    "UsageGroupBy",
+    "UsageLines",
+    "UsageRow",
+    "ValidateAssistantFlowRequest",
     "Vocabulary",
     "WebCall",
     "WebCallRounding",
@@ -991,5 +1305,33 @@ __all__ = (
     "WebhookEndpointStatus",
     "WebhookEndpointWithSecret",
     "WebhookEndpointWithSecretStatus",
+    "WebhookEventCatalogue",
+    "WebhookEventType",
+    "WebhookEventTypeGroup",
+    "WebhookMessage",
+    "WebhookMessageStatus",
+    "WebhookReplay",
+    "WebhookRetryPolicy",
+    "WebhookStats",
     "WebhookTestResult",
+    "WorkspaceTool",
+    "WorkspaceToolArgsSchema",
+    "WorkspaceToolBodyTemplate",
+    "WorkspaceToolBound",
+    "WorkspaceToolClass",
+    "WorkspaceToolHeaders",
+    "WorkspaceToolInput",
+    "WorkspaceToolInputArgsSchema",
+    "WorkspaceToolInputBodyTemplate",
+    "WorkspaceToolInputBound",
+    "WorkspaceToolInputClass",
+    "WorkspaceToolInputHeaders",
+    "WorkspaceToolInputMethod",
+    "WorkspaceToolInputQueryTemplate",
+    "WorkspaceToolInputSecretHeaders",
+    "WorkspaceToolKind",
+    "WorkspaceToolMethod",
+    "WorkspaceToolQueryTemplate",
+    "WorkspaceToolSecretHeaders",
+    "WorkspaceToolStatus",
 )

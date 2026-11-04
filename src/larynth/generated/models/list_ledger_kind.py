@@ -3,10 +3,13 @@ from typing import Literal
 ListLedgerKind = Literal[
     "adjustment",
     "auto_top_up",
+    "bundle_conversion",
+    "bundle_purchase",
     "hold",
     "number_rental",
     "promo",
     "refund",
+    "review_release",
     "settle",
     "top_up",
 ]
@@ -14,10 +17,13 @@ ListLedgerKind = Literal[
 LIST_LEDGER_KIND_VALUES: set[ListLedgerKind] = {
     "adjustment",
     "auto_top_up",
+    "bundle_conversion",
+    "bundle_purchase",
     "hold",
     "number_rental",
     "promo",
     "refund",
+    "review_release",
     "settle",
     "top_up",
 }
