@@ -31,22 +31,25 @@ class CreateCallRequest:
         from_e164 (str): Must be an active number of this tenant
         purpose (CreateCallRequestPurpose):
         to_e164 (str):
-        amd_mode (CreateCallRequestAmdMode | Unset):  Default: 'off'.
+        amd_mode (CreateCallRequestAmdMode | Unset): Overrides the agent voicemail setting; unset uses the agent
+            call_handling
         amd_profile_id (UUID | Unset):
         contact_id (UUID | Unset):
         ring_timeout_s (int | Unset):  Default: 30.
         variables (CreateCallRequestVariables | Unset):
+        voicemail_message (str | Unset): Overrides the agent voicemail message
     """
 
     assistant_id: UUID
     from_e164: str
     purpose: CreateCallRequestPurpose
     to_e164: str
-    amd_mode: CreateCallRequestAmdMode | Unset = "off"
+    amd_mode: CreateCallRequestAmdMode | Unset = UNSET
     amd_profile_id: UUID | Unset = UNSET
     contact_id: UUID | Unset = UNSET
     ring_timeout_s: int | Unset = 30
     variables: CreateCallRequestVariables | Unset = UNSET
+    voicemail_message: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         assistant_id = str(self.assistant_id)
@@ -75,6 +78,8 @@ class CreateCallRequest:
         if not isinstance(self.variables, Unset):
             variables = self.variables.to_dict()
 
+        voicemail_message = self.voicemail_message
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -95,6 +100,8 @@ class CreateCallRequest:
             field_dict["ring_timeout_s"] = ring_timeout_s
         if variables is not UNSET:
             field_dict["variables"] = variables
+        if voicemail_message is not UNSET:
+            field_dict["voicemail_message"] = voicemail_message
 
         return field_dict
 
@@ -141,6 +148,8 @@ class CreateCallRequest:
         else:
             variables = CreateCallRequestVariables.from_dict(_variables)
 
+        voicemail_message = d.pop("voicemail_message", UNSET)
+
         create_call_request = cls(
             assistant_id=assistant_id,
             from_e164=from_e164,
@@ -151,6 +160,7 @@ class CreateCallRequest:
             contact_id=contact_id,
             ring_timeout_s=ring_timeout_s,
             variables=variables,
+            voicemail_message=voicemail_message,
         )
 
         return create_call_request

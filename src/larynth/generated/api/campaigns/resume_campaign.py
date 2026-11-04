@@ -106,7 +106,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Campaign | Problem]:
-    """Resume a paused campaign
+    """Resume a paused campaign; 409 campaign.safeguard_review while a safety pause waits for Larynth
 
     Args:
         id (UUID):
@@ -135,7 +135,7 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Campaign | Problem | None:
-    """Resume a paused campaign
+    """Resume a paused campaign; 409 campaign.safeguard_review while a safety pause waits for Larynth
 
     Args:
         id (UUID):
@@ -159,7 +159,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Campaign | Problem]:
-    """Resume a paused campaign
+    """Resume a paused campaign; 409 campaign.safeguard_review while a safety pause waits for Larynth
 
     Args:
         id (UUID):
@@ -186,7 +186,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Campaign | Problem | None:
-    """Resume a paused campaign
+    """Resume a paused campaign; 409 campaign.safeguard_review while a safety pause waits for Larynth
 
     Args:
         id (UUID):

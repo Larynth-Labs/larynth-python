@@ -7,6 +7,9 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.page_available_number import PageAvailableNumber
 from ...models.problem import Problem
+from ...models.search_available_numbers_kind import (
+    SearchAvailableNumbersKind,
+)
 from ...types import UNSET, Response, Unset
 
 
@@ -14,6 +17,9 @@ def _get_kwargs(
     *,
     country: str | Unset = "US",
     area_code: str | Unset = UNSET,
+    city: str | Unset = UNSET,
+    state: str | Unset = UNSET,
+    kind: SearchAvailableNumbersKind | Unset = "local",
     limit: int | Unset = 20,
 ) -> dict[str, Any]:
 
@@ -22,6 +28,16 @@ def _get_kwargs(
     params["country"] = country
 
     params["area_code"] = area_code
+
+    params["city"] = city
+
+    params["state"] = state
+
+    json_kind: str | Unset = UNSET
+    if not isinstance(kind, Unset):
+        json_kind = kind
+
+    params["kind"] = json_kind
 
     params["limit"] = limit
 
@@ -96,6 +112,9 @@ def sync_detailed(
     client: AuthenticatedClient,
     country: str | Unset = "US",
     area_code: str | Unset = UNSET,
+    city: str | Unset = UNSET,
+    state: str | Unset = UNSET,
+    kind: SearchAvailableNumbersKind | Unset = "local",
     limit: int | Unset = 20,
 ) -> Response[PageAvailableNumber | Problem]:
     """Search numbers available to order
@@ -103,6 +122,10 @@ def sync_detailed(
     Args:
         country (str | Unset):  Default: 'US'.
         area_code (str | Unset):
+        city (str | Unset): Resolved to at most 3 area codes through listAreaCodes; results are
+            merged
+        state (str | Unset):
+        kind (SearchAvailableNumbersKind | Unset):  Default: 'local'.
         limit (int | Unset):  Default: 20.
 
     Raises:
@@ -116,6 +139,9 @@ def sync_detailed(
     kwargs = _get_kwargs(
         country=country,
         area_code=area_code,
+        city=city,
+        state=state,
+        kind=kind,
         limit=limit,
     )
 
@@ -131,6 +157,9 @@ def sync(
     client: AuthenticatedClient,
     country: str | Unset = "US",
     area_code: str | Unset = UNSET,
+    city: str | Unset = UNSET,
+    state: str | Unset = UNSET,
+    kind: SearchAvailableNumbersKind | Unset = "local",
     limit: int | Unset = 20,
 ) -> PageAvailableNumber | Problem | None:
     """Search numbers available to order
@@ -138,6 +167,10 @@ def sync(
     Args:
         country (str | Unset):  Default: 'US'.
         area_code (str | Unset):
+        city (str | Unset): Resolved to at most 3 area codes through listAreaCodes; results are
+            merged
+        state (str | Unset):
+        kind (SearchAvailableNumbersKind | Unset):  Default: 'local'.
         limit (int | Unset):  Default: 20.
 
     Raises:
@@ -152,6 +185,9 @@ def sync(
         client=client,
         country=country,
         area_code=area_code,
+        city=city,
+        state=state,
+        kind=kind,
         limit=limit,
     ).parsed
 
@@ -161,6 +197,9 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     country: str | Unset = "US",
     area_code: str | Unset = UNSET,
+    city: str | Unset = UNSET,
+    state: str | Unset = UNSET,
+    kind: SearchAvailableNumbersKind | Unset = "local",
     limit: int | Unset = 20,
 ) -> Response[PageAvailableNumber | Problem]:
     """Search numbers available to order
@@ -168,6 +207,10 @@ async def asyncio_detailed(
     Args:
         country (str | Unset):  Default: 'US'.
         area_code (str | Unset):
+        city (str | Unset): Resolved to at most 3 area codes through listAreaCodes; results are
+            merged
+        state (str | Unset):
+        kind (SearchAvailableNumbersKind | Unset):  Default: 'local'.
         limit (int | Unset):  Default: 20.
 
     Raises:
@@ -181,6 +224,9 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         country=country,
         area_code=area_code,
+        city=city,
+        state=state,
+        kind=kind,
         limit=limit,
     )
 
@@ -194,6 +240,9 @@ async def asyncio(
     client: AuthenticatedClient,
     country: str | Unset = "US",
     area_code: str | Unset = UNSET,
+    city: str | Unset = UNSET,
+    state: str | Unset = UNSET,
+    kind: SearchAvailableNumbersKind | Unset = "local",
     limit: int | Unset = 20,
 ) -> PageAvailableNumber | Problem | None:
     """Search numbers available to order
@@ -201,6 +250,10 @@ async def asyncio(
     Args:
         country (str | Unset):  Default: 'US'.
         area_code (str | Unset):
+        city (str | Unset): Resolved to at most 3 area codes through listAreaCodes; results are
+            merged
+        state (str | Unset):
+        kind (SearchAvailableNumbersKind | Unset):  Default: 'local'.
         limit (int | Unset):  Default: 20.
 
     Raises:
@@ -216,6 +269,9 @@ async def asyncio(
             client=client,
             country=country,
             area_code=area_code,
+            city=city,
+            state=state,
+            kind=kind,
             limit=limit,
         )
     ).parsed

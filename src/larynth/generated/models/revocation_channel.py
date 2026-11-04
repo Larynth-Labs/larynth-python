@@ -1,17 +1,31 @@
 from typing import Literal
 
 RevocationChannel = Literal[
-    "api", "dashboard", "import", "in_call", "inbound_call", "operator", "other"
+    "api",
+    "dashboard",
+    "email",
+    "import",
+    "in_call",
+    "inbound_call",
+    "operator",
+    "optout_line",
+    "other",
+    "phone_request",
+    "web_form",
 ]
 
 REVOCATION_CHANNEL_VALUES: set[RevocationChannel] = {
     "api",
     "dashboard",
+    "email",
     "import",
     "in_call",
     "inbound_call",
     "operator",
+    "optout_line",
     "other",
+    "phone_request",
+    "web_form",
 }
 
 

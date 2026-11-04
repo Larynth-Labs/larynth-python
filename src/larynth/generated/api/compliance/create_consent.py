@@ -95,7 +95,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CreateConsentRequest,
 ) -> Response[Consent | Problem]:
-    """Record consent with evidence
+    """Record consent with evidence and an attestation
 
     Args:
         body (CreateConsentRequest):
@@ -124,7 +124,7 @@ def sync(
     client: AuthenticatedClient,
     body: CreateConsentRequest,
 ) -> Consent | Problem | None:
-    """Record consent with evidence
+    """Record consent with evidence and an attestation
 
     Args:
         body (CreateConsentRequest):
@@ -148,7 +148,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CreateConsentRequest,
 ) -> Response[Consent | Problem]:
-    """Record consent with evidence
+    """Record consent with evidence and an attestation
 
     Args:
         body (CreateConsentRequest):
@@ -175,7 +175,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CreateConsentRequest,
 ) -> Consent | Problem | None:
-    """Record consent with evidence
+    """Record consent with evidence and an attestation
 
     Args:
         body (CreateConsentRequest):

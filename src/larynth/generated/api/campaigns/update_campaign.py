@@ -10,15 +10,18 @@ from ...client import AuthenticatedClient, Client
 from ...models.campaign import Campaign
 from ...models.problem import Problem
 from ...models.update_campaign_request import UpdateCampaignRequest
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: UUID,
     *,
     body: UpdateCampaignRequest,
+    if_match: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(if_match, Unset):
+        headers["If-Match"] = if_match
 
     _kwargs: dict[str, Any] = {
         "method": "patch",
@@ -105,11 +108,13 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: UpdateCampaignRequest,
+    if_match: str | Unset = UNSET,
 ) -> Response[Campaign | Problem]:
     """Update a campaign
 
     Args:
         id (UUID):
+        if_match (str | Unset): Campaign revision; 409 campaign.revision_conflict when stale
         body (UpdateCampaignRequest):
 
     Raises:
@@ -123,6 +128,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        if_match=if_match,
     )
 
     response = client.get_httpx_client().request(
@@ -137,11 +143,13 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: UpdateCampaignRequest,
+    if_match: str | Unset = UNSET,
 ) -> Campaign | Problem | None:
     """Update a campaign
 
     Args:
         id (UUID):
+        if_match (str | Unset): Campaign revision; 409 campaign.revision_conflict when stale
         body (UpdateCampaignRequest):
 
     Raises:
@@ -156,6 +164,7 @@ def sync(
         id=id,
         client=client,
         body=body,
+        if_match=if_match,
     ).parsed
 
 
@@ -164,11 +173,13 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: UpdateCampaignRequest,
+    if_match: str | Unset = UNSET,
 ) -> Response[Campaign | Problem]:
     """Update a campaign
 
     Args:
         id (UUID):
+        if_match (str | Unset): Campaign revision; 409 campaign.revision_conflict when stale
         body (UpdateCampaignRequest):
 
     Raises:
@@ -182,6 +193,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        if_match=if_match,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -194,11 +206,13 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: UpdateCampaignRequest,
+    if_match: str | Unset = UNSET,
 ) -> Campaign | Problem | None:
     """Update a campaign
 
     Args:
         id (UUID):
+        if_match (str | Unset): Campaign revision; 409 campaign.revision_conflict when stale
         body (UpdateCampaignRequest):
 
     Raises:
@@ -214,5 +228,6 @@ async def asyncio(
             id=id,
             client=client,
             body=body,
+            if_match=if_match,
         )
     ).parsed

@@ -35,7 +35,9 @@ class CampaignContact:
         variables (CampaignContactVariables):
         last_call_id (str | Unset):
         last_outcome (str | Unset):
+        last_result (str | Unset): Plain result key for the Contacts tab
         last_rule (str | Unset): Rule id of the last compliance denial
+        name (str | Unset):
     """
 
     attempts: int
@@ -49,7 +51,9 @@ class CampaignContact:
     variables: CampaignContactVariables
     last_call_id: str | Unset = UNSET
     last_outcome: str | Unset = UNSET
+    last_result: str | Unset = UNSET
     last_rule: str | Unset = UNSET
+    name: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         attempts = self.attempts
@@ -74,7 +78,11 @@ class CampaignContact:
 
         last_outcome = self.last_outcome
 
+        last_result = self.last_result
+
         last_rule = self.last_rule
+
+        name = self.name
 
         field_dict: dict[str, Any] = {}
 
@@ -95,8 +103,12 @@ class CampaignContact:
             field_dict["last_call_id"] = last_call_id
         if last_outcome is not UNSET:
             field_dict["last_outcome"] = last_outcome
+        if last_result is not UNSET:
+            field_dict["last_result"] = last_result
         if last_rule is not UNSET:
             field_dict["last_rule"] = last_rule
+        if name is not UNSET:
+            field_dict["name"] = name
 
         return field_dict
 
@@ -127,7 +139,11 @@ class CampaignContact:
 
         last_outcome = d.pop("last_outcome", UNSET)
 
+        last_result = d.pop("last_result", UNSET)
+
         last_rule = d.pop("last_rule", UNSET)
+
+        name = d.pop("name", UNSET)
 
         campaign_contact = cls(
             attempts=attempts,
@@ -141,7 +157,9 @@ class CampaignContact:
             variables=variables,
             last_call_id=last_call_id,
             last_outcome=last_outcome,
+            last_result=last_result,
             last_rule=last_rule,
+            name=name,
         )
 
         return campaign_contact

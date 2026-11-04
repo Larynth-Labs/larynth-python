@@ -1,10 +1,15 @@
 from http import HTTPStatus
 from typing import Any
+from uuid import UUID
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.list_numbers_can_call_out import (
+    ListNumbersCanCallOut,
+)
+from ...models.list_numbers_kind import ListNumbersKind
 from ...models.list_numbers_status import ListNumbersStatus
 from ...models.page_number import PageNumber
 from ...models.problem import Problem
@@ -16,6 +21,9 @@ def _get_kwargs(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListNumbersStatus | Unset = UNSET,
+    kind: ListNumbersKind | Unset = UNSET,
+    can_call_out: ListNumbersCanCallOut | Unset = UNSET,
+    assistant_id: UUID | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -29,6 +37,23 @@ def _get_kwargs(
         json_status = status
 
     params["status"] = json_status
+
+    json_kind: str | Unset = UNSET
+    if not isinstance(kind, Unset):
+        json_kind = kind
+
+    params["kind"] = json_kind
+
+    json_can_call_out: str | Unset = UNSET
+    if not isinstance(can_call_out, Unset):
+        json_can_call_out = can_call_out
+
+    params["can_call_out"] = json_can_call_out
+
+    json_assistant_id: str | Unset = UNSET
+    if not isinstance(assistant_id, Unset):
+        json_assistant_id = str(assistant_id)
+    params["assistant_id"] = json_assistant_id
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -102,6 +127,9 @@ def sync_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListNumbersStatus | Unset = UNSET,
+    kind: ListNumbersKind | Unset = UNSET,
+    can_call_out: ListNumbersCanCallOut | Unset = UNSET,
+    assistant_id: UUID | Unset = UNSET,
 ) -> Response[PageNumber | Problem]:
     """List numbers
 
@@ -109,6 +137,10 @@ def sync_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListNumbersStatus | Unset):
+        kind (ListNumbersKind | Unset):
+        can_call_out (ListNumbersCanCallOut | Unset): Only numbers that may (or may not) be a
+            campaign caller ID
+        assistant_id (UUID | Unset): Numbers whose routing uses this agent in open or after hours
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,6 +154,9 @@ def sync_detailed(
         limit=limit,
         after=after,
         status=status,
+        kind=kind,
+        can_call_out=can_call_out,
+        assistant_id=assistant_id,
     )
 
     response = client.get_httpx_client().request(
@@ -137,6 +172,9 @@ def sync(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListNumbersStatus | Unset = UNSET,
+    kind: ListNumbersKind | Unset = UNSET,
+    can_call_out: ListNumbersCanCallOut | Unset = UNSET,
+    assistant_id: UUID | Unset = UNSET,
 ) -> PageNumber | Problem | None:
     """List numbers
 
@@ -144,6 +182,10 @@ def sync(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListNumbersStatus | Unset):
+        kind (ListNumbersKind | Unset):
+        can_call_out (ListNumbersCanCallOut | Unset): Only numbers that may (or may not) be a
+            campaign caller ID
+        assistant_id (UUID | Unset): Numbers whose routing uses this agent in open or after hours
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -158,6 +200,9 @@ def sync(
         limit=limit,
         after=after,
         status=status,
+        kind=kind,
+        can_call_out=can_call_out,
+        assistant_id=assistant_id,
     ).parsed
 
 
@@ -167,6 +212,9 @@ async def asyncio_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListNumbersStatus | Unset = UNSET,
+    kind: ListNumbersKind | Unset = UNSET,
+    can_call_out: ListNumbersCanCallOut | Unset = UNSET,
+    assistant_id: UUID | Unset = UNSET,
 ) -> Response[PageNumber | Problem]:
     """List numbers
 
@@ -174,6 +222,10 @@ async def asyncio_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListNumbersStatus | Unset):
+        kind (ListNumbersKind | Unset):
+        can_call_out (ListNumbersCanCallOut | Unset): Only numbers that may (or may not) be a
+            campaign caller ID
+        assistant_id (UUID | Unset): Numbers whose routing uses this agent in open or after hours
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -187,6 +239,9 @@ async def asyncio_detailed(
         limit=limit,
         after=after,
         status=status,
+        kind=kind,
+        can_call_out=can_call_out,
+        assistant_id=assistant_id,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -200,6 +255,9 @@ async def asyncio(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListNumbersStatus | Unset = UNSET,
+    kind: ListNumbersKind | Unset = UNSET,
+    can_call_out: ListNumbersCanCallOut | Unset = UNSET,
+    assistant_id: UUID | Unset = UNSET,
 ) -> PageNumber | Problem | None:
     """List numbers
 
@@ -207,6 +265,10 @@ async def asyncio(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListNumbersStatus | Unset):
+        kind (ListNumbersKind | Unset):
+        can_call_out (ListNumbersCanCallOut | Unset): Only numbers that may (or may not) be a
+            campaign caller ID
+        assistant_id (UUID | Unset): Numbers whose routing uses this agent in open or after hours
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -222,5 +284,8 @@ async def asyncio(
             limit=limit,
             after=after,
             status=status,
+            kind=kind,
+            can_call_out=can_call_out,
+            assistant_id=assistant_id,
         )
     ).parsed

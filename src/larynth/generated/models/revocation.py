@@ -18,6 +18,7 @@ class Revocation:
     """
     Attributes:
         channel (RevocationChannel):
+        complaint (bool):
         created_at (datetime.datetime):
         e164 (str):
         id (UUID):
@@ -29,6 +30,7 @@ class Revocation:
     """
 
     channel: RevocationChannel
+    complaint: bool
     created_at: datetime.datetime
     e164: str
     id: UUID
@@ -40,6 +42,8 @@ class Revocation:
 
     def to_dict(self) -> dict[str, Any]:
         channel: str = self.channel
+
+        complaint = self.complaint
 
         created_at = self.created_at.isoformat()
 
@@ -62,6 +66,7 @@ class Revocation:
         field_dict.update(
             {
                 "channel": channel,
+                "complaint": complaint,
                 "created_at": created_at,
                 "e164": e164,
                 "id": id,
@@ -83,6 +88,8 @@ class Revocation:
         d = dict(src_dict)
         channel = check_revocation_channel(d.pop("channel"))
 
+        complaint = d.pop("complaint")
+
         created_at = datetime.datetime.fromisoformat(d.pop("created_at"))
 
         e164 = d.pop("e164")
@@ -101,6 +108,7 @@ class Revocation:
 
         revocation = cls(
             channel=channel,
+            complaint=complaint,
             created_at=created_at,
             e164=e164,
             id=id,
