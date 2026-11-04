@@ -107,7 +107,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: TestWebhookRequest | Unset = UNSET,
 ) -> Response[Problem | WebhookTestResult]:
-    """Send a test event
+    """Send a test event and wait up to 10 s for the first attempt; test events are never retried
 
     Args:
         id (UUID):
@@ -139,7 +139,7 @@ def sync(
     client: AuthenticatedClient,
     body: TestWebhookRequest | Unset = UNSET,
 ) -> Problem | WebhookTestResult | None:
-    """Send a test event
+    """Send a test event and wait up to 10 s for the first attempt; test events are never retried
 
     Args:
         id (UUID):
@@ -166,7 +166,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: TestWebhookRequest | Unset = UNSET,
 ) -> Response[Problem | WebhookTestResult]:
-    """Send a test event
+    """Send a test event and wait up to 10 s for the first attempt; test events are never retried
 
     Args:
         id (UUID):
@@ -196,7 +196,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: TestWebhookRequest | Unset = UNSET,
 ) -> Problem | WebhookTestResult | None:
-    """Send a test event
+    """Send a test event and wait up to 10 s for the first attempt; test events are never retried
 
     Args:
         id (UUID):

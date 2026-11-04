@@ -7,7 +7,9 @@ from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.problem_period import ProblemPeriod, check_problem_period
 from ..models.problem_request_kind import ProblemRequestKind, check_problem_request_kind
+from ..models.problem_used_by_item import ProblemUsedByItem, check_problem_used_by_item
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -29,17 +31,23 @@ class Problem:
         api_base (str | Unset): API base URL of the workspace's home region (workspace.other_region)
         attempts_left (int | Unset): Code attempts left in this sign-in step
         campaign_ids (list[str] | Unset): Campaigns that use the number (numbers.in_use)
+        cap_micro (int | Unset): Cap of that limit (billing.spend_limit_reached)
         checks (list[PreflightCheck] | Unset): Failed launch checks (campaign.preflight_failed)
         contact_id (str | Unset): Existing contact (contacts.exists)
         detail (str | Unset):
         errors (list[ErrorDetail] | Unset):
         instance (str | Unset):
+        max_micro (int | Unset): Maximum top-up (billing.top_up_above_maximum)
+        min_micro (int | Unset): Minimum top-up (billing.top_up_below_minimum)
         optout_line (bool | Unset): The number is the opt-out line (numbers.in_use)
+        period (ProblemPeriod | Unset): Limit that was reached (billing.spend_limit_reached)
         reauth_methods (list[str] | Unset): Ways to re-authenticate, in preference order (auth.reauth_required)
         request_kind (ProblemRequestKind | Unset): Spending request kind to file instead (spending.approval_required)
         retry_at (datetime.datetime | Unset): Next moment the request may succeed (calling windows)
         revision (int | Unset): Current revision (numbers.routing_conflict, campaign.revision_conflict)
         updated_by_name (str | Unset):
+        used_by (list[ProblemUsedByItem] | Unset): What uses the card (billing.payment_method_in_use)
+        used_micro (int | Unset): Spend counted against it (billing.spend_limit_reached)
     """
 
     code: str
@@ -49,17 +57,23 @@ class Problem:
     api_base: str | Unset = UNSET
     attempts_left: int | Unset = UNSET
     campaign_ids: list[str] | Unset = UNSET
+    cap_micro: int | Unset = UNSET
     checks: list[PreflightCheck] | Unset = UNSET
     contact_id: str | Unset = UNSET
     detail: str | Unset = UNSET
     errors: list[ErrorDetail] | Unset = UNSET
     instance: str | Unset = UNSET
+    max_micro: int | Unset = UNSET
+    min_micro: int | Unset = UNSET
     optout_line: bool | Unset = UNSET
+    period: ProblemPeriod | Unset = UNSET
     reauth_methods: list[str] | Unset = UNSET
     request_kind: ProblemRequestKind | Unset = UNSET
     retry_at: datetime.datetime | Unset = UNSET
     revision: int | Unset = UNSET
     updated_by_name: str | Unset = UNSET
+    used_by: list[ProblemUsedByItem] | Unset = UNSET
+    used_micro: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -78,6 +92,8 @@ class Problem:
         campaign_ids: list[str] | Unset = UNSET
         if not isinstance(self.campaign_ids, Unset):
             campaign_ids = self.campaign_ids
+
+        cap_micro = self.cap_micro
 
         checks: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.checks, Unset):
@@ -99,7 +115,15 @@ class Problem:
 
         instance = self.instance
 
+        max_micro = self.max_micro
+
+        min_micro = self.min_micro
+
         optout_line = self.optout_line
+
+        period: str | Unset = UNSET
+        if not isinstance(self.period, Unset):
+            period = self.period
 
         reauth_methods: list[str] | Unset = UNSET
         if not isinstance(self.reauth_methods, Unset):
@@ -117,6 +141,15 @@ class Problem:
 
         updated_by_name = self.updated_by_name
 
+        used_by: list[str] | Unset = UNSET
+        if not isinstance(self.used_by, Unset):
+            used_by = []
+            for used_by_item_data in self.used_by:
+                used_by_item: str = used_by_item_data
+                used_by.append(used_by_item)
+
+        used_micro = self.used_micro
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -133,6 +166,8 @@ class Problem:
             field_dict["attempts_left"] = attempts_left
         if campaign_ids is not UNSET:
             field_dict["campaign_ids"] = campaign_ids
+        if cap_micro is not UNSET:
+            field_dict["cap_micro"] = cap_micro
         if checks is not UNSET:
             field_dict["checks"] = checks
         if contact_id is not UNSET:
@@ -143,8 +178,14 @@ class Problem:
             field_dict["errors"] = errors
         if instance is not UNSET:
             field_dict["instance"] = instance
+        if max_micro is not UNSET:
+            field_dict["max_micro"] = max_micro
+        if min_micro is not UNSET:
+            field_dict["min_micro"] = min_micro
         if optout_line is not UNSET:
             field_dict["optout_line"] = optout_line
+        if period is not UNSET:
+            field_dict["period"] = period
         if reauth_methods is not UNSET:
             field_dict["reauth_methods"] = reauth_methods
         if request_kind is not UNSET:
@@ -155,6 +196,10 @@ class Problem:
             field_dict["revision"] = revision
         if updated_by_name is not UNSET:
             field_dict["updated_by_name"] = updated_by_name
+        if used_by is not UNSET:
+            field_dict["used_by"] = used_by
+        if used_micro is not UNSET:
+            field_dict["used_micro"] = used_micro
 
         return field_dict
 
@@ -177,6 +222,8 @@ class Problem:
         attempts_left = d.pop("attempts_left", UNSET)
 
         campaign_ids = cast(list[str], d.pop("campaign_ids", UNSET))
+
+        cap_micro = d.pop("cap_micro", UNSET)
 
         _checks = d.pop("checks", UNSET)
         checks: list[PreflightCheck] | Unset = UNSET
@@ -202,7 +249,18 @@ class Problem:
 
         instance = d.pop("instance", UNSET)
 
+        max_micro = d.pop("max_micro", UNSET)
+
+        min_micro = d.pop("min_micro", UNSET)
+
         optout_line = d.pop("optout_line", UNSET)
+
+        _period = d.pop("period", UNSET)
+        period: ProblemPeriod | Unset
+        if isinstance(_period, Unset):
+            period = UNSET
+        else:
+            period = check_problem_period(_period)
 
         reauth_methods = cast(list[str], d.pop("reauth_methods", UNSET))
 
@@ -224,6 +282,17 @@ class Problem:
 
         updated_by_name = d.pop("updated_by_name", UNSET)
 
+        _used_by = d.pop("used_by", UNSET)
+        used_by: list[ProblemUsedByItem] | Unset = UNSET
+        if _used_by is not UNSET:
+            used_by = []
+            for used_by_item_data in _used_by:
+                used_by_item = check_problem_used_by_item(used_by_item_data)
+
+                used_by.append(used_by_item)
+
+        used_micro = d.pop("used_micro", UNSET)
+
         problem = cls(
             code=code,
             status=status,
@@ -232,17 +301,23 @@ class Problem:
             api_base=api_base,
             attempts_left=attempts_left,
             campaign_ids=campaign_ids,
+            cap_micro=cap_micro,
             checks=checks,
             contact_id=contact_id,
             detail=detail,
             errors=errors,
             instance=instance,
+            max_micro=max_micro,
+            min_micro=min_micro,
             optout_line=optout_line,
+            period=period,
             reauth_methods=reauth_methods,
             request_kind=request_kind,
             retry_at=retry_at,
             revision=revision,
             updated_by_name=updated_by_name,
+            used_by=used_by,
+            used_micro=used_micro,
         )
 
         problem.additional_properties = d

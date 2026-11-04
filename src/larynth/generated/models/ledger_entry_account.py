@@ -1,10 +1,15 @@
 from typing import Literal
 
-LedgerEntryAccount = Literal["available", "held"]
+LedgerEntryAccount = Literal[
+    "available", "bundle_credit", "held", "pending_review", "promo_credit"
+]
 
 LEDGER_ENTRY_ACCOUNT_VALUES: set[LedgerEntryAccount] = {
     "available",
+    "bundle_credit",
     "held",
+    "pending_review",
+    "promo_credit",
 }
 
 
