@@ -24,6 +24,7 @@ class LedgerEntry:
         id (UUID):
         kind (LedgerEntryKind):
         transaction_id (UUID):
+        balance_after_micro (int | Unset): Balance of the account after this entry
         call_id (str | Unset):
         memo (str | Unset):
         payment_id (UUID | Unset):
@@ -35,6 +36,7 @@ class LedgerEntry:
     id: UUID
     kind: LedgerEntryKind
     transaction_id: UUID
+    balance_after_micro: int | Unset = UNSET
     call_id: str | Unset = UNSET
     memo: str | Unset = UNSET
     payment_id: UUID | Unset = UNSET
@@ -51,6 +53,8 @@ class LedgerEntry:
         kind: str = self.kind
 
         transaction_id = str(self.transaction_id)
+
+        balance_after_micro = self.balance_after_micro
 
         call_id = self.call_id
 
@@ -72,6 +76,8 @@ class LedgerEntry:
                 "transaction_id": transaction_id,
             }
         )
+        if balance_after_micro is not UNSET:
+            field_dict["balance_after_micro"] = balance_after_micro
         if call_id is not UNSET:
             field_dict["call_id"] = call_id
         if memo is not UNSET:
@@ -96,6 +102,8 @@ class LedgerEntry:
 
         transaction_id = UUID(d.pop("transaction_id"))
 
+        balance_after_micro = d.pop("balance_after_micro", UNSET)
+
         call_id = d.pop("call_id", UNSET)
 
         memo = d.pop("memo", UNSET)
@@ -114,6 +122,7 @@ class LedgerEntry:
             id=id,
             kind=kind,
             transaction_id=transaction_id,
+            balance_after_micro=balance_after_micro,
             call_id=call_id,
             memo=memo,
             payment_id=payment_id,
