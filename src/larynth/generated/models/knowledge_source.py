@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -16,6 +16,10 @@ from ..models.knowledge_source_status import (
     check_knowledge_source_status,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.knowledge_resync import KnowledgeResync
+
 
 T = TypeVar("T", bound="KnowledgeSource")
 
@@ -38,6 +42,8 @@ class KnowledgeSource:
         last_synced_at (datetime.datetime | Unset):
         max_depth (int | Unset):
         max_pages (int | Unset):
+        next_sync_at (datetime.datetime | Unset):
+        resync (KnowledgeResync | Unset):
         url (str | Unset):
     """
 
@@ -55,6 +61,8 @@ class KnowledgeSource:
     last_synced_at: datetime.datetime | Unset = UNSET
     max_depth: int | Unset = UNSET
     max_pages: int | Unset = UNSET
+    next_sync_at: datetime.datetime | Unset = UNSET
+    resync: KnowledgeResync | Unset = UNSET
     url: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -88,6 +96,14 @@ class KnowledgeSource:
 
         max_pages = self.max_pages
 
+        next_sync_at: str | Unset = UNSET
+        if not isinstance(self.next_sync_at, Unset):
+            next_sync_at = self.next_sync_at.isoformat()
+
+        resync: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.resync, Unset):
+            resync = self.resync.to_dict()
+
         url = self.url
 
         field_dict: dict[str, Any] = {}
@@ -116,6 +132,10 @@ class KnowledgeSource:
             field_dict["max_depth"] = max_depth
         if max_pages is not UNSET:
             field_dict["max_pages"] = max_pages
+        if next_sync_at is not UNSET:
+            field_dict["next_sync_at"] = next_sync_at
+        if resync is not UNSET:
+            field_dict["resync"] = resync
         if url is not UNSET:
             field_dict["url"] = url
 
@@ -123,6 +143,8 @@ class KnowledgeSource:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.knowledge_resync import KnowledgeResync
+
         d = dict(src_dict)
         created_at = datetime.datetime.fromisoformat(d.pop("created_at"))
 
@@ -157,6 +179,20 @@ class KnowledgeSource:
 
         max_pages = d.pop("max_pages", UNSET)
 
+        _next_sync_at = d.pop("next_sync_at", UNSET)
+        next_sync_at: datetime.datetime | Unset
+        if isinstance(_next_sync_at, Unset):
+            next_sync_at = UNSET
+        else:
+            next_sync_at = datetime.datetime.fromisoformat(_next_sync_at)
+
+        _resync = d.pop("resync", UNSET)
+        resync: KnowledgeResync | Unset
+        if isinstance(_resync, Unset):
+            resync = UNSET
+        else:
+            resync = KnowledgeResync.from_dict(_resync)
+
         url = d.pop("url", UNSET)
 
         knowledge_source = cls(
@@ -174,6 +210,8 @@ class KnowledgeSource:
             last_synced_at=last_synced_at,
             max_depth=max_depth,
             max_pages=max_pages,
+            next_sync_at=next_sync_at,
+            resync=resync,
             url=url,
         )
 

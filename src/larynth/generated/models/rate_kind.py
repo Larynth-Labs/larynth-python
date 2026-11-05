@@ -1,10 +1,28 @@
 from typing import Literal
 
-RateKind = Literal["call_minute", "number_month", "transfer_minute"]
+RateKind = Literal[
+    "branded_brand_month",
+    "branded_call",
+    "byo_sip_minute",
+    "call_minute",
+    "forward_minute",
+    "number_month",
+    "number_month_toll_free",
+    "premium_model",
+    "premium_voice",
+    "transfer_minute",
+]
 
 RATE_KIND_VALUES: set[RateKind] = {
+    "branded_brand_month",
+    "branded_call",
+    "byo_sip_minute",
     "call_minute",
+    "forward_minute",
     "number_month",
+    "number_month_toll_free",
+    "premium_model",
+    "premium_voice",
     "transfer_minute",
 }
 

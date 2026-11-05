@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -12,6 +12,10 @@ from ..models.webhook_endpoint_status import (
     check_webhook_endpoint_status,
 )
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.webhook_stats import WebhookStats
+
 
 T = TypeVar("T", bound="WebhookEndpoint")
 
@@ -24,24 +28,28 @@ class WebhookEndpoint:
         created_at (datetime.datetime):
         event_types (list[str]):
         id (UUID):
+        stats_24h (WebhookStats):
         status (WebhookEndpointStatus):
         updated_at (datetime.datetime):
         url (str):
         description (str | Unset):
         disabled_reason (str | Unset):
         previous_secret_expires_at (datetime.datetime | Unset):
+        secret_hint (str | Unset): Last 4 characters of the current signing secret
     """
 
     consecutive_failures: int
     created_at: datetime.datetime
     event_types: list[str]
     id: UUID
+    stats_24h: WebhookStats
     status: WebhookEndpointStatus
     updated_at: datetime.datetime
     url: str
     description: str | Unset = UNSET
     disabled_reason: str | Unset = UNSET
     previous_secret_expires_at: datetime.datetime | Unset = UNSET
+    secret_hint: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         consecutive_failures = self.consecutive_failures
@@ -51,6 +59,8 @@ class WebhookEndpoint:
         event_types = self.event_types
 
         id = str(self.id)
+
+        stats_24h = self.stats_24h.to_dict()
 
         status: str = self.status
 
@@ -66,6 +76,8 @@ class WebhookEndpoint:
         if not isinstance(self.previous_secret_expires_at, Unset):
             previous_secret_expires_at = self.previous_secret_expires_at.isoformat()
 
+        secret_hint = self.secret_hint
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -74,6 +86,7 @@ class WebhookEndpoint:
                 "created_at": created_at,
                 "event_types": event_types,
                 "id": id,
+                "stats_24h": stats_24h,
                 "status": status,
                 "updated_at": updated_at,
                 "url": url,
@@ -85,11 +98,15 @@ class WebhookEndpoint:
             field_dict["disabled_reason"] = disabled_reason
         if previous_secret_expires_at is not UNSET:
             field_dict["previous_secret_expires_at"] = previous_secret_expires_at
+        if secret_hint is not UNSET:
+            field_dict["secret_hint"] = secret_hint
 
         return field_dict
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.webhook_stats import WebhookStats
+
         d = dict(src_dict)
         consecutive_failures = d.pop("consecutive_failures")
 
@@ -98,6 +115,8 @@ class WebhookEndpoint:
         event_types = cast(list[str], d.pop("event_types"))
 
         id = UUID(d.pop("id"))
+
+        stats_24h = WebhookStats.from_dict(d.pop("stats_24h"))
 
         status = check_webhook_endpoint_status(d.pop("status"))
 
@@ -118,17 +137,21 @@ class WebhookEndpoint:
                 _previous_secret_expires_at
             )
 
+        secret_hint = d.pop("secret_hint", UNSET)
+
         webhook_endpoint = cls(
             consecutive_failures=consecutive_failures,
             created_at=created_at,
             event_types=event_types,
             id=id,
+            stats_24h=stats_24h,
             status=status,
             updated_at=updated_at,
             url=url,
             description=description,
             disabled_reason=disabled_reason,
             previous_secret_expires_at=previous_secret_expires_at,
+            secret_hint=secret_hint,
         )
 
         return webhook_endpoint

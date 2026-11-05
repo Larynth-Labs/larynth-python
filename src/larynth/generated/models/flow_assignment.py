@@ -1,0 +1,50 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any, Self, TypeVar
+
+from attrs import define as _attrs_define
+
+T = TypeVar("T", bound="FlowAssignment")
+
+
+@_attrs_define
+class FlowAssignment:
+    """
+    Attributes:
+        value (Any):
+        variable (str):
+    """
+
+    value: Any
+    variable: str
+
+    def to_dict(self) -> dict[str, Any]:
+        value = self.value
+
+        variable = self.variable
+
+        field_dict: dict[str, Any] = {}
+
+        field_dict.update(
+            {
+                "value": value,
+                "variable": variable,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        d = dict(src_dict)
+        value = d.pop("value")
+
+        variable = d.pop("variable")
+
+        flow_assignment = cls(
+            value=value,
+            variable=variable,
+        )
+
+        return flow_assignment
