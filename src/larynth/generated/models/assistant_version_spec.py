@@ -6,6 +6,10 @@ from uuid import UUID
 
 from attrs import define as _attrs_define
 
+from ..models.assistant_version_spec_agent_type import (
+    AssistantVersionSpecAgentType,
+    check_assistant_version_spec_agent_type,
+)
 from ..models.assistant_version_spec_mode import (
     AssistantVersionSpecMode,
     check_assistant_version_spec_mode,
@@ -31,6 +35,7 @@ if TYPE_CHECKING:
     from ..models.assistant_version_spec_tts_params import AssistantVersionSpecTtsParams
     from ..models.call_handling import CallHandling
     from ..models.disclosure_spec import DisclosureSpec
+    from ..models.flow_spec import FlowSpec
     from ..models.guardrails_spec import GuardrailsSpec
     from ..models.interruption_profile import InterruptionProfile
     from ..models.latency_settings import LatencySettings
@@ -50,10 +55,12 @@ class AssistantVersionSpec:
         language (str):
         mode (AssistantVersionSpecMode):
         system_prompt (str):
+        agent_type (AssistantVersionSpecAgentType | Unset): Unset is single_prompt; flow needs mode cascade
         call_handling (CallHandling | Unset):
         denoise (bool | Unset):
         disclosure (DisclosureSpec | Unset):
         fillers (list[str] | Unset):
+        flow (FlowSpec | Unset):
         guardrails (GuardrailsSpec | Unset):
         interruption_profile (InterruptionProfile | Unset):
         knowledge_base_ids (list[str] | Unset): Knowledge bases the assistant can search with the search_knowledge tool;
@@ -87,10 +94,12 @@ class AssistantVersionSpec:
     language: str
     mode: AssistantVersionSpecMode
     system_prompt: str
+    agent_type: AssistantVersionSpecAgentType | Unset = UNSET
     call_handling: CallHandling | Unset = UNSET
     denoise: bool | Unset = UNSET
     disclosure: DisclosureSpec | Unset = UNSET
     fillers: list[str] | Unset = UNSET
+    flow: FlowSpec | Unset = UNSET
     guardrails: GuardrailsSpec | Unset = UNSET
     interruption_profile: InterruptionProfile | Unset = UNSET
     knowledge_base_ids: list[str] | Unset = UNSET
@@ -124,6 +133,10 @@ class AssistantVersionSpec:
 
         system_prompt = self.system_prompt
 
+        agent_type: str | Unset = UNSET
+        if not isinstance(self.agent_type, Unset):
+            agent_type = self.agent_type
+
         call_handling: dict[str, Any] | Unset = UNSET
         if not isinstance(self.call_handling, Unset):
             call_handling = self.call_handling.to_dict()
@@ -137,6 +150,10 @@ class AssistantVersionSpec:
         fillers: list[str] | Unset = UNSET
         if not isinstance(self.fillers, Unset):
             fillers = self.fillers
+
+        flow: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.flow, Unset):
+            flow = self.flow.to_dict()
 
         guardrails: dict[str, Any] | Unset = UNSET
         if not isinstance(self.guardrails, Unset):
@@ -241,6 +258,8 @@ class AssistantVersionSpec:
                 "system_prompt": system_prompt,
             }
         )
+        if agent_type is not UNSET:
+            field_dict["agent_type"] = agent_type
         if call_handling is not UNSET:
             field_dict["call_handling"] = call_handling
         if denoise is not UNSET:
@@ -249,6 +268,8 @@ class AssistantVersionSpec:
             field_dict["disclosure"] = disclosure
         if fillers is not UNSET:
             field_dict["fillers"] = fillers
+        if flow is not UNSET:
+            field_dict["flow"] = flow
         if guardrails is not UNSET:
             field_dict["guardrails"] = guardrails
         if interruption_profile is not UNSET:
@@ -318,6 +339,7 @@ class AssistantVersionSpec:
         )
         from ..models.call_handling import CallHandling
         from ..models.disclosure_spec import DisclosureSpec
+        from ..models.flow_spec import FlowSpec
         from ..models.guardrails_spec import GuardrailsSpec
         from ..models.interruption_profile import InterruptionProfile
         from ..models.latency_settings import LatencySettings
@@ -333,6 +355,13 @@ class AssistantVersionSpec:
         mode = check_assistant_version_spec_mode(d.pop("mode"))
 
         system_prompt = d.pop("system_prompt")
+
+        _agent_type = d.pop("agent_type", UNSET)
+        agent_type: AssistantVersionSpecAgentType | Unset
+        if isinstance(_agent_type, Unset):
+            agent_type = UNSET
+        else:
+            agent_type = check_assistant_version_spec_agent_type(_agent_type)
 
         _call_handling = d.pop("call_handling", UNSET)
         call_handling: CallHandling | Unset
@@ -351,6 +380,13 @@ class AssistantVersionSpec:
             disclosure = DisclosureSpec.from_dict(_disclosure)
 
         fillers = cast(list[str], d.pop("fillers", UNSET))
+
+        _flow = d.pop("flow", UNSET)
+        flow: FlowSpec | Unset
+        if isinstance(_flow, Unset):
+            flow = UNSET
+        else:
+            flow = FlowSpec.from_dict(_flow)
 
         _guardrails = d.pop("guardrails", UNSET)
         guardrails: GuardrailsSpec | Unset
@@ -504,10 +540,12 @@ class AssistantVersionSpec:
             language=language,
             mode=mode,
             system_prompt=system_prompt,
+            agent_type=agent_type,
             call_handling=call_handling,
             denoise=denoise,
             disclosure=disclosure,
             fillers=fillers,
+            flow=flow,
             guardrails=guardrails,
             interruption_profile=interruption_profile,
             knowledge_base_ids=knowledge_base_ids,
