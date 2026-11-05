@@ -31,6 +31,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.amd_answer_headers import AMDAnswerHeaders
     from ..models.call_flag import CallFlag
+    from ..models.call_flow import CallFlow
     from ..models.call_latency import CallLatency
     from ..models.call_quality import CallQuality
     from ..models.call_receipt import CallReceipt
@@ -84,6 +85,7 @@ class Call:
         disclosure_played_at (datetime.datetime | Unset):
         ended_at (datetime.datetime | Unset):
         flagged (CallFlag | Unset):
+        flow (CallFlow | Unset):
         from_e164 (str | Unset):
         hangup_by (CallHangupBy | Unset):
         latency (CallLatency | Unset):
@@ -144,6 +146,7 @@ class Call:
     disclosure_played_at: datetime.datetime | Unset = UNSET
     ended_at: datetime.datetime | Unset = UNSET
     flagged: CallFlag | Unset = UNSET
+    flow: CallFlow | Unset = UNSET
     from_e164: str | Unset = UNSET
     hangup_by: CallHangupBy | Unset = UNSET
     latency: CallLatency | Unset = UNSET
@@ -267,6 +270,10 @@ class Call:
         flagged: dict[str, Any] | Unset = UNSET
         if not isinstance(self.flagged, Unset):
             flagged = self.flagged.to_dict()
+
+        flow: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.flow, Unset):
+            flow = self.flow.to_dict()
 
         from_e164 = self.from_e164
 
@@ -404,6 +411,8 @@ class Call:
             field_dict["ended_at"] = ended_at
         if flagged is not UNSET:
             field_dict["flagged"] = flagged
+        if flow is not UNSET:
+            field_dict["flow"] = flow
         if from_e164 is not UNSET:
             field_dict["from_e164"] = from_e164
         if hangup_by is not UNSET:
@@ -451,6 +460,7 @@ class Call:
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.amd_answer_headers import AMDAnswerHeaders
         from ..models.call_flag import CallFlag
+        from ..models.call_flow import CallFlow
         from ..models.call_latency import CallLatency
         from ..models.call_quality import CallQuality
         from ..models.call_receipt import CallReceipt
@@ -607,6 +617,13 @@ class Call:
         else:
             flagged = CallFlag.from_dict(_flagged)
 
+        _flow = d.pop("flow", UNSET)
+        flow: CallFlow | Unset
+        if isinstance(_flow, Unset):
+            flow = UNSET
+        else:
+            flow = CallFlow.from_dict(_flow)
+
         from_e164 = d.pop("from_e164", UNSET)
 
         _hangup_by = d.pop("hangup_by", UNSET)
@@ -752,6 +769,7 @@ class Call:
             disclosure_played_at=disclosure_played_at,
             ended_at=ended_at,
             flagged=flagged,
+            flow=flow,
             from_e164=from_e164,
             hangup_by=hangup_by,
             latency=latency,
