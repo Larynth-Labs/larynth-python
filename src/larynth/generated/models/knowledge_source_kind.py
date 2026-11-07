@@ -1,8 +1,9 @@
 from typing import Literal
 
-KnowledgeSourceKind = Literal["file", "website"]
+KnowledgeSourceKind = Literal["faq", "file", "website"]
 
 KNOWLEDGE_SOURCE_KIND_VALUES: set[KnowledgeSourceKind] = {
+    "faq",
     "file",
     "website",
 }
