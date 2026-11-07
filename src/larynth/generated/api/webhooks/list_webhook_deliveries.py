@@ -21,6 +21,7 @@ def _get_kwargs(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListWebhookDeliveriesStatus | Unset = UNSET,
+    event_id: UUID | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -34,6 +35,11 @@ def _get_kwargs(
         json_status = status
 
     params["status"] = json_status
+
+    json_event_id: str | Unset = UNSET
+    if not isinstance(event_id, Unset):
+        json_event_id = str(event_id)
+    params["event_id"] = json_event_id
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -115,6 +121,7 @@ def sync_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListWebhookDeliveriesStatus | Unset = UNSET,
+    event_id: UUID | Unset = UNSET,
 ) -> Response[PageWebhookDelivery | Problem]:
     """List delivery attempts, newest first
 
@@ -123,6 +130,7 @@ def sync_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListWebhookDeliveriesStatus | Unset):
+        event_id (UUID | Unset): Attempts of one message
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,6 +145,7 @@ def sync_detailed(
         limit=limit,
         after=after,
         status=status,
+        event_id=event_id,
     )
 
     response = client.get_httpx_client().request(
@@ -153,6 +162,7 @@ def sync(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListWebhookDeliveriesStatus | Unset = UNSET,
+    event_id: UUID | Unset = UNSET,
 ) -> PageWebhookDelivery | Problem | None:
     """List delivery attempts, newest first
 
@@ -161,6 +171,7 @@ def sync(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListWebhookDeliveriesStatus | Unset):
+        event_id (UUID | Unset): Attempts of one message
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,6 +187,7 @@ def sync(
         limit=limit,
         after=after,
         status=status,
+        event_id=event_id,
     ).parsed
 
 
@@ -186,6 +198,7 @@ async def asyncio_detailed(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListWebhookDeliveriesStatus | Unset = UNSET,
+    event_id: UUID | Unset = UNSET,
 ) -> Response[PageWebhookDelivery | Problem]:
     """List delivery attempts, newest first
 
@@ -194,6 +207,7 @@ async def asyncio_detailed(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListWebhookDeliveriesStatus | Unset):
+        event_id (UUID | Unset): Attempts of one message
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -208,6 +222,7 @@ async def asyncio_detailed(
         limit=limit,
         after=after,
         status=status,
+        event_id=event_id,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -222,6 +237,7 @@ async def asyncio(
     limit: int | Unset = 50,
     after: str | Unset = UNSET,
     status: ListWebhookDeliveriesStatus | Unset = UNSET,
+    event_id: UUID | Unset = UNSET,
 ) -> PageWebhookDelivery | Problem | None:
     """List delivery attempts, newest first
 
@@ -230,6 +246,7 @@ async def asyncio(
         limit (int | Unset): Page size Default: 50.
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         status (ListWebhookDeliveriesStatus | Unset):
+        event_id (UUID | Unset): Attempts of one message
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -246,5 +263,6 @@ async def asyncio(
             limit=limit,
             after=after,
             status=status,
+            event_id=event_id,
         )
     ).parsed
