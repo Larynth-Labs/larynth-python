@@ -13,7 +13,8 @@ class KnowledgeHit:
     """
     Attributes:
         chunk_id (str):
-        score (float):
+        score (float): Rank-fusion score scaled to 0..1: 1 means every search leg ranked the hit first. Compare hits
+            within one response only
         source (str): Document name or page address
         text (str):
         topic (str):

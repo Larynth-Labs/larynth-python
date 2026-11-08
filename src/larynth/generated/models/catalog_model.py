@@ -38,6 +38,7 @@ class CatalogModel:
         provider_name (str):
         recommended (bool): The recommended model of its tier
         status (CatalogModelStatus):
+        usable_in_flows (bool): A flow step may pick this model (cascade LLMs only, at most 3 per flow)
         wire_rates (list[int]):
         description (str | Unset): Plain description written by Larynth
         tier (CatalogModelTier | Unset): Quality tier the editor shows by default; unset for models listed only under
@@ -59,6 +60,7 @@ class CatalogModel:
     provider_name: str
     recommended: bool
     status: CatalogModelStatus
+    usable_in_flows: bool
     wire_rates: list[int]
     description: str | Unset = UNSET
     tier: CatalogModelTier | Unset = UNSET
@@ -93,6 +95,8 @@ class CatalogModel:
 
         status: str = self.status
 
+        usable_in_flows = self.usable_in_flows
+
         wire_rates = self.wire_rates
 
         description = self.description
@@ -121,6 +125,7 @@ class CatalogModel:
                 "provider_name": provider_name,
                 "recommended": recommended,
                 "status": status,
+                "usable_in_flows": usable_in_flows,
                 "wire_rates": wire_rates,
             }
         )
@@ -167,6 +172,8 @@ class CatalogModel:
 
         status = check_catalog_model_status(d.pop("status"))
 
+        usable_in_flows = d.pop("usable_in_flows")
+
         wire_rates = cast(list[int], d.pop("wire_rates"))
 
         description = d.pop("description", UNSET)
@@ -195,6 +202,7 @@ class CatalogModel:
             provider_name=provider_name,
             recommended=recommended,
             status=status,
+            usable_in_flows=usable_in_flows,
             wire_rates=wire_rates,
             description=description,
             tier=tier,

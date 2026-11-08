@@ -3,10 +3,13 @@ from typing import Literal
 LedgerEntryKind = Literal[
     "adjustment",
     "auto_top_up",
+    "bundle_conversion",
+    "bundle_purchase",
     "hold",
     "number_rental",
     "promo",
     "refund",
+    "review_release",
     "settle",
     "top_up",
 ]
@@ -14,10 +17,13 @@ LedgerEntryKind = Literal[
 LEDGER_ENTRY_KIND_VALUES: set[LedgerEntryKind] = {
     "adjustment",
     "auto_top_up",
+    "bundle_conversion",
+    "bundle_purchase",
     "hold",
     "number_rental",
     "promo",
     "refund",
+    "review_release",
     "settle",
     "top_up",
 }

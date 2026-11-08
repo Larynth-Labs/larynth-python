@@ -7,6 +7,10 @@ from uuid import UUID
 
 from attrs import define as _attrs_define
 
+from ..models.assistant_draft_agent_type import (
+    AssistantDraftAgentType,
+    check_assistant_draft_agent_type,
+)
 from ..models.assistant_draft_mode import AssistantDraftMode, check_assistant_draft_mode
 from ..models.assistant_draft_transfer_fallback import (
     AssistantDraftTransferFallback,
@@ -29,6 +33,8 @@ if TYPE_CHECKING:
     from ..models.call_limits import CallLimits
     from ..models.disclosure_spec import DisclosureSpec
     from ..models.draft_warning import DraftWarning
+    from ..models.flow_spec import FlowSpec
+    from ..models.flow_validation_issue import FlowValidationIssue
     from ..models.guardrails_spec import GuardrailsSpec
     from ..models.interruption_profile import InterruptionProfile
     from ..models.latency_settings import LatencySettings
@@ -51,6 +57,7 @@ class AssistantDraft:
         created_by (str):
         greeting_text (str):
         id (UUID):
+        issues (list[FlowValidationIssue]): Flow problems; the draft saves anyway, errors block publish
         language (str):
         mode (AssistantDraftMode):
         revision (int):
@@ -58,11 +65,13 @@ class AssistantDraft:
         updated_at (datetime.datetime):
         version (int):
         warnings (list[DraftWarning]):
+        agent_type (AssistantDraftAgentType | Unset): Unset is single_prompt; flow needs mode cascade
         call_handling (CallHandling | Unset):
         call_limits (CallLimits | Unset):
         denoise (bool | Unset):
         disclosure (DisclosureSpec | Unset):
         fillers (list[str] | Unset):
+        flow (FlowSpec | Unset):
         guardrails (GuardrailsSpec | Unset):
         interruption_profile (InterruptionProfile | Unset):
         knowledge_base_ids (list[str] | Unset): Knowledge bases the assistant can search with the search_knowledge tool;
@@ -100,6 +109,7 @@ class AssistantDraft:
     created_by: str
     greeting_text: str
     id: UUID
+    issues: list[FlowValidationIssue]
     language: str
     mode: AssistantDraftMode
     revision: int
@@ -107,11 +117,13 @@ class AssistantDraft:
     updated_at: datetime.datetime
     version: int
     warnings: list[DraftWarning]
+    agent_type: AssistantDraftAgentType | Unset = UNSET
     call_handling: CallHandling | Unset = UNSET
     call_limits: CallLimits | Unset = UNSET
     denoise: bool | Unset = UNSET
     disclosure: DisclosureSpec | Unset = UNSET
     fillers: list[str] | Unset = UNSET
+    flow: FlowSpec | Unset = UNSET
     guardrails: GuardrailsSpec | Unset = UNSET
     interruption_profile: InterruptionProfile | Unset = UNSET
     knowledge_base_ids: list[str] | Unset = UNSET
@@ -151,6 +163,11 @@ class AssistantDraft:
 
         id = str(self.id)
 
+        issues = []
+        for issues_item_data in self.issues:
+            issues_item = issues_item_data.to_dict()
+            issues.append(issues_item)
+
         language = self.language
 
         mode: str = self.mode
@@ -167,6 +184,10 @@ class AssistantDraft:
         for warnings_item_data in self.warnings:
             warnings_item = warnings_item_data.to_dict()
             warnings.append(warnings_item)
+
+        agent_type: str | Unset = UNSET
+        if not isinstance(self.agent_type, Unset):
+            agent_type = self.agent_type
 
         call_handling: dict[str, Any] | Unset = UNSET
         if not isinstance(self.call_handling, Unset):
@@ -185,6 +206,10 @@ class AssistantDraft:
         fillers: list[str] | Unset = UNSET
         if not isinstance(self.fillers, Unset):
             fillers = self.fillers
+
+        flow: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.flow, Unset):
+            flow = self.flow.to_dict()
 
         guardrails: dict[str, Any] | Unset = UNSET
         if not isinstance(self.guardrails, Unset):
@@ -295,6 +320,7 @@ class AssistantDraft:
                 "created_by": created_by,
                 "greeting_text": greeting_text,
                 "id": id,
+                "issues": issues,
                 "language": language,
                 "mode": mode,
                 "revision": revision,
@@ -304,6 +330,8 @@ class AssistantDraft:
                 "warnings": warnings,
             }
         )
+        if agent_type is not UNSET:
+            field_dict["agent_type"] = agent_type
         if call_handling is not UNSET:
             field_dict["call_handling"] = call_handling
         if call_limits is not UNSET:
@@ -314,6 +342,8 @@ class AssistantDraft:
             field_dict["disclosure"] = disclosure
         if fillers is not UNSET:
             field_dict["fillers"] = fillers
+        if flow is not UNSET:
+            field_dict["flow"] = flow
         if guardrails is not UNSET:
             field_dict["guardrails"] = guardrails
         if interruption_profile is not UNSET:
@@ -381,6 +411,8 @@ class AssistantDraft:
         from ..models.call_limits import CallLimits
         from ..models.disclosure_spec import DisclosureSpec
         from ..models.draft_warning import DraftWarning
+        from ..models.flow_spec import FlowSpec
+        from ..models.flow_validation_issue import FlowValidationIssue
         from ..models.guardrails_spec import GuardrailsSpec
         from ..models.interruption_profile import InterruptionProfile
         from ..models.latency_settings import LatencySettings
@@ -401,6 +433,13 @@ class AssistantDraft:
 
         id = UUID(d.pop("id"))
 
+        issues = []
+        _issues = d.pop("issues")
+        for issues_item_data in _issues:
+            issues_item = FlowValidationIssue.from_dict(issues_item_data)
+
+            issues.append(issues_item)
+
         language = d.pop("language")
 
         mode = check_assistant_draft_mode(d.pop("mode"))
@@ -419,6 +458,13 @@ class AssistantDraft:
             warnings_item = DraftWarning.from_dict(warnings_item_data)
 
             warnings.append(warnings_item)
+
+        _agent_type = d.pop("agent_type", UNSET)
+        agent_type: AssistantDraftAgentType | Unset
+        if isinstance(_agent_type, Unset):
+            agent_type = UNSET
+        else:
+            agent_type = check_assistant_draft_agent_type(_agent_type)
 
         _call_handling = d.pop("call_handling", UNSET)
         call_handling: CallHandling | Unset
@@ -444,6 +490,13 @@ class AssistantDraft:
             disclosure = DisclosureSpec.from_dict(_disclosure)
 
         fillers = cast(list[str], d.pop("fillers", UNSET))
+
+        _flow = d.pop("flow", UNSET)
+        flow: FlowSpec | Unset
+        if isinstance(_flow, Unset):
+            flow = UNSET
+        else:
+            flow = FlowSpec.from_dict(_flow)
 
         _guardrails = d.pop("guardrails", UNSET)
         guardrails: GuardrailsSpec | Unset
@@ -606,6 +659,7 @@ class AssistantDraft:
             created_by=created_by,
             greeting_text=greeting_text,
             id=id,
+            issues=issues,
             language=language,
             mode=mode,
             revision=revision,
@@ -613,11 +667,13 @@ class AssistantDraft:
             updated_at=updated_at,
             version=version,
             warnings=warnings,
+            agent_type=agent_type,
             call_handling=call_handling,
             call_limits=call_limits,
             denoise=denoise,
             disclosure=disclosure,
             fillers=fillers,
+            flow=flow,
             guardrails=guardrails,
             interruption_profile=interruption_profile,
             knowledge_base_ids=knowledge_base_ids,
