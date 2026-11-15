@@ -6,6 +6,17 @@ from .add_spam_allow_request import AddSpamAllowRequest
 from .after_hours_target import AfterHoursTarget
 from .after_hours_target_mode import AfterHoursTargetMode
 from .amd_answer_headers import AMDAnswerHeaders
+from .analytics_agent import AnalyticsAgent
+from .analytics_agent_latency import AnalyticsAgentLatency
+from .analytics_agents import AnalyticsAgents
+from .analytics_latency import AnalyticsLatency
+from .analytics_latency_day import AnalyticsLatencyDay
+from .analytics_outcome_count import AnalyticsOutcomeCount
+from .analytics_outcomes import AnalyticsOutcomes
+from .analytics_usage import AnalyticsUsage
+from .analytics_usage_bucket import AnalyticsUsageBucket
+from .analytics_usage_day import AnalyticsUsageDay
+from .analytics_usage_split import AnalyticsUsageSplit
 from .answer_knowledge_gap_request import AnswerKnowledgeGapRequest
 from .area_code import AreaCode
 from .assistant import Assistant
@@ -336,6 +347,12 @@ from .flow_variable import FlowVariable
 from .forward_source import ForwardSource
 from .free_rule import FreeRule
 from .free_rule_params import FreeRuleParams
+from .get_analytics_agents_direction import GetAnalyticsAgentsDirection
+from .get_analytics_latency_direction import GetAnalyticsLatencyDirection
+from .get_analytics_latency_group_by import GetAnalyticsLatencyGroupBy
+from .get_analytics_outcomes_direction import GetAnalyticsOutcomesDirection
+from .get_analytics_usage_direction import GetAnalyticsUsageDirection
+from .get_analytics_usage_group_by import GetAnalyticsUsageGroupBy
 from .get_billing_usage_group_by import GetBillingUsageGroupBy
 from .get_calling_rules_purpose import GetCallingRulesPurpose
 from .get_calls_summary_billed import GetCallsSummaryBilled
@@ -679,6 +696,17 @@ __all__ = (
     "AddSpamAllowRequest",
     "AfterHoursTarget",
     "AfterHoursTargetMode",
+    "AnalyticsAgent",
+    "AnalyticsAgentLatency",
+    "AnalyticsAgents",
+    "AnalyticsLatency",
+    "AnalyticsLatencyDay",
+    "AnalyticsOutcomeCount",
+    "AnalyticsOutcomes",
+    "AnalyticsUsage",
+    "AnalyticsUsageBucket",
+    "AnalyticsUsageDay",
+    "AnalyticsUsageSplit",
     "AnswerKnowledgeGapRequest",
     "AreaCode",
     "Assistant",
@@ -1003,6 +1031,12 @@ __all__ = (
     "ForwardSource",
     "FreeRule",
     "FreeRuleParams",
+    "GetAnalyticsAgentsDirection",
+    "GetAnalyticsLatencyDirection",
+    "GetAnalyticsLatencyGroupBy",
+    "GetAnalyticsOutcomesDirection",
+    "GetAnalyticsUsageDirection",
+    "GetAnalyticsUsageGroupBy",
     "GetBillingUsageGroupBy",
     "GetCallingRulesPurpose",
     "GetCallsSummaryBilled",
