@@ -27,7 +27,8 @@ class OrderNumbersRequest:
         kind (OrderNumbersRequestKind):
         label (str | Unset):
         routing (RoutingPlan | Unset):
-        spam_screening (bool | Unset):
+        spam_screening (bool | Unset): Ignored. Spam calls are always answered and never billed; kept so older clients
+            still validate
     """
 
     items: list[OrderNumbersItem]
