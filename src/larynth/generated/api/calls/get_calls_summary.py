@@ -49,6 +49,7 @@ def _get_kwargs(
     flagged: bool | Unset = UNSET,
     tag: str | Unset = UNSET,
     sentiment: GetCallsSummarySentiment | Unset = UNSET,
+    would_have_missed: bool | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -134,6 +135,8 @@ def _get_kwargs(
         json_sentiment = sentiment
 
     params["sentiment"] = json_sentiment
+
+    params["would_have_missed"] = would_have_missed
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -221,6 +224,7 @@ def sync_detailed(
     flagged: bool | Unset = UNSET,
     tag: str | Unset = UNSET,
     sentiment: GetCallsSummarySentiment | Unset = UNSET,
+    would_have_missed: bool | Unset = UNSET,
 ) -> Response[CallsSummary | Problem]:
     """Totals for a call filter: counts, billed time, spend and not-billed split
 
@@ -242,6 +246,8 @@ def sync_detailed(
         flagged (bool | Unset): Only flagged calls
         tag (str | Unset):
         sentiment (GetCallsSummarySentiment | Unset):
+        would_have_missed (bool | Unset): Only calls the owner would have missed: after hours,
+            holiday, or forwarded when busy or unanswered
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -269,6 +275,7 @@ def sync_detailed(
         flagged=flagged,
         tag=tag,
         sentiment=sentiment,
+        would_have_missed=would_have_missed,
     )
 
     response = client.get_httpx_client().request(
@@ -298,6 +305,7 @@ def sync(
     flagged: bool | Unset = UNSET,
     tag: str | Unset = UNSET,
     sentiment: GetCallsSummarySentiment | Unset = UNSET,
+    would_have_missed: bool | Unset = UNSET,
 ) -> CallsSummary | Problem | None:
     """Totals for a call filter: counts, billed time, spend and not-billed split
 
@@ -319,6 +327,8 @@ def sync(
         flagged (bool | Unset): Only flagged calls
         tag (str | Unset):
         sentiment (GetCallsSummarySentiment | Unset):
+        would_have_missed (bool | Unset): Only calls the owner would have missed: after hours,
+            holiday, or forwarded when busy or unanswered
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -347,6 +357,7 @@ def sync(
         flagged=flagged,
         tag=tag,
         sentiment=sentiment,
+        would_have_missed=would_have_missed,
     ).parsed
 
 
@@ -370,6 +381,7 @@ async def asyncio_detailed(
     flagged: bool | Unset = UNSET,
     tag: str | Unset = UNSET,
     sentiment: GetCallsSummarySentiment | Unset = UNSET,
+    would_have_missed: bool | Unset = UNSET,
 ) -> Response[CallsSummary | Problem]:
     """Totals for a call filter: counts, billed time, spend and not-billed split
 
@@ -391,6 +403,8 @@ async def asyncio_detailed(
         flagged (bool | Unset): Only flagged calls
         tag (str | Unset):
         sentiment (GetCallsSummarySentiment | Unset):
+        would_have_missed (bool | Unset): Only calls the owner would have missed: after hours,
+            holiday, or forwarded when busy or unanswered
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -418,6 +432,7 @@ async def asyncio_detailed(
         flagged=flagged,
         tag=tag,
         sentiment=sentiment,
+        would_have_missed=would_have_missed,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -445,6 +460,7 @@ async def asyncio(
     flagged: bool | Unset = UNSET,
     tag: str | Unset = UNSET,
     sentiment: GetCallsSummarySentiment | Unset = UNSET,
+    would_have_missed: bool | Unset = UNSET,
 ) -> CallsSummary | Problem | None:
     """Totals for a call filter: counts, billed time, spend and not-billed split
 
@@ -466,6 +482,8 @@ async def asyncio(
         flagged (bool | Unset): Only flagged calls
         tag (str | Unset):
         sentiment (GetCallsSummarySentiment | Unset):
+        would_have_missed (bool | Unset): Only calls the owner would have missed: after hours,
+            holiday, or forwarded when busy or unanswered
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -495,5 +513,6 @@ async def asyncio(
             flagged=flagged,
             tag=tag,
             sentiment=sentiment,
+            would_have_missed=would_have_missed,
         )
     ).parsed

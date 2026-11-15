@@ -1,12 +1,16 @@
 from typing import Literal
 
-ExtractionFieldType = Literal["boolean", "date", "enum", "number", "string"]
+ExtractionFieldType = Literal[
+    "boolean", "date", "email", "enum", "number", "phone", "string"
+]
 
 EXTRACTION_FIELD_TYPE_VALUES: set[ExtractionFieldType] = {
     "boolean",
     "date",
+    "email",
     "enum",
     "number",
+    "phone",
     "string",
 }
 

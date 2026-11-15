@@ -54,7 +54,7 @@ class Number:
         schedule_summary (ScheduleSummary | Unset):
         sip_trunk_id (UUID | Unset):
         source (NumberSource | Unset): byo_sip numbers answer inbound only and never act as caller ID
-        spam_screening (bool | Unset):
+        spam_screening (bool | Unset): Deprecated; always ignored
         usage (NumberUsage | Unset):
         verification (NumberVerification | Unset):
     """

@@ -24,7 +24,8 @@ class NumberRouting:
             line callers reach while the agent is paused
         label (str | Unset): Name shown in the Line column; empty clears it
         route_type (NumberRoutingRouteType | Unset):
-        spam_screening (bool | Unset): Screen inbound calls for spam; flagged calls are not billed
+        spam_screening (bool | Unset): Ignored. Spam calls are always answered and never billed; kept so older clients
+            still validate
     """
 
     assistant_id: UUID | Unset = UNSET
