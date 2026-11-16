@@ -10,6 +10,7 @@ RateKind = Literal[
     "number_month_toll_free",
     "premium_model",
     "premium_voice",
+    "rnd_check",
     "transfer_minute",
 ]
 
@@ -23,6 +24,7 @@ RATE_KIND_VALUES: set[RateKind] = {
     "number_month_toll_free",
     "premium_model",
     "premium_voice",
+    "rnd_check",
     "transfer_minute",
 }
 

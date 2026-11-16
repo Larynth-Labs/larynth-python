@@ -11,6 +11,7 @@ StatementLineKind = Literal[
     "free_credit",
     "number_rental",
     "refund",
+    "rnd_checks",
     "top_up",
 ]
 
@@ -25,6 +26,7 @@ STATEMENT_LINE_KIND_VALUES: set[StatementLineKind] = {
     "free_credit",
     "number_rental",
     "refund",
+    "rnd_checks",
     "top_up",
 }
 

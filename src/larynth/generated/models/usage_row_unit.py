@@ -1,11 +1,12 @@
 from typing import Literal
 
-UsageRowUnit = Literal["brand_month", "call", "minute", "number_month"]
+UsageRowUnit = Literal["brand_month", "call", "minute", "number_check", "number_month"]
 
 USAGE_ROW_UNIT_VALUES: set[UsageRowUnit] = {
     "brand_month",
     "call",
     "minute",
+    "number_check",
     "number_month",
 }
 

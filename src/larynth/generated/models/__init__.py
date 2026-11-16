@@ -1,11 +1,51 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .accept_knowledge_gap_draft_request import AcceptKnowledgeGapDraftRequest
 from .add_campaign_contacts_request import AddCampaignContactsRequest
 from .add_campaign_contacts_result import AddCampaignContactsResult
+from .add_issue_note_request import AddIssueNoteRequest
 from .add_spam_allow_request import AddSpamAllowRequest
 from .after_hours_target import AfterHoursTarget
 from .after_hours_target_mode import AfterHoursTargetMode
+from .alert_clause import AlertClause
+from .alert_clause_op import AlertClauseOp
+from .alert_condition import AlertCondition
+from .alert_delivery import AlertDelivery
+from .alert_delivery_channel import AlertDeliveryChannel
+from .alert_delivery_status import AlertDeliveryStatus
+from .alert_firing import AlertFiring
+from .alert_firing_state import AlertFiringState
+from .alert_firing_trigger import AlertFiringTrigger
+from .alert_match import AlertMatch
+from .alert_rule import AlertRule
+from .alert_rule_channels_item import AlertRuleChannelsItem
+from .alert_rule_create import AlertRuleCreate
+from .alert_rule_create_channels_item import AlertRuleCreateChannelsItem
+from .alert_rule_create_directions_item import AlertRuleCreateDirectionsItem
+from .alert_rule_create_preset import AlertRuleCreatePreset
+from .alert_rule_create_recipient_roles_item import AlertRuleCreateRecipientRolesItem
+from .alert_rule_create_trigger import AlertRuleCreateTrigger
+from .alert_rule_directions_item import AlertRuleDirectionsItem
+from .alert_rule_inactive_channels_item import AlertRuleInactiveChannelsItem
+from .alert_rule_preset import AlertRulePreset
+from .alert_rule_recipient_roles_item import AlertRuleRecipientRolesItem
+from .alert_rule_trigger import AlertRuleTrigger
+from .alert_rule_update import AlertRuleUpdate
+from .alert_rule_update_channels_item import AlertRuleUpdateChannelsItem
+from .alert_rule_update_directions_item import AlertRuleUpdateDirectionsItem
+from .alert_rule_update_recipient_roles_item import AlertRuleUpdateRecipientRolesItem
 from .amd_answer_headers import AMDAnswerHeaders
+from .analytics_agent import AnalyticsAgent
+from .analytics_agent_latency import AnalyticsAgentLatency
+from .analytics_agents import AnalyticsAgents
+from .analytics_latency import AnalyticsLatency
+from .analytics_latency_day import AnalyticsLatencyDay
+from .analytics_outcome_count import AnalyticsOutcomeCount
+from .analytics_outcomes import AnalyticsOutcomes
+from .analytics_usage import AnalyticsUsage
+from .analytics_usage_bucket import AnalyticsUsageBucket
+from .analytics_usage_day import AnalyticsUsageDay
+from .analytics_usage_split import AnalyticsUsageSplit
 from .answer_knowledge_gap_request import AnswerKnowledgeGapRequest
 from .area_code import AreaCode
 from .assistant import Assistant
@@ -97,9 +137,13 @@ from .call_amd_verdict import CallAmdVerdict
 from .call_analysis import CallAnalysis
 from .call_analysis_data import CallAnalysisData
 from .call_analysis_outcome import CallAnalysisOutcome
+from .call_analysis_rerun import CallAnalysisRerun
+from .call_analysis_rerun_state import CallAnalysisRerunState
 from .call_analysis_sentiment import CallAnalysisSentiment
+from .call_analysis_state import CallAnalysisState
 from .call_attestation import CallAttestation
 from .call_codec import CallCodec
+from .call_coverage import CallCoverage
 from .call_direction import CallDirection
 from .call_event import CallEvent
 from .call_event_kind import CallEventKind
@@ -136,6 +180,11 @@ from .call_recording_info_deleted_reason import CallRecordingInfoDeletedReason
 from .call_recording_info_state import CallRecordingInfoState
 from .call_sentiment import CallSentiment
 from .call_status import CallStatus
+from .call_text import CallText
+from .call_text_direction import CallTextDirection
+from .call_text_kind import CallTextKind
+from .call_text_skip_reason import CallTextSkipReason
+from .call_text_status import CallTextStatus
 from .call_transfer import CallTransfer
 from .call_transfer_mode import CallTransferMode
 from .call_turn import CallTurn
@@ -275,6 +324,8 @@ from .create_dnc_request import CreateDNCRequest
 from .create_knowledge_base_request import CreateKnowledgeBaseRequest
 from .create_knowledge_faq_source_request import CreateKnowledgeFaqSourceRequest
 from .create_knowledge_file_source_body import CreateKnowledgeFileSourceBody
+from .create_practice_run_input_body import CreatePracticeRunInputBody
+from .create_practice_run_input_body_target import CreatePracticeRunInputBodyTarget
 from .create_revocation_request import CreateRevocationRequest
 from .create_revocation_request_channel import CreateRevocationRequestChannel
 from .create_web_call_request import CreateWebCallRequest
@@ -336,6 +387,13 @@ from .flow_variable import FlowVariable
 from .forward_source import ForwardSource
 from .free_rule import FreeRule
 from .free_rule_params import FreeRuleParams
+from .generate_practice_tests_input_body import GeneratePracticeTestsInputBody
+from .get_analytics_agents_direction import GetAnalyticsAgentsDirection
+from .get_analytics_latency_direction import GetAnalyticsLatencyDirection
+from .get_analytics_latency_group_by import GetAnalyticsLatencyGroupBy
+from .get_analytics_outcomes_direction import GetAnalyticsOutcomesDirection
+from .get_analytics_usage_direction import GetAnalyticsUsageDirection
+from .get_analytics_usage_group_by import GetAnalyticsUsageGroupBy
 from .get_billing_usage_group_by import GetBillingUsageGroupBy
 from .get_calling_rules_purpose import GetCallingRulesPurpose
 from .get_calls_summary_billed import GetCallsSummaryBilled
@@ -357,6 +415,7 @@ from .holiday_date import HolidayDate
 from .holiday_settings import HolidaySettings
 from .holiday_settings_calendar import HolidaySettingsCalendar
 from .hours_band import HoursBand
+from .human_route import HumanRoute
 from .ice_server import ICEServer
 from .ice_servers import ICEServers
 from .import_column_mapping import ImportColumnMapping
@@ -372,6 +431,25 @@ from .integration_provider_auth import IntegrationProviderAuth
 from .integration_provider_kind import IntegrationProviderKind
 from .integration_provider_status import IntegrationProviderStatus
 from .interruption_profile import InterruptionProfile
+from .issue import Issue
+from .issue_action import IssueAction
+from .issue_action_key import IssueActionKey
+from .issue_assignee import IssueAssignee
+from .issue_detail import IssueDetail
+from .issue_event import IssueEvent
+from .issue_event_data import IssueEventData
+from .issue_event_type import IssueEventType
+from .issue_kind import IssueKind
+from .issue_latest import IssueLatest
+from .issue_latest_evidence import IssueLatestEvidence
+from .issue_occurrence import IssueOccurrence
+from .issue_occurrence_evidence import IssueOccurrenceEvidence
+from .issue_ref import IssueRef
+from .issue_ref_type import IssueRefType
+from .issue_resolution import IssueResolution
+from .issue_status import IssueStatus
+from .issues_summary import IssuesSummary
+from .issues_summary_by_kind import IssuesSummaryByKind
 from .knowledge_base import KnowledgeBase
 from .knowledge_base_status import KnowledgeBaseStatus
 from .knowledge_base_use import KnowledgeBaseUse
@@ -381,6 +459,8 @@ from .knowledge_faq_source import KnowledgeFaqSource
 from .knowledge_faq_source_kind import KnowledgeFaqSourceKind
 from .knowledge_faq_source_status import KnowledgeFaqSourceStatus
 from .knowledge_gap import KnowledgeGap
+from .knowledge_gap_draft_source import KnowledgeGapDraftSource
+from .knowledge_gap_draft_status import KnowledgeGapDraftStatus
 from .knowledge_gap_state import KnowledgeGapState
 from .knowledge_hit import KnowledgeHit
 from .knowledge_limits import KnowledgeLimits
@@ -399,6 +479,7 @@ from .ledger_entry_account import LedgerEntryAccount
 from .ledger_entry_kind import LedgerEntryKind
 from .left_out_contact import LeftOutContact
 from .left_out_contact_reason import LeftOutContactReason
+from .list_alert_rules_trigger import ListAlertRulesTrigger
 from .list_area_code import ListAreaCode
 from .list_assistants_state import ListAssistantsState
 from .list_assistants_status import ListAssistantsStatus
@@ -428,6 +509,8 @@ from .list_dnc_source import ListDncSource
 from .list_guardrail_built_in import ListGuardrailBuiltIn
 from .list_holiday_calendar import ListHolidayCalendar
 from .list_integration_provider import ListIntegrationProvider
+from .list_issues_sort import ListIssuesSort
+from .list_issues_status import ListIssuesStatus
 from .list_knowledge_gaps_state import ListKnowledgeGapsState
 from .list_ledger_account import ListLedgerAccount
 from .list_ledger_kind import ListLedgerKind
@@ -437,6 +520,7 @@ from .list_numbers_kind import ListNumbersKind
 from .list_numbers_status import ListNumbersStatus
 from .list_payments_kind import ListPaymentsKind
 from .list_payments_status import ListPaymentsStatus
+from .list_practice_results_state import ListPracticeResultsState
 from .list_revocations_channel import ListRevocationsChannel
 from .list_spam_allow import ListSpamAllow
 from .list_statement_lines_group import ListStatementLinesGroup
@@ -451,6 +535,9 @@ from .live_call_flag_kind import LiveCallFlagKind
 from .live_call_line import LiveCallLine
 from .live_call_line_speaker import LiveCallLineSpeaker
 from .live_call_status import LiveCallStatus
+from .live_call_supervisor import LiveCallSupervisor
+from .live_call_supervisor_mode import LiveCallSupervisorMode
+from .live_call_supervisor_phase import LiveCallSupervisorPhase
 from .live_calls import LiveCalls
 from .mcp_auth import McpAuth
 from .mcp_auth_kind import McpAuthKind
@@ -487,6 +574,8 @@ from .order_numbers_item import OrderNumbersItem
 from .order_numbers_request import OrderNumbersRequest
 from .order_numbers_request_kind import OrderNumbersRequestKind
 from .order_numbers_result import OrderNumbersResult
+from .page_alert_firing import PageAlertFiring
+from .page_alert_rule import PageAlertRule
 from .page_assistant import PageAssistant
 from .page_assistant_publish import PageAssistantPublish
 from .page_assistant_version import PageAssistantVersion
@@ -494,6 +583,7 @@ from .page_available_number import PageAvailableNumber
 from .page_blocked_caller import PageBlockedCaller
 from .page_booking import PageBooking
 from .page_call_event import PageCallEvent
+from .page_call_text import PageCallText
 from .page_call_turn import PageCallTurn
 from .page_campaign_contact import PageCampaignContact
 from .page_campaign_event import PageCampaignEvent
@@ -504,6 +594,9 @@ from .page_consent import PageConsent
 from .page_contact_import import PageContactImport
 from .page_dnc_check import PageDncCheck
 from .page_dnc_entry import PageDNCEntry
+from .page_issue import PageIssue
+from .page_issue_event import PageIssueEvent
+from .page_issue_occurrence import PageIssueOccurrence
 from .page_knowledge_base import PageKnowledgeBase
 from .page_knowledge_document import PageKnowledgeDocument
 from .page_knowledge_gap import PageKnowledgeGap
@@ -511,6 +604,9 @@ from .page_knowledge_source import PageKnowledgeSource
 from .page_ledger_entry import PageLedgerEntry
 from .page_number import PageNumber
 from .page_payment import PagePayment
+from .page_practice_result import PagePracticeResult
+from .page_practice_run import PagePracticeRun
+from .page_practice_test import PagePracticeTest
 from .page_rate import PageRate
 from .page_recording import PageRecording
 from .page_revocation import PageRevocation
@@ -528,6 +624,29 @@ from .payment_method_used_by_item import PaymentMethodUsedByItem
 from .payment_status import PaymentStatus
 from .platform_spend_caps import PlatformSpendCaps
 from .post_call_settings import PostCallSettings
+from .practice_check import PracticeCheck
+from .practice_check_result import PracticeCheckResult
+from .practice_check_type import PracticeCheckType
+from .practice_result import PracticeResult
+from .practice_result_state import PracticeResultState
+from .practice_run import PracticeRun
+from .practice_run_detail import PracticeRunDetail
+from .practice_run_detail_state import PracticeRunDetailState
+from .practice_run_detail_target import PracticeRunDetailTarget
+from .practice_run_state import PracticeRunState
+from .practice_run_target import PracticeRunTarget
+from .practice_summary import PracticeSummary
+from .practice_test import PracticeTest
+from .practice_test_body import PracticeTestBody
+from .practice_test_list import PracticeTestList
+from .practice_test_outcome import PracticeTestOutcome
+from .practice_test_outcome_outcome import PracticeTestOutcomeOutcome
+from .practice_test_source import PracticeTestSource
+from .practice_tool_call import PracticeToolCall
+from .practice_tool_call_args import PracticeToolCallArgs
+from .practice_totals import PracticeTotals
+from .practice_turn import PracticeTurn
+from .practice_turn_speaker import PracticeTurnSpeaker
 from .preflight_check import PreflightCheck
 from .preflight_check_code import PreflightCheckCode
 from .preflight_check_params import PreflightCheckParams
@@ -621,9 +740,13 @@ from .update_campaign_request_purpose import UpdateCampaignRequestPurpose
 from .update_contact_request import UpdateContactRequest
 from .update_contact_request_attributes import UpdateContactRequestAttributes
 from .update_contact_request_relationship import UpdateContactRequestRelationship
+from .update_issue_request import UpdateIssueRequest
+from .update_issue_request_resolution import UpdateIssueRequestResolution
+from .update_issue_request_status import UpdateIssueRequestStatus
 from .update_knowledge_base_request import UpdateKnowledgeBaseRequest
 from .update_knowledge_document_request import UpdateKnowledgeDocumentRequest
 from .update_knowledge_faq_source_request import UpdateKnowledgeFaqSourceRequest
+from .update_practice_test_input_body import UpdatePracticeTestInputBody
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
@@ -674,11 +797,51 @@ from .workspace_tool_status import WorkspaceToolStatus
 
 __all__ = (
     "AMDAnswerHeaders",
+    "AcceptKnowledgeGapDraftRequest",
     "AddCampaignContactsRequest",
     "AddCampaignContactsResult",
+    "AddIssueNoteRequest",
     "AddSpamAllowRequest",
     "AfterHoursTarget",
     "AfterHoursTargetMode",
+    "AlertClause",
+    "AlertClauseOp",
+    "AlertCondition",
+    "AlertDelivery",
+    "AlertDeliveryChannel",
+    "AlertDeliveryStatus",
+    "AlertFiring",
+    "AlertFiringState",
+    "AlertFiringTrigger",
+    "AlertMatch",
+    "AlertRule",
+    "AlertRuleChannelsItem",
+    "AlertRuleCreate",
+    "AlertRuleCreateChannelsItem",
+    "AlertRuleCreateDirectionsItem",
+    "AlertRuleCreatePreset",
+    "AlertRuleCreateRecipientRolesItem",
+    "AlertRuleCreateTrigger",
+    "AlertRuleDirectionsItem",
+    "AlertRuleInactiveChannelsItem",
+    "AlertRulePreset",
+    "AlertRuleRecipientRolesItem",
+    "AlertRuleTrigger",
+    "AlertRuleUpdate",
+    "AlertRuleUpdateChannelsItem",
+    "AlertRuleUpdateDirectionsItem",
+    "AlertRuleUpdateRecipientRolesItem",
+    "AnalyticsAgent",
+    "AnalyticsAgentLatency",
+    "AnalyticsAgents",
+    "AnalyticsLatency",
+    "AnalyticsLatencyDay",
+    "AnalyticsOutcomeCount",
+    "AnalyticsOutcomes",
+    "AnalyticsUsage",
+    "AnalyticsUsageBucket",
+    "AnalyticsUsageDay",
+    "AnalyticsUsageSplit",
     "AnswerKnowledgeGapRequest",
     "AreaCode",
     "Assistant",
@@ -768,9 +931,13 @@ __all__ = (
     "CallAnalysis",
     "CallAnalysisData",
     "CallAnalysisOutcome",
+    "CallAnalysisRerun",
+    "CallAnalysisRerunState",
     "CallAnalysisSentiment",
+    "CallAnalysisState",
     "CallAttestation",
     "CallCodec",
+    "CallCoverage",
     "CallDirection",
     "CallEvent",
     "CallEventKind",
@@ -807,6 +974,11 @@ __all__ = (
     "CallRecordingInfoState",
     "CallSentiment",
     "CallStatus",
+    "CallText",
+    "CallTextDirection",
+    "CallTextKind",
+    "CallTextSkipReason",
+    "CallTextStatus",
     "CallTransfer",
     "CallTransferMode",
     "CallTurn",
@@ -942,6 +1114,8 @@ __all__ = (
     "CreateKnowledgeBaseRequest",
     "CreateKnowledgeFaqSourceRequest",
     "CreateKnowledgeFileSourceBody",
+    "CreatePracticeRunInputBody",
+    "CreatePracticeRunInputBodyTarget",
     "CreateRevocationRequest",
     "CreateRevocationRequestChannel",
     "CreateWebCallRequest",
@@ -1003,6 +1177,13 @@ __all__ = (
     "ForwardSource",
     "FreeRule",
     "FreeRuleParams",
+    "GeneratePracticeTestsInputBody",
+    "GetAnalyticsAgentsDirection",
+    "GetAnalyticsLatencyDirection",
+    "GetAnalyticsLatencyGroupBy",
+    "GetAnalyticsOutcomesDirection",
+    "GetAnalyticsUsageDirection",
+    "GetAnalyticsUsageGroupBy",
     "GetBillingUsageGroupBy",
     "GetCallingRulesPurpose",
     "GetCallsSummaryBilled",
@@ -1024,6 +1205,7 @@ __all__ = (
     "HolidaySettings",
     "HolidaySettingsCalendar",
     "HoursBand",
+    "HumanRoute",
     "ICEServer",
     "ICEServers",
     "ImportColumnMapping",
@@ -1039,6 +1221,25 @@ __all__ = (
     "IntegrationProviderKind",
     "IntegrationProviderStatus",
     "InterruptionProfile",
+    "Issue",
+    "IssueAction",
+    "IssueActionKey",
+    "IssueAssignee",
+    "IssueDetail",
+    "IssueEvent",
+    "IssueEventData",
+    "IssueEventType",
+    "IssueKind",
+    "IssueLatest",
+    "IssueLatestEvidence",
+    "IssueOccurrence",
+    "IssueOccurrenceEvidence",
+    "IssueRef",
+    "IssueRefType",
+    "IssueResolution",
+    "IssueStatus",
+    "IssuesSummary",
+    "IssuesSummaryByKind",
     "KnowledgeBase",
     "KnowledgeBaseStatus",
     "KnowledgeBaseUse",
@@ -1048,6 +1249,8 @@ __all__ = (
     "KnowledgeFaqSourceKind",
     "KnowledgeFaqSourceStatus",
     "KnowledgeGap",
+    "KnowledgeGapDraftSource",
+    "KnowledgeGapDraftStatus",
     "KnowledgeGapState",
     "KnowledgeHit",
     "KnowledgeLimits",
@@ -1066,6 +1269,7 @@ __all__ = (
     "LedgerEntryKind",
     "LeftOutContact",
     "LeftOutContactReason",
+    "ListAlertRulesTrigger",
     "ListAreaCode",
     "ListAssistantsState",
     "ListAssistantsStatus",
@@ -1095,6 +1299,8 @@ __all__ = (
     "ListGuardrailBuiltIn",
     "ListHolidayCalendar",
     "ListIntegrationProvider",
+    "ListIssuesSort",
+    "ListIssuesStatus",
     "ListKnowledgeGapsState",
     "ListLedgerAccount",
     "ListLedgerKind",
@@ -1104,6 +1310,7 @@ __all__ = (
     "ListNumbersStatus",
     "ListPaymentsKind",
     "ListPaymentsStatus",
+    "ListPracticeResultsState",
     "ListRevocationsChannel",
     "ListSpamAllow",
     "ListStatementLinesGroup",
@@ -1118,6 +1325,9 @@ __all__ = (
     "LiveCallLine",
     "LiveCallLineSpeaker",
     "LiveCallStatus",
+    "LiveCallSupervisor",
+    "LiveCallSupervisorMode",
+    "LiveCallSupervisorPhase",
     "LiveCalls",
     "McpAuth",
     "McpAuthKind",
@@ -1154,6 +1364,8 @@ __all__ = (
     "OrderNumbersRequest",
     "OrderNumbersRequestKind",
     "OrderNumbersResult",
+    "PageAlertFiring",
+    "PageAlertRule",
     "PageAssistant",
     "PageAssistantPublish",
     "PageAssistantVersion",
@@ -1161,6 +1373,7 @@ __all__ = (
     "PageBlockedCaller",
     "PageBooking",
     "PageCallEvent",
+    "PageCallText",
     "PageCallTurn",
     "PageCampaignContact",
     "PageCampaignEvent",
@@ -1171,6 +1384,9 @@ __all__ = (
     "PageContactImport",
     "PageDNCEntry",
     "PageDncCheck",
+    "PageIssue",
+    "PageIssueEvent",
+    "PageIssueOccurrence",
     "PageKnowledgeBase",
     "PageKnowledgeDocument",
     "PageKnowledgeGap",
@@ -1178,6 +1394,9 @@ __all__ = (
     "PageLedgerEntry",
     "PageNumber",
     "PagePayment",
+    "PagePracticeResult",
+    "PagePracticeRun",
+    "PagePracticeTest",
     "PageRate",
     "PageRecording",
     "PageRevocation",
@@ -1195,6 +1414,29 @@ __all__ = (
     "PaymentStatus",
     "PlatformSpendCaps",
     "PostCallSettings",
+    "PracticeCheck",
+    "PracticeCheckResult",
+    "PracticeCheckType",
+    "PracticeResult",
+    "PracticeResultState",
+    "PracticeRun",
+    "PracticeRunDetail",
+    "PracticeRunDetailState",
+    "PracticeRunDetailTarget",
+    "PracticeRunState",
+    "PracticeRunTarget",
+    "PracticeSummary",
+    "PracticeTest",
+    "PracticeTestBody",
+    "PracticeTestList",
+    "PracticeTestOutcome",
+    "PracticeTestOutcomeOutcome",
+    "PracticeTestSource",
+    "PracticeToolCall",
+    "PracticeToolCallArgs",
+    "PracticeTotals",
+    "PracticeTurn",
+    "PracticeTurnSpeaker",
     "PreflightCheck",
     "PreflightCheckCode",
     "PreflightCheckParams",
@@ -1286,9 +1528,13 @@ __all__ = (
     "UpdateContactRequest",
     "UpdateContactRequestAttributes",
     "UpdateContactRequestRelationship",
+    "UpdateIssueRequest",
+    "UpdateIssueRequestResolution",
+    "UpdateIssueRequestStatus",
     "UpdateKnowledgeBaseRequest",
     "UpdateKnowledgeDocumentRequest",
     "UpdateKnowledgeFaqSourceRequest",
+    "UpdatePracticeTestInputBody",
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",

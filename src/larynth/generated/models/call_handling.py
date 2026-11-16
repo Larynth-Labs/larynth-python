@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -27,6 +27,10 @@ from ..models.call_handling_voicemail_action import (
 )
 from ..types import UNSET, Unset
 
+if TYPE_CHECKING:
+    from ..models.human_route import HumanRoute
+
+
 T = TypeVar("T", bound="CallHandling")
 
 
@@ -42,12 +46,15 @@ class CallHandling:
         dtmf_max_digits (int | Unset): An entry also ends at this many digits; 0 is no limit
         dtmf_wait_ms (int | Unset): An entry also ends this long after the last key. Unset is 3000
         end_on_goodbye (bool | Unset):
+        human_route (HumanRoute | Unset):
         idle_reminder (bool | Unset): Ask once whether the caller is still there before the silence hang-up. Unset is on
         ivr_goal (str | Unset): What the agent tries to reach in a phone menu, for example billing
         ivr_navigation (bool | Unset): Navigate phone menus on outbound calls, with at most 2 minutes in menus and 3
             minutes on hold; the call ends as no_resolution with label phone_menu when the menu cannot be passed. Unset is
             off
         max_reply (CallHandlingMaxReply | Unset):
+        message_read_back (bool | Unset): When the agent takes a message, it reads the name, callback number and message
+            back before closing and fixes anything the caller corrects. Unset is off
         recording (bool | Unset): Record calls of this agent. Unset is on; off still keeps transcripts and the caller
             hears that the call may be transcribed
         silence_end_s (CallHandlingSilenceEndS | Unset): End the call after this much caller silence. Unset is 30
@@ -65,10 +72,12 @@ class CallHandling:
     dtmf_max_digits: int | Unset = UNSET
     dtmf_wait_ms: int | Unset = UNSET
     end_on_goodbye: bool | Unset = UNSET
+    human_route: HumanRoute | Unset = UNSET
     idle_reminder: bool | Unset = UNSET
     ivr_goal: str | Unset = UNSET
     ivr_navigation: bool | Unset = UNSET
     max_reply: CallHandlingMaxReply | Unset = UNSET
+    message_read_back: bool | Unset = UNSET
     recording: bool | Unset = UNSET
     silence_end_s: CallHandlingSilenceEndS | Unset = UNSET
     voicemail_action: CallHandlingVoicemailAction | Unset = UNSET
@@ -92,6 +101,10 @@ class CallHandling:
 
         end_on_goodbye = self.end_on_goodbye
 
+        human_route: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.human_route, Unset):
+            human_route = self.human_route.to_dict()
+
         idle_reminder = self.idle_reminder
 
         ivr_goal = self.ivr_goal
@@ -101,6 +114,8 @@ class CallHandling:
         max_reply: str | Unset = UNSET
         if not isinstance(self.max_reply, Unset):
             max_reply = self.max_reply
+
+        message_read_back = self.message_read_back
 
         recording = self.recording
 
@@ -131,6 +146,8 @@ class CallHandling:
             field_dict["dtmf_wait_ms"] = dtmf_wait_ms
         if end_on_goodbye is not UNSET:
             field_dict["end_on_goodbye"] = end_on_goodbye
+        if human_route is not UNSET:
+            field_dict["human_route"] = human_route
         if idle_reminder is not UNSET:
             field_dict["idle_reminder"] = idle_reminder
         if ivr_goal is not UNSET:
@@ -139,6 +156,8 @@ class CallHandling:
             field_dict["ivr_navigation"] = ivr_navigation
         if max_reply is not UNSET:
             field_dict["max_reply"] = max_reply
+        if message_read_back is not UNSET:
+            field_dict["message_read_back"] = message_read_back
         if recording is not UNSET:
             field_dict["recording"] = recording
         if silence_end_s is not UNSET:
@@ -154,6 +173,8 @@ class CallHandling:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.human_route import HumanRoute
+
         d = dict(src_dict)
         _ambient_sound = d.pop("ambient_sound", UNSET)
         ambient_sound: CallHandlingAmbientSound | Unset
@@ -177,6 +198,13 @@ class CallHandling:
 
         end_on_goodbye = d.pop("end_on_goodbye", UNSET)
 
+        _human_route = d.pop("human_route", UNSET)
+        human_route: HumanRoute | Unset
+        if isinstance(_human_route, Unset):
+            human_route = UNSET
+        else:
+            human_route = HumanRoute.from_dict(_human_route)
+
         idle_reminder = d.pop("idle_reminder", UNSET)
 
         ivr_goal = d.pop("ivr_goal", UNSET)
@@ -189,6 +217,8 @@ class CallHandling:
             max_reply = UNSET
         else:
             max_reply = check_call_handling_max_reply(_max_reply)
+
+        message_read_back = d.pop("message_read_back", UNSET)
 
         recording = d.pop("recording", UNSET)
 
@@ -217,10 +247,12 @@ class CallHandling:
             dtmf_max_digits=dtmf_max_digits,
             dtmf_wait_ms=dtmf_wait_ms,
             end_on_goodbye=end_on_goodbye,
+            human_route=human_route,
             idle_reminder=idle_reminder,
             ivr_goal=ivr_goal,
             ivr_navigation=ivr_navigation,
             max_reply=max_reply,
+            message_read_back=message_read_back,
             recording=recording,
             silence_end_s=silence_end_s,
             voicemail_action=voicemail_action,
