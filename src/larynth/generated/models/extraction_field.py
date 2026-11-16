@@ -19,7 +19,8 @@ class ExtractionField:
     """
     Attributes:
         name (str):
-        type_ (ExtractionFieldType):
+        type_ (ExtractionFieldType): phone is normalised to E.164 and email is lower-cased; either is null when the call
+            has no valid value
         description (str | Unset):
         enum (list[str] | Unset): Allowed values; required for type enum, rejected otherwise
         required (bool | Unset): The model must return a non-null value
