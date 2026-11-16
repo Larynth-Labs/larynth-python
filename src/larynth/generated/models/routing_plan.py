@@ -22,9 +22,9 @@ class RoutingPlan:
     Attributes:
         open_ (RoutingTarget):
         after_hours (AfterHoursTarget | Unset):
-        fallback_e164 (str | Unset): Transfer to a person when the agent can't pick up: paused agent, agent start
-            failure, and carrier failover when no engine answers (not billed). Engine-bridged minutes bill at
-            transfer_minute
+        fallback_e164 (str | Unset): Transfer to a person when the agent can't pick up: agent paused, agent missing or
+            failing to start, and carrier failover when no engine answers. Never billed; a start refused for low credit or
+            the concurrency limit is rejected, not forwarded
         hours (RoutingHours | Unset):
         revision (int | Unset):
     """
