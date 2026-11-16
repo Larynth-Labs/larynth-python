@@ -89,10 +89,12 @@ class AssistantDraft:
         published_at (datetime.datetime | Unset):
         s2s_model_id (UUID | Unset): Required for s2s
         s2s_params (AssistantDraftS2SParams | Unset):
+        stt_fallback_model_ids (list[str] | Unset):
         stt_model_id (UUID | Unset): Required for cascade
         stt_params (AssistantDraftSttParams | Unset):
         tools (list[AssistantTool] | Unset):
         transfer_fallback (AssistantDraftTransferFallback | Unset): What happens when nobody picks up a transfer
+        tts_fallback_model_ids (list[str] | Unset):
         tts_model_id (UUID | Unset): Required for cascade
         tts_params (AssistantDraftTtsParams | Unset):
         tts_voice_id (UUID | Unset): Required for cascade
@@ -138,10 +140,12 @@ class AssistantDraft:
     published_at: datetime.datetime | Unset = UNSET
     s2s_model_id: UUID | Unset = UNSET
     s2s_params: AssistantDraftS2SParams | Unset = UNSET
+    stt_fallback_model_ids: list[str] | Unset = UNSET
     stt_model_id: UUID | Unset = UNSET
     stt_params: AssistantDraftSttParams | Unset = UNSET
     tools: list[AssistantTool] | Unset = UNSET
     transfer_fallback: AssistantDraftTransferFallback | Unset = UNSET
+    tts_fallback_model_ids: list[str] | Unset = UNSET
     tts_model_id: UUID | Unset = UNSET
     tts_params: AssistantDraftTtsParams | Unset = UNSET
     tts_voice_id: UUID | Unset = UNSET
@@ -265,6 +269,10 @@ class AssistantDraft:
         if not isinstance(self.s2s_params, Unset):
             s2s_params = self.s2s_params.to_dict()
 
+        stt_fallback_model_ids: list[str] | Unset = UNSET
+        if not isinstance(self.stt_fallback_model_ids, Unset):
+            stt_fallback_model_ids = self.stt_fallback_model_ids
+
         stt_model_id: str | Unset = UNSET
         if not isinstance(self.stt_model_id, Unset):
             stt_model_id = str(self.stt_model_id)
@@ -283,6 +291,10 @@ class AssistantDraft:
         transfer_fallback: str | Unset = UNSET
         if not isinstance(self.transfer_fallback, Unset):
             transfer_fallback = self.transfer_fallback
+
+        tts_fallback_model_ids: list[str] | Unset = UNSET
+        if not isinstance(self.tts_fallback_model_ids, Unset):
+            tts_fallback_model_ids = self.tts_fallback_model_ids
 
         tts_model_id: str | Unset = UNSET
         if not isinstance(self.tts_model_id, Unset):
@@ -372,6 +384,8 @@ class AssistantDraft:
             field_dict["s2s_model_id"] = s2s_model_id
         if s2s_params is not UNSET:
             field_dict["s2s_params"] = s2s_params
+        if stt_fallback_model_ids is not UNSET:
+            field_dict["stt_fallback_model_ids"] = stt_fallback_model_ids
         if stt_model_id is not UNSET:
             field_dict["stt_model_id"] = stt_model_id
         if stt_params is not UNSET:
@@ -380,6 +394,8 @@ class AssistantDraft:
             field_dict["tools"] = tools
         if transfer_fallback is not UNSET:
             field_dict["transfer_fallback"] = transfer_fallback
+        if tts_fallback_model_ids is not UNSET:
+            field_dict["tts_fallback_model_ids"] = tts_fallback_model_ids
         if tts_model_id is not UNSET:
             field_dict["tts_model_id"] = tts_model_id
         if tts_params is not UNSET:
@@ -576,6 +592,8 @@ class AssistantDraft:
         else:
             s2s_params = AssistantDraftS2SParams.from_dict(_s2s_params)
 
+        stt_fallback_model_ids = cast(list[str], d.pop("stt_fallback_model_ids", UNSET))
+
         _stt_model_id = d.pop("stt_model_id", UNSET)
         stt_model_id: UUID | Unset
         if isinstance(_stt_model_id, Unset):
@@ -607,6 +625,8 @@ class AssistantDraft:
             transfer_fallback = check_assistant_draft_transfer_fallback(
                 _transfer_fallback
             )
+
+        tts_fallback_model_ids = cast(list[str], d.pop("tts_fallback_model_ids", UNSET))
 
         _tts_model_id = d.pop("tts_model_id", UNSET)
         tts_model_id: UUID | Unset
@@ -688,10 +708,12 @@ class AssistantDraft:
             published_at=published_at,
             s2s_model_id=s2s_model_id,
             s2s_params=s2s_params,
+            stt_fallback_model_ids=stt_fallback_model_ids,
             stt_model_id=stt_model_id,
             stt_params=stt_params,
             tools=tools,
             transfer_fallback=transfer_fallback,
+            tts_fallback_model_ids=tts_fallback_model_ids,
             tts_model_id=tts_model_id,
             tts_params=tts_params,
             tts_voice_id=tts_voice_id,

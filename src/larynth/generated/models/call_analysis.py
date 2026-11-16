@@ -15,6 +15,7 @@ from ..models.call_analysis_sentiment import (
     CallAnalysisSentiment,
     check_call_analysis_sentiment,
 )
+from ..models.call_analysis_state import CallAnalysisState, check_call_analysis_state
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -35,6 +36,7 @@ class CallAnalysis:
         cost_micro (int): Analysis cost in micro-USD
         created_at (datetime.datetime):
         data (CallAnalysisData):
+        state (CallAnalysisState): Returned with 200 while pending instead of 404; summary and data are then empty
         summary (str):
         tokens (int):
         callback_by (str | Unset): As the caller said it, for example "before 10"
@@ -45,6 +47,7 @@ class CallAnalysis:
         quality (CallQuality | Unset):
         reason (str | Unset):
         sentiment (CallAnalysisSentiment | Unset):
+        skip_reason (str | Unset): Why the analysis was skipped, when state is skipped
         successful (bool | Unset):
         unanswered_question (str | Unset):
     """
@@ -54,6 +57,7 @@ class CallAnalysis:
     cost_micro: int
     created_at: datetime.datetime
     data: CallAnalysisData
+    state: CallAnalysisState
     summary: str
     tokens: int
     callback_by: str | Unset = UNSET
@@ -64,6 +68,7 @@ class CallAnalysis:
     quality: CallQuality | Unset = UNSET
     reason: str | Unset = UNSET
     sentiment: CallAnalysisSentiment | Unset = UNSET
+    skip_reason: str | Unset = UNSET
     successful: bool | Unset = UNSET
     unanswered_question: str | Unset = UNSET
 
@@ -77,6 +82,8 @@ class CallAnalysis:
         created_at = self.created_at.isoformat()
 
         data = self.data.to_dict()
+
+        state: str = self.state
 
         summary = self.summary
 
@@ -108,6 +115,8 @@ class CallAnalysis:
         if not isinstance(self.sentiment, Unset):
             sentiment = self.sentiment
 
+        skip_reason = self.skip_reason
+
         successful = self.successful
 
         unanswered_question = self.unanswered_question
@@ -121,6 +130,7 @@ class CallAnalysis:
                 "cost_micro": cost_micro,
                 "created_at": created_at,
                 "data": data,
+                "state": state,
                 "summary": summary,
                 "tokens": tokens,
             }
@@ -141,6 +151,8 @@ class CallAnalysis:
             field_dict["reason"] = reason
         if sentiment is not UNSET:
             field_dict["sentiment"] = sentiment
+        if skip_reason is not UNSET:
+            field_dict["skip_reason"] = skip_reason
         if successful is not UNSET:
             field_dict["successful"] = successful
         if unanswered_question is not UNSET:
@@ -164,6 +176,8 @@ class CallAnalysis:
         created_at = datetime.datetime.fromisoformat(d.pop("created_at"))
 
         data = CallAnalysisData.from_dict(d.pop("data"))
+
+        state = check_call_analysis_state(d.pop("state"))
 
         summary = d.pop("summary")
 
@@ -210,6 +224,8 @@ class CallAnalysis:
         else:
             sentiment = check_call_analysis_sentiment(_sentiment)
 
+        skip_reason = d.pop("skip_reason", UNSET)
+
         successful = d.pop("successful", UNSET)
 
         unanswered_question = d.pop("unanswered_question", UNSET)
@@ -220,6 +236,7 @@ class CallAnalysis:
             cost_micro=cost_micro,
             created_at=created_at,
             data=data,
+            state=state,
             summary=summary,
             tokens=tokens,
             callback_by=callback_by,
@@ -230,6 +247,7 @@ class CallAnalysis:
             quality=quality,
             reason=reason,
             sentiment=sentiment,
+            skip_reason=skip_reason,
             successful=successful,
             unanswered_question=unanswered_question,
         )
