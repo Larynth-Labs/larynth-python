@@ -29,6 +29,8 @@ class AssistantTool:
         json_schema (AssistantToolJsonSchema):
         kind (AssistantToolKind):
         name (str):
+        business_hours_only (bool | Unset): Transfer tools only: do not dial outside the business hours of the number
+            the call came in on; the agent takes a message instead
         calendar_tool (CalendarToolConfig | Unset):
         config (AssistantToolConfig | Unset):
         destinations (list[TransferDestination] | Unset): Transfer tools only (kind transfer, name transfer_call): where
@@ -48,6 +50,7 @@ class AssistantTool:
     json_schema: AssistantToolJsonSchema
     kind: AssistantToolKind
     name: str
+    business_hours_only: bool | Unset = UNSET
     calendar_tool: CalendarToolConfig | Unset = UNSET
     config: AssistantToolConfig | Unset = UNSET
     destinations: list[TransferDestination] | Unset = UNSET
@@ -68,6 +71,8 @@ class AssistantTool:
         kind: str = self.kind
 
         name = self.name
+
+        business_hours_only = self.business_hours_only
 
         calendar_tool: dict[str, Any] | Unset = UNSET
         if not isinstance(self.calendar_tool, Unset):
@@ -111,6 +116,8 @@ class AssistantTool:
                 "name": name,
             }
         )
+        if business_hours_only is not UNSET:
+            field_dict["business_hours_only"] = business_hours_only
         if calendar_tool is not UNSET:
             field_dict["calendar_tool"] = calendar_tool
         if config is not UNSET:
@@ -149,6 +156,8 @@ class AssistantTool:
         kind = check_assistant_tool_kind(d.pop("kind"))
 
         name = d.pop("name")
+
+        business_hours_only = d.pop("business_hours_only", UNSET)
 
         _calendar_tool = d.pop("calendar_tool", UNSET)
         calendar_tool: CalendarToolConfig | Unset
@@ -203,6 +212,7 @@ class AssistantTool:
             json_schema=json_schema,
             kind=kind,
             name=name,
+            business_hours_only=business_hours_only,
             calendar_tool=calendar_tool,
             config=config,
             destinations=destinations,

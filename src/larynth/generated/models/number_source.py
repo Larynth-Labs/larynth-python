@@ -1,9 +1,10 @@
 from typing import Literal
 
-NumberSource = Literal["byo_sip", "larynth"]
+NumberSource = Literal["byo_sip", "imported", "larynth"]
 
 NUMBER_SOURCE_VALUES: set[NumberSource] = {
     "byo_sip",
+    "imported",
     "larynth",
 }
 

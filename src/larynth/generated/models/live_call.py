@@ -14,6 +14,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.live_call_flag import LiveCallFlag
     from ..models.live_call_line import LiveCallLine
+    from ..models.live_call_supervisor import LiveCallSupervisor
 
 
 T = TypeVar("T", bound="LiveCall")
@@ -28,6 +29,8 @@ class LiveCall:
         call_id (str):
         direction (LiveCallDirection):
         flags (list[LiveCallFlag]):
+        monitoring_covered (bool): False when the call started before live join was on or played no recording notice, so
+            Listen and Take over would be refused
         started_at (datetime.datetime):
         status (LiveCallStatus):
         answered_at (datetime.datetime | Unset):
@@ -36,6 +39,7 @@ class LiveCall:
         campaign_id (UUID | Unset):
         last_line (LiveCallLine | Unset):
         number_id (UUID | Unset):
+        supervised_by (LiveCallSupervisor | Unset):
     """
 
     assistant_id: UUID
@@ -43,6 +47,7 @@ class LiveCall:
     call_id: str
     direction: LiveCallDirection
     flags: list[LiveCallFlag]
+    monitoring_covered: bool
     started_at: datetime.datetime
     status: LiveCallStatus
     answered_at: datetime.datetime | Unset = UNSET
@@ -51,6 +56,7 @@ class LiveCall:
     campaign_id: UUID | Unset = UNSET
     last_line: LiveCallLine | Unset = UNSET
     number_id: UUID | Unset = UNSET
+    supervised_by: LiveCallSupervisor | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         assistant_id = str(self.assistant_id)
@@ -65,6 +71,8 @@ class LiveCall:
         for flags_item_data in self.flags:
             flags_item = flags_item_data.to_dict()
             flags.append(flags_item)
+
+        monitoring_covered = self.monitoring_covered
 
         started_at = self.started_at.isoformat()
 
@@ -90,6 +98,10 @@ class LiveCall:
         if not isinstance(self.number_id, Unset):
             number_id = str(self.number_id)
 
+        supervised_by: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.supervised_by, Unset):
+            supervised_by = self.supervised_by.to_dict()
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -99,6 +111,7 @@ class LiveCall:
                 "call_id": call_id,
                 "direction": direction,
                 "flags": flags,
+                "monitoring_covered": monitoring_covered,
                 "started_at": started_at,
                 "status": status,
             }
@@ -115,6 +128,8 @@ class LiveCall:
             field_dict["last_line"] = last_line
         if number_id is not UNSET:
             field_dict["number_id"] = number_id
+        if supervised_by is not UNSET:
+            field_dict["supervised_by"] = supervised_by
 
         return field_dict
 
@@ -122,6 +137,7 @@ class LiveCall:
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.live_call_flag import LiveCallFlag
         from ..models.live_call_line import LiveCallLine
+        from ..models.live_call_supervisor import LiveCallSupervisor
 
         d = dict(src_dict)
         assistant_id = UUID(d.pop("assistant_id"))
@@ -138,6 +154,8 @@ class LiveCall:
             flags_item = LiveCallFlag.from_dict(flags_item_data)
 
             flags.append(flags_item)
+
+        monitoring_covered = d.pop("monitoring_covered")
 
         started_at = datetime.datetime.fromisoformat(d.pop("started_at"))
 
@@ -175,12 +193,20 @@ class LiveCall:
         else:
             number_id = UUID(_number_id)
 
+        _supervised_by = d.pop("supervised_by", UNSET)
+        supervised_by: LiveCallSupervisor | Unset
+        if isinstance(_supervised_by, Unset):
+            supervised_by = UNSET
+        else:
+            supervised_by = LiveCallSupervisor.from_dict(_supervised_by)
+
         live_call = cls(
             assistant_id=assistant_id,
             assistant_version=assistant_version,
             call_id=call_id,
             direction=direction,
             flags=flags,
+            monitoring_covered=monitoring_covered,
             started_at=started_at,
             status=status,
             answered_at=answered_at,
@@ -189,6 +215,7 @@ class LiveCall:
             campaign_id=campaign_id,
             last_line=last_line,
             number_id=number_id,
+            supervised_by=supervised_by,
         )
 
         return live_call
