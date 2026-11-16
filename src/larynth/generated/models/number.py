@@ -41,6 +41,7 @@ class Number:
         assistant_id (UUID | Unset):
         branded (NumberBranded | Unset):
         cnam (NumberCNAM | Unset):
+        failure_reason (str | Unset): Set when status is failed
         forward_sources (list[ForwardSource] | Unset): Lines seen forwarding to this number (Diversion/History-Info)
         forward_to_e164 (str | Unset):
         kind (NumberKind | Unset):
@@ -53,8 +54,9 @@ class Number:
         routing (RoutingPlan | Unset):
         schedule_summary (ScheduleSummary | Unset):
         sip_trunk_id (UUID | Unset):
-        source (NumberSource | Unset): byo_sip numbers answer inbound only and never act as caller ID
-        spam_screening (bool | Unset):
+        source (NumberSource | Unset): byo_sip numbers answer inbound only and never act as caller ID; imported numbers
+            were already held at the carrier and carry no rent
+        spam_screening (bool | Unset): Deprecated; always ignored
         usage (NumberUsage | Unset):
         verification (NumberVerification | Unset):
     """
@@ -70,6 +72,7 @@ class Number:
     assistant_id: UUID | Unset = UNSET
     branded: NumberBranded | Unset = UNSET
     cnam: NumberCNAM | Unset = UNSET
+    failure_reason: str | Unset = UNSET
     forward_sources: list[ForwardSource] | Unset = UNSET
     forward_to_e164: str | Unset = UNSET
     kind: NumberKind | Unset = UNSET
@@ -115,6 +118,8 @@ class Number:
         cnam: dict[str, Any] | Unset = UNSET
         if not isinstance(self.cnam, Unset):
             cnam = self.cnam.to_dict()
+
+        failure_reason = self.failure_reason
 
         forward_sources: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.forward_sources, Unset):
@@ -193,6 +198,8 @@ class Number:
             field_dict["branded"] = branded
         if cnam is not UNSET:
             field_dict["cnam"] = cnam
+        if failure_reason is not UNSET:
+            field_dict["failure_reason"] = failure_reason
         if forward_sources is not UNSET:
             field_dict["forward_sources"] = forward_sources
         if forward_to_e164 is not UNSET:
@@ -275,6 +282,8 @@ class Number:
             cnam = UNSET
         else:
             cnam = NumberCNAM.from_dict(_cnam)
+
+        failure_reason = d.pop("failure_reason", UNSET)
 
         _forward_sources = d.pop("forward_sources", UNSET)
         forward_sources: list[ForwardSource] | Unset = UNSET
@@ -379,6 +388,7 @@ class Number:
             assistant_id=assistant_id,
             branded=branded,
             cnam=cnam,
+            failure_reason=failure_reason,
             forward_sources=forward_sources,
             forward_to_e164=forward_to_e164,
             kind=kind,

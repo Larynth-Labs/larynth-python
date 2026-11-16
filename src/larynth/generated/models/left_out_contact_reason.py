@@ -1,11 +1,14 @@
 from typing import Literal
 
-LeftOutContactReason = Literal["dnc", "no_consent", "no_timezone", "not_us"]
+LeftOutContactReason = Literal[
+    "dnc", "no_consent", "no_timezone", "no_written_consent", "not_us"
+]
 
 LEFT_OUT_CONTACT_REASON_VALUES: set[LeftOutContactReason] = {
     "dnc",
     "no_consent",
     "no_timezone",
+    "no_written_consent",
     "not_us",
 }
 

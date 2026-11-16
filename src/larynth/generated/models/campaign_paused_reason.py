@@ -5,6 +5,7 @@ CampaignPausedReason = Literal[
     "credits_exhausted",
     "no_caller_id",
     "operator",
+    "readiness",
     "user",
     "window_closed",
 ]
@@ -14,6 +15,7 @@ CAMPAIGN_PAUSED_REASON_VALUES: set[CampaignPausedReason] = {
     "credits_exhausted",
     "no_caller_id",
     "operator",
+    "readiness",
     "user",
     "window_closed",
 }
