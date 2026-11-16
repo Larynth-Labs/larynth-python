@@ -17,7 +17,7 @@ class NumberUsage:
     """
     Attributes:
         campaigns (list[CampaignRef]):
-        can_call_out (bool): An active Larynth-owned number; imported numbers never qualify
+        can_call_out (bool): An active Larynth number that can place calls
         optout_line (bool):
     """
 

@@ -21,6 +21,7 @@ def _get_kwargs(
     knowledge_base_id: UUID | Unset = UNSET,
     assistant_id: UUID | Unset = UNSET,
     state: ListKnowledgeGapsState | Unset = "open",
+    asked_again: bool | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -44,6 +45,8 @@ def _get_kwargs(
         json_state = state
 
     params["state"] = json_state
+
+    params["asked_again"] = asked_again
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -119,6 +122,7 @@ def sync_detailed(
     knowledge_base_id: UUID | Unset = UNSET,
     assistant_id: UUID | Unset = UNSET,
     state: ListKnowledgeGapsState | Unset = "open",
+    asked_again: bool | Unset = UNSET,
 ) -> Response[PageKnowledgeGap | Problem]:
     """Questions callers asked that agents could not answer, grouped by similar wording
 
@@ -129,6 +133,8 @@ def sync_detailed(
             attached
         assistant_id (UUID | Unset):
         state (ListKnowledgeGapsState | Unset):  Default: 'open'.
+        asked_again (bool | Unset): Only questions callers asked again after they were answered or
+            dismissed
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,6 +150,7 @@ def sync_detailed(
         knowledge_base_id=knowledge_base_id,
         assistant_id=assistant_id,
         state=state,
+        asked_again=asked_again,
     )
 
     response = client.get_httpx_client().request(
@@ -161,6 +168,7 @@ def sync(
     knowledge_base_id: UUID | Unset = UNSET,
     assistant_id: UUID | Unset = UNSET,
     state: ListKnowledgeGapsState | Unset = "open",
+    asked_again: bool | Unset = UNSET,
 ) -> PageKnowledgeGap | Problem | None:
     """Questions callers asked that agents could not answer, grouped by similar wording
 
@@ -171,6 +179,8 @@ def sync(
             attached
         assistant_id (UUID | Unset):
         state (ListKnowledgeGapsState | Unset):  Default: 'open'.
+        asked_again (bool | Unset): Only questions callers asked again after they were answered or
+            dismissed
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -187,6 +197,7 @@ def sync(
         knowledge_base_id=knowledge_base_id,
         assistant_id=assistant_id,
         state=state,
+        asked_again=asked_again,
     ).parsed
 
 
@@ -198,6 +209,7 @@ async def asyncio_detailed(
     knowledge_base_id: UUID | Unset = UNSET,
     assistant_id: UUID | Unset = UNSET,
     state: ListKnowledgeGapsState | Unset = "open",
+    asked_again: bool | Unset = UNSET,
 ) -> Response[PageKnowledgeGap | Problem]:
     """Questions callers asked that agents could not answer, grouped by similar wording
 
@@ -208,6 +220,8 @@ async def asyncio_detailed(
             attached
         assistant_id (UUID | Unset):
         state (ListKnowledgeGapsState | Unset):  Default: 'open'.
+        asked_again (bool | Unset): Only questions callers asked again after they were answered or
+            dismissed
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -223,6 +237,7 @@ async def asyncio_detailed(
         knowledge_base_id=knowledge_base_id,
         assistant_id=assistant_id,
         state=state,
+        asked_again=asked_again,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -238,6 +253,7 @@ async def asyncio(
     knowledge_base_id: UUID | Unset = UNSET,
     assistant_id: UUID | Unset = UNSET,
     state: ListKnowledgeGapsState | Unset = "open",
+    asked_again: bool | Unset = UNSET,
 ) -> PageKnowledgeGap | Problem | None:
     """Questions callers asked that agents could not answer, grouped by similar wording
 
@@ -248,6 +264,8 @@ async def asyncio(
             attached
         assistant_id (UUID | Unset):
         state (ListKnowledgeGapsState | Unset):  Default: 'open'.
+        asked_again (bool | Unset): Only questions callers asked again after they were answered or
+            dismissed
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -265,5 +283,6 @@ async def asyncio(
             knowledge_base_id=knowledge_base_id,
             assistant_id=assistant_id,
             state=state,
+            asked_again=asked_again,
         )
     ).parsed
