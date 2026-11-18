@@ -23,6 +23,8 @@ class AudiencePreview:
         callable_ (int):
         dnc (int):
         no_consent (int):
+        no_written_consent (int): Contacts whose consent is not written, in states where campaign calls need written
+            consent; skipped at dial time
         sample_left_out (list[LeftOutContact]):
         total (int):
     """
@@ -32,6 +34,7 @@ class AudiencePreview:
     callable_: int
     dnc: int
     no_consent: int
+    no_written_consent: int
     sample_left_out: list[LeftOutContact]
     total: int
 
@@ -52,6 +55,8 @@ class AudiencePreview:
 
         no_consent = self.no_consent
 
+        no_written_consent = self.no_written_consent
+
         sample_left_out = []
         for sample_left_out_item_data in self.sample_left_out:
             sample_left_out_item = sample_left_out_item_data.to_dict()
@@ -68,6 +73,7 @@ class AudiencePreview:
                 "callable": callable_,
                 "dnc": dnc,
                 "no_consent": no_consent,
+                "no_written_consent": no_written_consent,
                 "sample_left_out": sample_left_out,
                 "total": total,
             }
@@ -102,6 +108,8 @@ class AudiencePreview:
 
         no_consent = d.pop("no_consent")
 
+        no_written_consent = d.pop("no_written_consent")
+
         sample_left_out = []
         _sample_left_out = d.pop("sample_left_out")
         for sample_left_out_item_data in _sample_left_out:
@@ -117,6 +125,7 @@ class AudiencePreview:
             callable_=callable_,
             dnc=dnc,
             no_consent=no_consent,
+            no_written_consent=no_written_consent,
             sample_left_out=sample_left_out,
             total=total,
         )

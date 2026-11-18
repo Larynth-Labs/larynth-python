@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 
 from attrs import define as _attrs_define
 
@@ -9,17 +9,19 @@ if TYPE_CHECKING:
     from ..models.spam_allow import SpamAllow
 
 
-T = TypeVar("T", bound="ListSpamAllow")
+T = TypeVar("T", bound="PageSpamAllow")
 
 
 @_attrs_define
-class ListSpamAllow:
+class PageSpamAllow:
     """
     Attributes:
         data (list[SpamAllow]):
+        next_cursor (None | str): Cursor for the next page; null on the last page
     """
 
     data: list[SpamAllow]
+    next_cursor: None | str
 
     def to_dict(self) -> dict[str, Any]:
         data = []
@@ -27,11 +29,15 @@ class ListSpamAllow:
             data_item = data_item_data.to_dict()
             data.append(data_item)
 
+        next_cursor: None | str
+        next_cursor = self.next_cursor
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
             {
                 "data": data,
+                "next_cursor": next_cursor,
             }
         )
 
@@ -49,8 +55,16 @@ class ListSpamAllow:
 
             data.append(data_item)
 
-        list_spam_allow = cls(
+        def _parse_next_cursor(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        next_cursor = _parse_next_cursor(d.pop("next_cursor"))
+
+        page_spam_allow = cls(
             data=data,
+            next_cursor=next_cursor,
         )
 
-        return list_spam_allow
+        return page_spam_allow
