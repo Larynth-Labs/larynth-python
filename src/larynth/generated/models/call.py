@@ -14,6 +14,7 @@ from ..models.call_amd_early_media_tone import (
 from ..models.call_amd_verdict import CallAmdVerdict, check_call_amd_verdict
 from ..models.call_attestation import CallAttestation, check_call_attestation
 from ..models.call_codec import CallCodec, check_call_codec
+from ..models.call_coverage import CallCoverage, check_call_coverage
 from ..models.call_direction import CallDirection, check_call_direction
 from ..models.call_hangup_by import CallHangupBy, check_call_hangup_by
 from ..models.call_mode import CallMode, check_call_mode
@@ -57,6 +58,8 @@ class Call:
         status (CallStatus):
         tags (list[str]):
         updated_at (datetime.datetime):
+        would_have_missed (bool): True when the call came after hours, on a holiday or after the owner line was busy or
+            unanswered
         agent_billable_ms (int | Unset): Part of billable_ms handled by the agent
         agent_price_micro (int | Unset): Settled price of the agent part in micro-USD
         amd_after_ms (int | Unset):
@@ -81,6 +84,8 @@ class Call:
         cause (str | Unset):
         codec (CallCodec | Unset):
         contact_id (UUID | Unset):
+        coverage (CallCoverage | Unset): Why the agent got this call: inside hours, after hours, a holiday, or forwarded
+            because the owner line was busy or unanswered
         cursor (str | Unset): Opaque; pass as after or before to page from this call
         disclosure_played_at (datetime.datetime | Unset):
         ended_at (datetime.datetime | Unset):
@@ -95,6 +100,10 @@ class Call:
         outcome_group (CallOutcomeGroup | Unset):
         outcome_label (CallOutcomeLabel | Unset): machine: a machine answered and no message was left; phone_menu: the
             agent could not get through a phone menu
+        phone_leg_ms (int | Unset): Billed time of the live-takeover phone legs dialled to your phones, on top of
+            billable_ms
+        phone_leg_price_micro (int | Unset): Settled price of the phone legs in micro-USD at the transfer_minute rate;
+            part of price_micro
         price_micro (int | Unset): Settled price in micro-USD
         quality (CallQuality | Unset):
         quality_score (int | Unset): Automatic call quality check score
@@ -119,6 +128,7 @@ class Call:
     status: CallStatus
     tags: list[str]
     updated_at: datetime.datetime
+    would_have_missed: bool
     agent_billable_ms: int | Unset = UNSET
     agent_price_micro: int | Unset = UNSET
     amd_after_ms: int | Unset = UNSET
@@ -142,6 +152,7 @@ class Call:
     cause: str | Unset = UNSET
     codec: CallCodec | Unset = UNSET
     contact_id: UUID | Unset = UNSET
+    coverage: CallCoverage | Unset = UNSET
     cursor: str | Unset = UNSET
     disclosure_played_at: datetime.datetime | Unset = UNSET
     ended_at: datetime.datetime | Unset = UNSET
@@ -155,6 +166,8 @@ class Call:
     outcome: CallOutcome | Unset = UNSET
     outcome_group: CallOutcomeGroup | Unset = UNSET
     outcome_label: CallOutcomeLabel | Unset = UNSET
+    phone_leg_ms: int | Unset = UNSET
+    phone_leg_price_micro: int | Unset = UNSET
     price_micro: int | Unset = UNSET
     quality: CallQuality | Unset = UNSET
     quality_score: int | Unset = UNSET
@@ -188,6 +201,8 @@ class Call:
         tags = self.tags
 
         updated_at = self.updated_at.isoformat()
+
+        would_have_missed = self.would_have_missed
 
         agent_billable_ms = self.agent_billable_ms
 
@@ -257,6 +272,10 @@ class Call:
         if not isinstance(self.contact_id, Unset):
             contact_id = str(self.contact_id)
 
+        coverage: str | Unset = UNSET
+        if not isinstance(self.coverage, Unset):
+            coverage = self.coverage
+
         cursor = self.cursor
 
         disclosure_played_at: str | Unset = UNSET
@@ -304,6 +323,10 @@ class Call:
         outcome_label: str | Unset = UNSET
         if not isinstance(self.outcome_label, Unset):
             outcome_label = self.outcome_label
+
+        phone_leg_ms = self.phone_leg_ms
+
+        phone_leg_price_micro = self.phone_leg_price_micro
 
         price_micro = self.price_micro
 
@@ -355,6 +378,7 @@ class Call:
                 "status": status,
                 "tags": tags,
                 "updated_at": updated_at,
+                "would_have_missed": would_have_missed,
             }
         )
         if agent_billable_ms is not UNSET:
@@ -403,6 +427,8 @@ class Call:
             field_dict["codec"] = codec
         if contact_id is not UNSET:
             field_dict["contact_id"] = contact_id
+        if coverage is not UNSET:
+            field_dict["coverage"] = coverage
         if cursor is not UNSET:
             field_dict["cursor"] = cursor
         if disclosure_played_at is not UNSET:
@@ -429,6 +455,10 @@ class Call:
             field_dict["outcome_group"] = outcome_group
         if outcome_label is not UNSET:
             field_dict["outcome_label"] = outcome_label
+        if phone_leg_ms is not UNSET:
+            field_dict["phone_leg_ms"] = phone_leg_ms
+        if phone_leg_price_micro is not UNSET:
+            field_dict["phone_leg_price_micro"] = phone_leg_price_micro
         if price_micro is not UNSET:
             field_dict["price_micro"] = price_micro
         if quality is not UNSET:
@@ -488,6 +518,8 @@ class Call:
         tags = cast(list[str], d.pop("tags"))
 
         updated_at = datetime.datetime.fromisoformat(d.pop("updated_at"))
+
+        would_have_missed = d.pop("would_have_missed")
 
         agent_billable_ms = d.pop("agent_billable_ms", UNSET)
 
@@ -592,6 +624,13 @@ class Call:
         else:
             contact_id = UUID(_contact_id)
 
+        _coverage = d.pop("coverage", UNSET)
+        coverage: CallCoverage | Unset
+        if isinstance(_coverage, Unset):
+            coverage = UNSET
+        else:
+            coverage = check_call_coverage(_coverage)
+
         cursor = d.pop("cursor", UNSET)
 
         _disclosure_played_at = d.pop("disclosure_played_at", UNSET)
@@ -675,6 +714,10 @@ class Call:
         else:
             outcome_label = check_call_outcome_label(_outcome_label)
 
+        phone_leg_ms = d.pop("phone_leg_ms", UNSET)
+
+        phone_leg_price_micro = d.pop("phone_leg_price_micro", UNSET)
+
         price_micro = d.pop("price_micro", UNSET)
 
         _quality = d.pop("quality", UNSET)
@@ -742,6 +785,7 @@ class Call:
             status=status,
             tags=tags,
             updated_at=updated_at,
+            would_have_missed=would_have_missed,
             agent_billable_ms=agent_billable_ms,
             agent_price_micro=agent_price_micro,
             amd_after_ms=amd_after_ms,
@@ -765,6 +809,7 @@ class Call:
             cause=cause,
             codec=codec,
             contact_id=contact_id,
+            coverage=coverage,
             cursor=cursor,
             disclosure_played_at=disclosure_played_at,
             ended_at=ended_at,
@@ -778,6 +823,8 @@ class Call:
             outcome=outcome,
             outcome_group=outcome_group,
             outcome_label=outcome_label,
+            phone_leg_ms=phone_leg_ms,
+            phone_leg_price_micro=phone_leg_price_micro,
             price_micro=price_micro,
             quality=quality,
             quality_score=quality_score,

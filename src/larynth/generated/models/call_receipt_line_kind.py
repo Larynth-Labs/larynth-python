@@ -1,12 +1,17 @@
 from typing import Literal
 
 CallReceiptLineKind = Literal[
-    "agent_minutes", "bridged_minutes", "premium_model", "premium_voice"
+    "agent_minutes",
+    "bridged_minutes",
+    "phone_leg_minutes",
+    "premium_model",
+    "premium_voice",
 ]
 
 CALL_RECEIPT_LINE_KIND_VALUES: set[CallReceiptLineKind] = {
     "agent_minutes",
     "bridged_minutes",
+    "phone_leg_minutes",
     "premium_model",
     "premium_voice",
 }
