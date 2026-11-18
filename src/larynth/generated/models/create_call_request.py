@@ -34,6 +34,8 @@ class CreateCallRequest:
         amd_mode (CreateCallRequestAmdMode | Unset): Overrides the agent voicemail setting; unset uses the agent
             call_handling
         amd_profile_id (UUID | Unset):
+        callback_item_id (UUID | Unset): The inbox callback item this call answers; a caller's own callback request on
+            that item covers one informational call to the caller's number
         contact_id (UUID | Unset):
         ring_timeout_s (int | Unset):  Default: 30.
         variables (CreateCallRequestVariables | Unset):
@@ -46,6 +48,7 @@ class CreateCallRequest:
     to_e164: str
     amd_mode: CreateCallRequestAmdMode | Unset = UNSET
     amd_profile_id: UUID | Unset = UNSET
+    callback_item_id: UUID | Unset = UNSET
     contact_id: UUID | Unset = UNSET
     ring_timeout_s: int | Unset = 30
     variables: CreateCallRequestVariables | Unset = UNSET
@@ -67,6 +70,10 @@ class CreateCallRequest:
         amd_profile_id: str | Unset = UNSET
         if not isinstance(self.amd_profile_id, Unset):
             amd_profile_id = str(self.amd_profile_id)
+
+        callback_item_id: str | Unset = UNSET
+        if not isinstance(self.callback_item_id, Unset):
+            callback_item_id = str(self.callback_item_id)
 
         contact_id: str | Unset = UNSET
         if not isinstance(self.contact_id, Unset):
@@ -94,6 +101,8 @@ class CreateCallRequest:
             field_dict["amd_mode"] = amd_mode
         if amd_profile_id is not UNSET:
             field_dict["amd_profile_id"] = amd_profile_id
+        if callback_item_id is not UNSET:
+            field_dict["callback_item_id"] = callback_item_id
         if contact_id is not UNSET:
             field_dict["contact_id"] = contact_id
         if ring_timeout_s is not UNSET:
@@ -132,6 +141,13 @@ class CreateCallRequest:
         else:
             amd_profile_id = UUID(_amd_profile_id)
 
+        _callback_item_id = d.pop("callback_item_id", UNSET)
+        callback_item_id: UUID | Unset
+        if isinstance(_callback_item_id, Unset):
+            callback_item_id = UNSET
+        else:
+            callback_item_id = UUID(_callback_item_id)
+
         _contact_id = d.pop("contact_id", UNSET)
         contact_id: UUID | Unset
         if isinstance(_contact_id, Unset):
@@ -157,6 +173,7 @@ class CreateCallRequest:
             to_e164=to_e164,
             amd_mode=amd_mode,
             amd_profile_id=amd_profile_id,
+            callback_item_id=callback_item_id,
             contact_id=contact_id,
             ring_timeout_s=ring_timeout_s,
             variables=variables,

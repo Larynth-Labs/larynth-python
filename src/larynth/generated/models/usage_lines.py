@@ -16,6 +16,7 @@ class UsageLines:
         branded_micro (int):
         bridged_micro (int):
         byo_micro (int):
+        compliance_micro (int): Reassigned number checks
         forward_micro (int):
         number_micro (int):
         premium_micro (int):
@@ -26,6 +27,7 @@ class UsageLines:
     branded_micro: int
     bridged_micro: int
     byo_micro: int
+    compliance_micro: int
     forward_micro: int
     number_micro: int
     premium_micro: int
@@ -39,6 +41,8 @@ class UsageLines:
         bridged_micro = self.bridged_micro
 
         byo_micro = self.byo_micro
+
+        compliance_micro = self.compliance_micro
 
         forward_micro = self.forward_micro
 
@@ -56,6 +60,7 @@ class UsageLines:
                 "branded_micro": branded_micro,
                 "bridged_micro": bridged_micro,
                 "byo_micro": byo_micro,
+                "compliance_micro": compliance_micro,
                 "forward_micro": forward_micro,
                 "number_micro": number_micro,
                 "premium_micro": premium_micro,
@@ -76,6 +81,8 @@ class UsageLines:
 
         byo_micro = d.pop("byo_micro")
 
+        compliance_micro = d.pop("compliance_micro")
+
         forward_micro = d.pop("forward_micro")
 
         number_micro = d.pop("number_micro")
@@ -89,6 +96,7 @@ class UsageLines:
             branded_micro=branded_micro,
             bridged_micro=bridged_micro,
             byo_micro=byo_micro,
+            compliance_micro=compliance_micro,
             forward_micro=forward_micro,
             number_micro=number_micro,
             premium_micro=premium_micro,

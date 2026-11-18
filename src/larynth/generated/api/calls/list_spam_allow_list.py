@@ -5,16 +5,29 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.list_spam_allow import ListSpamAllow
+from ...models.page_spam_allow import PageSpamAllow
 from ...models.problem import Problem
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    limit: int | Unset = 50,
+    after: str | Unset = UNSET,
+) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["limit"] = limit
+
+    params["after"] = after
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/spam-allow-list",
+        "params": params,
     }
 
     return _kwargs
@@ -22,9 +35,9 @@ def _get_kwargs() -> dict[str, Any]:
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListSpamAllow | Problem | None:
+) -> PageSpamAllow | Problem | None:
     if response.status_code == 200:
-        response_200 = ListSpamAllow.from_dict(response.json())
+        response_200 = PageSpamAllow.from_dict(response.json())
 
         return response_200
 
@@ -66,7 +79,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListSpamAllow | Problem]:
+) -> Response[PageSpamAllow | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,18 +91,27 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[ListSpamAllow | Problem]:
+    limit: int | Unset = 50,
+    after: str | Unset = UNSET,
+) -> Response[PageSpamAllow | Problem]:
     """Numbers this workspace never flags as spam, even when their caller ID fails verification
+
+    Args:
+        limit (int | Unset): Page size Default: 50.
+        after (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListSpamAllow | Problem]
+        Response[PageSpamAllow | Problem]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        limit=limit,
+        after=after,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -101,37 +123,54 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> ListSpamAllow | Problem | None:
+    limit: int | Unset = 50,
+    after: str | Unset = UNSET,
+) -> PageSpamAllow | Problem | None:
     """Numbers this workspace never flags as spam, even when their caller ID fails verification
+
+    Args:
+        limit (int | Unset): Page size Default: 50.
+        after (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListSpamAllow | Problem
+        PageSpamAllow | Problem
     """
 
     return sync_detailed(
         client=client,
+        limit=limit,
+        after=after,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[ListSpamAllow | Problem]:
+    limit: int | Unset = 50,
+    after: str | Unset = UNSET,
+) -> Response[PageSpamAllow | Problem]:
     """Numbers this workspace never flags as spam, even when their caller ID fails verification
+
+    Args:
+        limit (int | Unset): Page size Default: 50.
+        after (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListSpamAllow | Problem]
+        Response[PageSpamAllow | Problem]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        limit=limit,
+        after=after,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -141,19 +180,27 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> ListSpamAllow | Problem | None:
+    limit: int | Unset = 50,
+    after: str | Unset = UNSET,
+) -> PageSpamAllow | Problem | None:
     """Numbers this workspace never flags as spam, even when their caller ID fails verification
+
+    Args:
+        limit (int | Unset): Page size Default: 50.
+        after (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListSpamAllow | Problem
+        PageSpamAllow | Problem
     """
 
     return (
         await asyncio_detailed(
             client=client,
+            limit=limit,
+            after=after,
         )
     ).parsed
