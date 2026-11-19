@@ -179,6 +179,7 @@ from .call_recording_info import CallRecordingInfo
 from .call_recording_info_deleted_reason import CallRecordingInfoDeletedReason
 from .call_recording_info_state import CallRecordingInfoState
 from .call_sentiment import CallSentiment
+from .call_source import CallSource
 from .call_status import CallStatus
 from .call_text import CallText
 from .call_text_direction import CallTextDirection
@@ -403,6 +404,7 @@ from .get_calls_summary_sentiment import GetCallsSummarySentiment
 from .get_calls_summary_status import GetCallsSummaryStatus
 from .get_calls_summary_web_tests import GetCallsSummaryWebTests
 from .get_contact_timeline_filter import GetContactTimelineFilter
+from .greeting_audio import GreetingAudio
 from .guardrail_built_in import GuardrailBuiltIn
 from .guardrail_built_in_category import GuardrailBuiltInCategory
 from .guardrail_custom_rule import GuardrailCustomRule
@@ -683,6 +685,7 @@ from .retry_policy import RetryPolicy
 from .revocation import Revocation
 from .revocation_channel import RevocationChannel
 from .routing_hours import RoutingHours
+from .routing_hours_source import RoutingHoursSource
 from .routing_plan import RoutingPlan
 from .routing_target import RoutingTarget
 from .routing_target_mode import RoutingTargetMode
@@ -750,6 +753,7 @@ from .update_practice_test_input_body import UpdatePracticeTestInputBody
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
+from .upload_greeting_audio_body import UploadGreetingAudioBody
 from .usage import Usage
 from .usage_group_by import UsageGroupBy
 from .usage_lines import UsageLines
@@ -973,6 +977,7 @@ __all__ = (
     "CallRecordingInfoDeletedReason",
     "CallRecordingInfoState",
     "CallSentiment",
+    "CallSource",
     "CallStatus",
     "CallText",
     "CallTextDirection",
@@ -1193,6 +1198,7 @@ __all__ = (
     "GetCallsSummaryStatus",
     "GetCallsSummaryWebTests",
     "GetContactTimelineFilter",
+    "GreetingAudio",
     "GuardrailBuiltIn",
     "GuardrailBuiltInCategory",
     "GuardrailCustomRule",
@@ -1471,6 +1477,7 @@ __all__ = (
     "Revocation",
     "RevocationChannel",
     "RoutingHours",
+    "RoutingHoursSource",
     "RoutingPlan",
     "RoutingTarget",
     "RoutingTargetMode",
@@ -1538,6 +1545,7 @@ __all__ = (
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",
+    "UploadGreetingAudioBody",
     "Usage",
     "UsageGroupBy",
     "UsageLines",

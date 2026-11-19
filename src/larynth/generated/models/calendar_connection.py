@@ -31,6 +31,8 @@ class CalendarConnection:
         created_at (datetime.datetime):
         defaults (BookingDefaults):
         id (UUID):
+        plan_required (bool): The provider refused the last booking because the account's plan does not allow booking
+            through its API
         provider (IntegrationProvider):
         resources (list[CalendarResource]):
         status (CalendarConnectionStatus):
@@ -42,6 +44,7 @@ class CalendarConnection:
     created_at: datetime.datetime
     defaults: BookingDefaults
     id: UUID
+    plan_required: bool
     provider: IntegrationProvider
     resources: list[CalendarResource]
     status: CalendarConnectionStatus
@@ -56,6 +59,8 @@ class CalendarConnection:
         defaults = self.defaults.to_dict()
 
         id = str(self.id)
+
+        plan_required = self.plan_required
 
         provider = self.provider.to_dict()
 
@@ -81,6 +86,7 @@ class CalendarConnection:
                 "created_at": created_at,
                 "defaults": defaults,
                 "id": id,
+                "plan_required": plan_required,
                 "provider": provider,
                 "resources": resources,
                 "status": status,
@@ -108,6 +114,8 @@ class CalendarConnection:
 
         id = UUID(d.pop("id"))
 
+        plan_required = d.pop("plan_required")
+
         provider = IntegrationProvider.from_dict(d.pop("provider"))
 
         resources = []
@@ -133,6 +141,7 @@ class CalendarConnection:
             created_at=created_at,
             defaults=defaults,
             id=id,
+            plan_required=plan_required,
             provider=provider,
             resources=resources,
             status=status,

@@ -37,6 +37,7 @@ if TYPE_CHECKING:
     from ..models.call_handling import CallHandling
     from ..models.disclosure_spec import DisclosureSpec
     from ..models.flow_spec import FlowSpec
+    from ..models.greeting_audio import GreetingAudio
     from ..models.guardrails_spec import GuardrailsSpec
     from ..models.interruption_profile import InterruptionProfile
     from ..models.latency_settings import LatencySettings
@@ -67,6 +68,7 @@ class AssistantVersion:
         disclosure (DisclosureSpec | Unset):
         fillers (list[str] | Unset):
         flow (FlowSpec | Unset):
+        greeting_audio (GreetingAudio | Unset):
         guardrails (GuardrailsSpec | Unset):
         interruption_profile (InterruptionProfile | Unset):
         knowledge_base_ids (list[str] | Unset): Knowledge bases the assistant can search with the search_knowledge tool;
@@ -114,6 +116,7 @@ class AssistantVersion:
     disclosure: DisclosureSpec | Unset = UNSET
     fillers: list[str] | Unset = UNSET
     flow: FlowSpec | Unset = UNSET
+    greeting_audio: GreetingAudio | Unset = UNSET
     guardrails: GuardrailsSpec | Unset = UNSET
     interruption_profile: InterruptionProfile | Unset = UNSET
     knowledge_base_ids: list[str] | Unset = UNSET
@@ -181,6 +184,10 @@ class AssistantVersion:
         flow: dict[str, Any] | Unset = UNSET
         if not isinstance(self.flow, Unset):
             flow = self.flow.to_dict()
+
+        greeting_audio: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.greeting_audio, Unset):
+            greeting_audio = self.greeting_audio.to_dict()
 
         guardrails: dict[str, Any] | Unset = UNSET
         if not isinstance(self.guardrails, Unset):
@@ -314,6 +321,8 @@ class AssistantVersion:
             field_dict["fillers"] = fillers
         if flow is not UNSET:
             field_dict["flow"] = flow
+        if greeting_audio is not UNSET:
+            field_dict["greeting_audio"] = greeting_audio
         if guardrails is not UNSET:
             field_dict["guardrails"] = guardrails
         if interruption_profile is not UNSET:
@@ -382,6 +391,7 @@ class AssistantVersion:
         from ..models.call_handling import CallHandling
         from ..models.disclosure_spec import DisclosureSpec
         from ..models.flow_spec import FlowSpec
+        from ..models.greeting_audio import GreetingAudio
         from ..models.guardrails_spec import GuardrailsSpec
         from ..models.interruption_profile import InterruptionProfile
         from ..models.latency_settings import LatencySettings
@@ -439,6 +449,13 @@ class AssistantVersion:
             flow = UNSET
         else:
             flow = FlowSpec.from_dict(_flow)
+
+        _greeting_audio = d.pop("greeting_audio", UNSET)
+        greeting_audio: GreetingAudio | Unset
+        if isinstance(_greeting_audio, Unset):
+            greeting_audio = UNSET
+        else:
+            greeting_audio = GreetingAudio.from_dict(_greeting_audio)
 
         _guardrails = d.pop("guardrails", UNSET)
         guardrails: GuardrailsSpec | Unset
@@ -612,6 +629,7 @@ class AssistantVersion:
             disclosure=disclosure,
             fillers=fillers,
             flow=flow,
+            greeting_audio=greeting_audio,
             guardrails=guardrails,
             interruption_profile=interruption_profile,
             knowledge_base_ids=knowledge_base_ids,
