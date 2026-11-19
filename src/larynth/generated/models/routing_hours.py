@@ -5,6 +5,9 @@ from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 
+from ..models.routing_hours_source import RoutingHoursSource, check_routing_hours_source
+from ..types import UNSET, Unset
+
 if TYPE_CHECKING:
     from ..models.holiday_settings import HolidaySettings
     from ..models.hours_band import HoursBand
@@ -20,11 +23,14 @@ class RoutingHours:
         bands (list[HoursBand]): At most 2 bands per day, no overlaps
         holidays (HolidaySettings):
         timezone (str): IANA zone; defaults to the workspace time zone
+        source (RoutingHoursSource | Unset): business_profile: use the workspace business profile's weekly and special
+            hours; bands are the fallback while the profile has no weekly hours
     """
 
     bands: list[HoursBand]
     holidays: HolidaySettings
     timezone: str
+    source: RoutingHoursSource | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         bands = []
@@ -36,6 +42,10 @@ class RoutingHours:
 
         timezone = self.timezone
 
+        source: str | Unset = UNSET
+        if not isinstance(self.source, Unset):
+            source = self.source
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -45,6 +55,8 @@ class RoutingHours:
                 "timezone": timezone,
             }
         )
+        if source is not UNSET:
+            field_dict["source"] = source
 
         return field_dict
 
@@ -65,10 +77,18 @@ class RoutingHours:
 
         timezone = d.pop("timezone")
 
+        _source = d.pop("source", UNSET)
+        source: RoutingHoursSource | Unset
+        if isinstance(_source, Unset):
+            source = UNSET
+        else:
+            source = check_routing_hours_source(_source)
+
         routing_hours = cls(
             bands=bands,
             holidays=holidays,
             timezone=timezone,
+            source=source,
         )
 
         return routing_hours
