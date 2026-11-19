@@ -1,10 +1,14 @@
 from typing import Literal
 
-IntegrationProviderKind = Literal["cal_com", "google_calendar"]
+IntegrationProviderKind = Literal[
+    "cal_com", "calendly", "google_calendar", "outlook_calendar"
+]
 
 INTEGRATION_PROVIDER_KIND_VALUES: set[IntegrationProviderKind] = {
     "cal_com",
+    "calendly",
     "google_calendar",
+    "outlook_calendar",
 }
 
 

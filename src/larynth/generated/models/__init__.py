@@ -118,6 +118,7 @@ from .booking_hours import BookingHours
 from .booking_hours_source import BookingHoursSource
 from .booking_service import BookingService
 from .booking_status import BookingStatus
+from .builder_preset import BuilderPreset
 from .bulk_result import BulkResult
 from .bulk_update_contacts_request import BulkUpdateContactsRequest
 from .bulk_update_contacts_request_action import BulkUpdateContactsRequestAction
@@ -179,6 +180,7 @@ from .call_recording_info import CallRecordingInfo
 from .call_recording_info_deleted_reason import CallRecordingInfoDeletedReason
 from .call_recording_info_state import CallRecordingInfoState
 from .call_sentiment import CallSentiment
+from .call_source import CallSource
 from .call_status import CallStatus
 from .call_text import CallText
 from .call_text_direction import CallTextDirection
@@ -238,11 +240,15 @@ from .catalog_language import CatalogLanguage
 from .catalog_model import CatalogModel
 from .catalog_model_defaults import CatalogModelDefaults
 from .catalog_model_kind import CatalogModelKind
+from .catalog_model_latency_basis import CatalogModelLatencyBasis
 from .catalog_model_params_schema import CatalogModelParamsSchema
+from .catalog_model_quality_basis import CatalogModelQualityBasis
 from .catalog_model_status import CatalogModelStatus
 from .catalog_model_tier import CatalogModelTier
 from .catalog_voice import CatalogVoice
 from .catalog_voice_attributes import CatalogVoiceAttributes
+from .catalog_voice_latency_basis import CatalogVoiceLatencyBasis
+from .catalog_voice_quality_basis import CatalogVoiceQualityBasis
 from .catalog_voice_status import CatalogVoiceStatus
 from .check_fix import CheckFix
 from .check_fix_kind import CheckFixKind
@@ -402,7 +408,9 @@ from .get_calls_summary_group_by import GetCallsSummaryGroupBy
 from .get_calls_summary_sentiment import GetCallsSummarySentiment
 from .get_calls_summary_status import GetCallsSummaryStatus
 from .get_calls_summary_web_tests import GetCallsSummaryWebTests
+from .get_catalog_price_estimate_direction import GetCatalogPriceEstimateDirection
 from .get_contact_timeline_filter import GetContactTimelineFilter
+from .greeting_audio import GreetingAudio
 from .guardrail_built_in import GuardrailBuiltIn
 from .guardrail_built_in_category import GuardrailBuiltInCategory
 from .guardrail_custom_rule import GuardrailCustomRule
@@ -470,6 +478,9 @@ from .knowledge_search_result_mode import KnowledgeSearchResultMode
 from .knowledge_source import KnowledgeSource
 from .knowledge_source_kind import KnowledgeSourceKind
 from .knowledge_source_status import KnowledgeSourceStatus
+from .latency_part import LatencyPart
+from .latency_part_basis import LatencyPartBasis
+from .latency_part_kind import LatencyPartKind
 from .latency_settings import LatencySettings
 from .launch_attestation import LaunchAttestation
 from .launch_price import LaunchPrice
@@ -485,6 +496,8 @@ from .list_assistants_state import ListAssistantsState
 from .list_assistants_status import ListAssistantsStatus
 from .list_bookings_status_item import ListBookingsStatusItem
 from .list_bookings_when import ListBookingsWhen
+from .list_builder_preset import ListBuilderPreset
+from .list_builder_presets_direction import ListBuilderPresetsDirection
 from .list_calendar_connection import ListCalendarConnection
 from .list_calendar_resource import ListCalendarResource
 from .list_calling_rule import ListCallingRule
@@ -499,6 +512,7 @@ from .list_campaigns_display_status import ListCampaignsDisplayStatus
 from .list_campaigns_status import ListCampaignsStatus
 from .list_catalog_language import ListCatalogLanguage
 from .list_catalog_models_kind import ListCatalogModelsKind
+from .list_catalog_models_sort import ListCatalogModelsSort
 from .list_compliance_decisions_result import ListComplianceDecisionsResult
 from .list_compliance_text_view import ListComplianceTextView
 from .list_compliance_texts_kind import ListComplianceTextsKind
@@ -656,6 +670,10 @@ from .preview_campaign_audience_request import PreviewCampaignAudienceRequest
 from .preview_campaign_audience_request_purpose import (
     PreviewCampaignAudienceRequestPurpose,
 )
+from .price_estimate import PriceEstimate
+from .price_estimate_currency import PriceEstimateCurrency
+from .price_part import PricePart
+from .price_part_kind import PricePartKind
 from .problem import Problem
 from .problem_period import ProblemPeriod
 from .problem_request_kind import ProblemRequestKind
@@ -683,6 +701,7 @@ from .retry_policy import RetryPolicy
 from .revocation import Revocation
 from .revocation_channel import RevocationChannel
 from .routing_hours import RoutingHours
+from .routing_hours_source import RoutingHoursSource
 from .routing_plan import RoutingPlan
 from .routing_target import RoutingTarget
 from .routing_target_mode import RoutingTargetMode
@@ -750,6 +769,7 @@ from .update_practice_test_input_body import UpdatePracticeTestInputBody
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
+from .upload_greeting_audio_body import UploadGreetingAudioBody
 from .usage import Usage
 from .usage_group_by import UsageGroupBy
 from .usage_lines import UsageLines
@@ -912,6 +932,7 @@ __all__ = (
     "BookingHoursSource",
     "BookingService",
     "BookingStatus",
+    "BuilderPreset",
     "BulkResult",
     "BulkUpdateContactsRequest",
     "BulkUpdateContactsRequestAction",
@@ -973,6 +994,7 @@ __all__ = (
     "CallRecordingInfoDeletedReason",
     "CallRecordingInfoState",
     "CallSentiment",
+    "CallSource",
     "CallStatus",
     "CallText",
     "CallTextDirection",
@@ -1032,11 +1054,15 @@ __all__ = (
     "CatalogModel",
     "CatalogModelDefaults",
     "CatalogModelKind",
+    "CatalogModelLatencyBasis",
     "CatalogModelParamsSchema",
+    "CatalogModelQualityBasis",
     "CatalogModelStatus",
     "CatalogModelTier",
     "CatalogVoice",
     "CatalogVoiceAttributes",
+    "CatalogVoiceLatencyBasis",
+    "CatalogVoiceQualityBasis",
     "CatalogVoiceStatus",
     "CheckFix",
     "CheckFixKind",
@@ -1192,7 +1218,9 @@ __all__ = (
     "GetCallsSummarySentiment",
     "GetCallsSummaryStatus",
     "GetCallsSummaryWebTests",
+    "GetCatalogPriceEstimateDirection",
     "GetContactTimelineFilter",
+    "GreetingAudio",
     "GuardrailBuiltIn",
     "GuardrailBuiltInCategory",
     "GuardrailCustomRule",
@@ -1260,6 +1288,9 @@ __all__ = (
     "KnowledgeSource",
     "KnowledgeSourceKind",
     "KnowledgeSourceStatus",
+    "LatencyPart",
+    "LatencyPartBasis",
+    "LatencyPartKind",
     "LatencySettings",
     "LaunchAttestation",
     "LaunchPrice",
@@ -1275,6 +1306,8 @@ __all__ = (
     "ListAssistantsStatus",
     "ListBookingsStatusItem",
     "ListBookingsWhen",
+    "ListBuilderPreset",
+    "ListBuilderPresetsDirection",
     "ListCalendarConnection",
     "ListCalendarResource",
     "ListCallingRule",
@@ -1289,6 +1322,7 @@ __all__ = (
     "ListCampaignsStatus",
     "ListCatalogLanguage",
     "ListCatalogModelsKind",
+    "ListCatalogModelsSort",
     "ListComplianceDecisionsResult",
     "ListComplianceTextView",
     "ListComplianceTextsKind",
@@ -1444,6 +1478,10 @@ __all__ = (
     "PreflightResult",
     "PreviewCampaignAudienceRequest",
     "PreviewCampaignAudienceRequestPurpose",
+    "PriceEstimate",
+    "PriceEstimateCurrency",
+    "PricePart",
+    "PricePartKind",
     "Problem",
     "ProblemPeriod",
     "ProblemRequestKind",
@@ -1471,6 +1509,7 @@ __all__ = (
     "Revocation",
     "RevocationChannel",
     "RoutingHours",
+    "RoutingHoursSource",
     "RoutingPlan",
     "RoutingTarget",
     "RoutingTargetMode",
@@ -1538,6 +1577,7 @@ __all__ = (
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",
+    "UploadGreetingAudioBody",
     "Usage",
     "UsageGroupBy",
     "UsageLines",
