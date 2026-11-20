@@ -26,6 +26,7 @@ from ..models.call_outcome import CallOutcome, check_call_outcome
 from ..models.call_outcome_group import CallOutcomeGroup, check_call_outcome_group
 from ..models.call_outcome_label import CallOutcomeLabel, check_call_outcome_label
 from ..models.call_sentiment import CallSentiment, check_call_sentiment
+from ..models.call_source import CallSource, check_call_source
 from ..models.call_status import CallStatus, check_call_status
 from ..types import UNSET, Unset
 
@@ -112,6 +113,7 @@ class Call:
         recording_notice_played_at (datetime.datetime | Unset):
         sentiment (CallSentiment | Unset): Caller sentiment from the post-call analysis, on every call
         sip_code (int | Unset):
+        source (CallSource | Unset): widget: a website visitor called through the embedded widget (direction web_test)
         successful (bool | Unset):
         summary (str | Unset): Short post-call summary, present on list items once analysed
         to_e164 (str | Unset):
@@ -176,6 +178,7 @@ class Call:
     recording_notice_played_at: datetime.datetime | Unset = UNSET
     sentiment: CallSentiment | Unset = UNSET
     sip_code: int | Unset = UNSET
+    source: CallSource | Unset = UNSET
     successful: bool | Unset = UNSET
     summary: str | Unset = UNSET
     to_e164: str | Unset = UNSET
@@ -354,6 +357,10 @@ class Call:
 
         sip_code = self.sip_code
 
+        source: str | Unset = UNSET
+        if not isinstance(self.source, Unset):
+            source = self.source
+
         successful = self.successful
 
         summary = self.summary
@@ -475,6 +482,8 @@ class Call:
             field_dict["sentiment"] = sentiment
         if sip_code is not UNSET:
             field_dict["sip_code"] = sip_code
+        if source is not UNSET:
+            field_dict["source"] = source
         if successful is not UNSET:
             field_dict["successful"] = successful
         if summary is not UNSET:
@@ -761,6 +770,13 @@ class Call:
 
         sip_code = d.pop("sip_code", UNSET)
 
+        _source = d.pop("source", UNSET)
+        source: CallSource | Unset
+        if isinstance(_source, Unset):
+            source = UNSET
+        else:
+            source = check_call_source(_source)
+
         successful = d.pop("successful", UNSET)
 
         summary = d.pop("summary", UNSET)
@@ -833,6 +849,7 @@ class Call:
             recording_notice_played_at=recording_notice_played_at,
             sentiment=sentiment,
             sip_code=sip_code,
+            source=source,
             successful=successful,
             summary=summary,
             to_e164=to_e164,

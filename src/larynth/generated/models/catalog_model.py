@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from uuid import UUID
@@ -7,6 +8,18 @@ from uuid import UUID
 from attrs import define as _attrs_define
 
 from ..models.catalog_model_kind import CatalogModelKind, check_catalog_model_kind
+from ..models.catalog_model_latency_basis import (
+    CatalogModelLatencyBasis,
+    check_catalog_model_latency_basis,
+)
+from ..models.catalog_model_latency_source import (
+    CatalogModelLatencySource,
+    check_catalog_model_latency_source,
+)
+from ..models.catalog_model_quality_basis import (
+    CatalogModelQualityBasis,
+    check_catalog_model_quality_basis,
+)
 from ..models.catalog_model_status import CatalogModelStatus, check_catalog_model_status
 from ..models.catalog_model_tier import CatalogModelTier, check_catalog_model_tier
 from ..types import UNSET, Unset
@@ -30,6 +43,7 @@ class CatalogModel:
         is_default_fallback (bool):
         kind (CatalogModelKind):
         languages (list[str]):
+        latency_samples (int): Number of samples behind typical_latency_ms and latency_p95_ms; 0 when no number exists
         model_key (str):
         params_schema (CatalogModelParamsSchema):
         premium_micro_per_min (int): Added to the call-minute rate; 0 when no premium rate row exists. Equals what
@@ -41,9 +55,22 @@ class CatalogModel:
         usable_in_flows (bool): A flow step may pick this model (cascade LLMs only, at most 3 per flow)
         wire_rates (list[int]):
         description (str | Unset): Plain description written by Larynth
+        latency_basis (CatalogModelLatencyBasis | Unset): Same value as latency_source
+        latency_measured_at (datetime.datetime | Unset): When the latency figures were last computed
+        latency_p95_ms (int | Unset): The 95th percentile over the same samples as typical_latency_ms
+        latency_source (CatalogModelLatencySource | Unset): live: our own calls of the last 7 days, written nightly once
+            50 turns exist. Turns are attributed per call to the single model of each kind the call used; calls that
+            switched models mid-call (fallback) are excluded. lab: our direct probe from a US host, used until live data
+            exists. Unset when no measurement exists
+        quality_basis (CatalogModelQualityBasis | Unset): wer: 100 minus word error rate x10 on our benchmark corpus;
+            eval: live-call eval pass rate; humanness: listening benchmark
+        quality_score (int | Unset): 0 to 100, from our own measurement named by quality_basis; unset until measured
+        retires_on (datetime.date | Unset): Date the vendor retires the model, YYYY-MM-DD; unset when no date is known
         tier (CatalogModelTier | Unset): Quality tier the editor shows by default; unset for models listed only under
             Advanced
-        typical_reply_ms (int | Unset): Typical time this model adds to a reply, measured on our cells
+        typical_latency_ms (int | Unset): Typical latency: STT is speech end to final transcript, LLM is time to first
+            token, TTS is text to first audio
+        typical_reply_ms (int | Unset): Deprecated alias of typical_latency_ms, kept for one release
     """
 
     defaults: CatalogModelDefaults
@@ -53,6 +80,7 @@ class CatalogModel:
     is_default_fallback: bool
     kind: CatalogModelKind
     languages: list[str]
+    latency_samples: int
     model_key: str
     params_schema: CatalogModelParamsSchema
     premium_micro_per_min: int
@@ -63,7 +91,15 @@ class CatalogModel:
     usable_in_flows: bool
     wire_rates: list[int]
     description: str | Unset = UNSET
+    latency_basis: CatalogModelLatencyBasis | Unset = UNSET
+    latency_measured_at: datetime.datetime | Unset = UNSET
+    latency_p95_ms: int | Unset = UNSET
+    latency_source: CatalogModelLatencySource | Unset = UNSET
+    quality_basis: CatalogModelQualityBasis | Unset = UNSET
+    quality_score: int | Unset = UNSET
+    retires_on: datetime.date | Unset = UNSET
     tier: CatalogModelTier | Unset = UNSET
+    typical_latency_ms: int | Unset = UNSET
     typical_reply_ms: int | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
@@ -80,6 +116,8 @@ class CatalogModel:
         kind: str = self.kind
 
         languages = self.languages
+
+        latency_samples = self.latency_samples
 
         model_key = self.model_key
 
@@ -101,9 +139,35 @@ class CatalogModel:
 
         description = self.description
 
+        latency_basis: str | Unset = UNSET
+        if not isinstance(self.latency_basis, Unset):
+            latency_basis = self.latency_basis
+
+        latency_measured_at: str | Unset = UNSET
+        if not isinstance(self.latency_measured_at, Unset):
+            latency_measured_at = self.latency_measured_at.isoformat()
+
+        latency_p95_ms = self.latency_p95_ms
+
+        latency_source: str | Unset = UNSET
+        if not isinstance(self.latency_source, Unset):
+            latency_source = self.latency_source
+
+        quality_basis: str | Unset = UNSET
+        if not isinstance(self.quality_basis, Unset):
+            quality_basis = self.quality_basis
+
+        quality_score = self.quality_score
+
+        retires_on: str | Unset = UNSET
+        if not isinstance(self.retires_on, Unset):
+            retires_on = self.retires_on.isoformat()
+
         tier: str | Unset = UNSET
         if not isinstance(self.tier, Unset):
             tier = self.tier
+
+        typical_latency_ms = self.typical_latency_ms
 
         typical_reply_ms = self.typical_reply_ms
 
@@ -118,6 +182,7 @@ class CatalogModel:
                 "is_default_fallback": is_default_fallback,
                 "kind": kind,
                 "languages": languages,
+                "latency_samples": latency_samples,
                 "model_key": model_key,
                 "params_schema": params_schema,
                 "premium_micro_per_min": premium_micro_per_min,
@@ -131,8 +196,24 @@ class CatalogModel:
         )
         if description is not UNSET:
             field_dict["description"] = description
+        if latency_basis is not UNSET:
+            field_dict["latency_basis"] = latency_basis
+        if latency_measured_at is not UNSET:
+            field_dict["latency_measured_at"] = latency_measured_at
+        if latency_p95_ms is not UNSET:
+            field_dict["latency_p95_ms"] = latency_p95_ms
+        if latency_source is not UNSET:
+            field_dict["latency_source"] = latency_source
+        if quality_basis is not UNSET:
+            field_dict["quality_basis"] = quality_basis
+        if quality_score is not UNSET:
+            field_dict["quality_score"] = quality_score
+        if retires_on is not UNSET:
+            field_dict["retires_on"] = retires_on
         if tier is not UNSET:
             field_dict["tier"] = tier
+        if typical_latency_ms is not UNSET:
+            field_dict["typical_latency_ms"] = typical_latency_ms
         if typical_reply_ms is not UNSET:
             field_dict["typical_reply_ms"] = typical_reply_ms
 
@@ -158,6 +239,8 @@ class CatalogModel:
 
         languages = cast(list[str], d.pop("languages"))
 
+        latency_samples = d.pop("latency_samples")
+
         model_key = d.pop("model_key")
 
         params_schema = CatalogModelParamsSchema.from_dict(d.pop("params_schema"))
@@ -178,12 +261,53 @@ class CatalogModel:
 
         description = d.pop("description", UNSET)
 
+        _latency_basis = d.pop("latency_basis", UNSET)
+        latency_basis: CatalogModelLatencyBasis | Unset
+        if isinstance(_latency_basis, Unset):
+            latency_basis = UNSET
+        else:
+            latency_basis = check_catalog_model_latency_basis(_latency_basis)
+
+        _latency_measured_at = d.pop("latency_measured_at", UNSET)
+        latency_measured_at: datetime.datetime | Unset
+        if isinstance(_latency_measured_at, Unset):
+            latency_measured_at = UNSET
+        else:
+            latency_measured_at = datetime.datetime.fromisoformat(_latency_measured_at)
+
+        latency_p95_ms = d.pop("latency_p95_ms", UNSET)
+
+        _latency_source = d.pop("latency_source", UNSET)
+        latency_source: CatalogModelLatencySource | Unset
+        if isinstance(_latency_source, Unset):
+            latency_source = UNSET
+        else:
+            latency_source = check_catalog_model_latency_source(_latency_source)
+
+        _quality_basis = d.pop("quality_basis", UNSET)
+        quality_basis: CatalogModelQualityBasis | Unset
+        if isinstance(_quality_basis, Unset):
+            quality_basis = UNSET
+        else:
+            quality_basis = check_catalog_model_quality_basis(_quality_basis)
+
+        quality_score = d.pop("quality_score", UNSET)
+
+        _retires_on = d.pop("retires_on", UNSET)
+        retires_on: datetime.date | Unset
+        if isinstance(_retires_on, Unset):
+            retires_on = UNSET
+        else:
+            retires_on = datetime.date.fromisoformat(_retires_on)
+
         _tier = d.pop("tier", UNSET)
         tier: CatalogModelTier | Unset
         if isinstance(_tier, Unset):
             tier = UNSET
         else:
             tier = check_catalog_model_tier(_tier)
+
+        typical_latency_ms = d.pop("typical_latency_ms", UNSET)
 
         typical_reply_ms = d.pop("typical_reply_ms", UNSET)
 
@@ -195,6 +319,7 @@ class CatalogModel:
             is_default_fallback=is_default_fallback,
             kind=kind,
             languages=languages,
+            latency_samples=latency_samples,
             model_key=model_key,
             params_schema=params_schema,
             premium_micro_per_min=premium_micro_per_min,
@@ -205,7 +330,15 @@ class CatalogModel:
             usable_in_flows=usable_in_flows,
             wire_rates=wire_rates,
             description=description,
+            latency_basis=latency_basis,
+            latency_measured_at=latency_measured_at,
+            latency_p95_ms=latency_p95_ms,
+            latency_source=latency_source,
+            quality_basis=quality_basis,
+            quality_score=quality_score,
+            retires_on=retires_on,
             tier=tier,
+            typical_latency_ms=typical_latency_ms,
             typical_reply_ms=typical_reply_ms,
         )
 

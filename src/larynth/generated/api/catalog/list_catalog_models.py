@@ -8,6 +8,9 @@ from ...client import AuthenticatedClient, Client
 from ...models.list_catalog_models_kind import (
     ListCatalogModelsKind,
 )
+from ...models.list_catalog_models_sort import (
+    ListCatalogModelsSort,
+)
 from ...models.page_catalog_model import PageCatalogModel
 from ...models.problem import Problem
 from ...types import UNSET, Response, Unset
@@ -19,6 +22,8 @@ def _get_kwargs(
     after: str | Unset = UNSET,
     kind: ListCatalogModelsKind | Unset = UNSET,
     language: str | Unset = UNSET,
+    provider: str | Unset = UNSET,
+    sort: ListCatalogModelsSort | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -34,6 +39,14 @@ def _get_kwargs(
     params["kind"] = json_kind
 
     params["language"] = language
+
+    params["provider"] = provider
+
+    json_sort: str | Unset = UNSET
+    if not isinstance(sort, Unset):
+        json_sort = sort
+
+    params["sort"] = json_sort
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -108,6 +121,8 @@ def sync_detailed(
     after: str | Unset = UNSET,
     kind: ListCatalogModelsKind | Unset = UNSET,
     language: str | Unset = UNSET,
+    provider: str | Unset = UNSET,
+    sort: ListCatalogModelsSort | Unset = UNSET,
 ) -> Response[PageCatalogModel | Problem]:
     """List enabled models
 
@@ -116,6 +131,10 @@ def sync_detailed(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         kind (ListCatalogModelsKind | Unset):
         language (str | Unset):
+        provider (str | Unset): Only models of this provider key
+        sort (ListCatalogModelsSort | Unset): latency: lowest typical_latency_ms first; quality:
+            highest quality_score first; price: lowest premium first. Unknown values sort last; ties
+            break on id. The cursor carries the sort key
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -130,6 +149,8 @@ def sync_detailed(
         after=after,
         kind=kind,
         language=language,
+        provider=provider,
+        sort=sort,
     )
 
     response = client.get_httpx_client().request(
@@ -146,6 +167,8 @@ def sync(
     after: str | Unset = UNSET,
     kind: ListCatalogModelsKind | Unset = UNSET,
     language: str | Unset = UNSET,
+    provider: str | Unset = UNSET,
+    sort: ListCatalogModelsSort | Unset = UNSET,
 ) -> PageCatalogModel | Problem | None:
     """List enabled models
 
@@ -154,6 +177,10 @@ def sync(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         kind (ListCatalogModelsKind | Unset):
         language (str | Unset):
+        provider (str | Unset): Only models of this provider key
+        sort (ListCatalogModelsSort | Unset): latency: lowest typical_latency_ms first; quality:
+            highest quality_score first; price: lowest premium first. Unknown values sort last; ties
+            break on id. The cursor carries the sort key
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -169,6 +196,8 @@ def sync(
         after=after,
         kind=kind,
         language=language,
+        provider=provider,
+        sort=sort,
     ).parsed
 
 
@@ -179,6 +208,8 @@ async def asyncio_detailed(
     after: str | Unset = UNSET,
     kind: ListCatalogModelsKind | Unset = UNSET,
     language: str | Unset = UNSET,
+    provider: str | Unset = UNSET,
+    sort: ListCatalogModelsSort | Unset = UNSET,
 ) -> Response[PageCatalogModel | Problem]:
     """List enabled models
 
@@ -187,6 +218,10 @@ async def asyncio_detailed(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         kind (ListCatalogModelsKind | Unset):
         language (str | Unset):
+        provider (str | Unset): Only models of this provider key
+        sort (ListCatalogModelsSort | Unset): latency: lowest typical_latency_ms first; quality:
+            highest quality_score first; price: lowest premium first. Unknown values sort last; ties
+            break on id. The cursor carries the sort key
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -201,6 +236,8 @@ async def asyncio_detailed(
         after=after,
         kind=kind,
         language=language,
+        provider=provider,
+        sort=sort,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -215,6 +252,8 @@ async def asyncio(
     after: str | Unset = UNSET,
     kind: ListCatalogModelsKind | Unset = UNSET,
     language: str | Unset = UNSET,
+    provider: str | Unset = UNSET,
+    sort: ListCatalogModelsSort | Unset = UNSET,
 ) -> PageCatalogModel | Problem | None:
     """List enabled models
 
@@ -223,6 +262,10 @@ async def asyncio(
         after (str | Unset): Opaque cursor from next_cursor of the previous page
         kind (ListCatalogModelsKind | Unset):
         language (str | Unset):
+        provider (str | Unset): Only models of this provider key
+        sort (ListCatalogModelsSort | Unset): latency: lowest typical_latency_ms first; quality:
+            highest quality_score first; price: lowest premium first. Unknown values sort last; ties
+            break on id. The cursor carries the sort key
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -239,5 +282,7 @@ async def asyncio(
             after=after,
             kind=kind,
             language=language,
+            provider=provider,
+            sort=sort,
         )
     ).parsed
