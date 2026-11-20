@@ -178,7 +178,11 @@ from .call_receipt_not_billed_reason import CallReceiptNotBilledReason
 from .call_receipt_rounding import CallReceiptRounding
 from .call_recording_info import CallRecordingInfo
 from .call_recording_info_deleted_reason import CallRecordingInfoDeletedReason
+from .call_recording_info_lanes_item import CallRecordingInfoLanesItem
 from .call_recording_info_state import CallRecordingInfoState
+from .call_recording_lane import CallRecordingLane
+from .call_recording_lane_lane import CallRecordingLaneLane
+from .call_recording_peaks import CallRecordingPeaks
 from .call_sentiment import CallSentiment
 from .call_source import CallSource
 from .call_status import CallStatus
@@ -993,7 +997,11 @@ __all__ = (
     "CallReceiptRounding",
     "CallRecordingInfo",
     "CallRecordingInfoDeletedReason",
+    "CallRecordingInfoLanesItem",
     "CallRecordingInfoState",
+    "CallRecordingLane",
+    "CallRecordingLaneLane",
+    "CallRecordingPeaks",
     "CallSentiment",
     "CallSource",
     "CallStatus",
