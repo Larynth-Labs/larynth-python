@@ -3,23 +3,33 @@ from typing import Literal
 WebhookEventTypeGroup = Literal[
     "agents",
     "billing",
+    "bookings",
     "calls",
     "campaigns",
     "compliance",
     "inbox",
+    "integrations",
+    "issues",
+    "knowledge",
     "notifications",
     "numbers",
+    "tools",
 ]
 
 WEBHOOK_EVENT_TYPE_GROUP_VALUES: set[WebhookEventTypeGroup] = {
     "agents",
     "billing",
+    "bookings",
     "calls",
     "campaigns",
     "compliance",
     "inbox",
+    "integrations",
+    "issues",
+    "knowledge",
     "notifications",
     "numbers",
+    "tools",
 }
 
 
