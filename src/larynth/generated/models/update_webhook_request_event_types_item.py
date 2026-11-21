@@ -1,6 +1,7 @@
 from typing import Literal
 
 UpdateWebhookRequestEventTypesItem = Literal[
+    "*",
     "agent.paused",
     "agent.published",
     "agent.resumed",
@@ -73,6 +74,7 @@ UpdateWebhookRequestEventTypesItem = Literal[
 UPDATE_WEBHOOK_REQUEST_EVENT_TYPES_ITEM_VALUES: set[
     UpdateWebhookRequestEventTypesItem
 ] = {
+    "*",
     "agent.paused",
     "agent.published",
     "agent.resumed",
