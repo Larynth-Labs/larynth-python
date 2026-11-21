@@ -23,7 +23,7 @@ class UpdateWebhookRequest:
     """
     Attributes:
         description (str | Unset):
-        event_types (list[UpdateWebhookRequestEventTypesItem] | Unset):
+        event_types (list[UpdateWebhookRequestEventTypesItem] | Unset): Event types to deliver, or ["*"] for every event
         status (UpdateWebhookRequestStatus | Unset):
         url (str | Unset):
     """
