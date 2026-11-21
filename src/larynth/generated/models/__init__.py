@@ -154,7 +154,7 @@ from .call_flow import CallFlow
 from .call_flow_events import CallFlowEvents
 from .call_flow_variables import CallFlowVariables
 from .call_handling import CallHandling
-from .call_handling_ambient_sound import CallHandlingAmbientSound
+from .call_handling_ambient_level import CallHandlingAmbientLevel
 from .call_handling_dtmf_end_key import CallHandlingDtmfEndKey
 from .call_handling_max_reply import CallHandlingMaxReply
 from .call_handling_silence_end_s import CallHandlingSilenceEndS
@@ -178,7 +178,11 @@ from .call_receipt_not_billed_reason import CallReceiptNotBilledReason
 from .call_receipt_rounding import CallReceiptRounding
 from .call_recording_info import CallRecordingInfo
 from .call_recording_info_deleted_reason import CallRecordingInfoDeletedReason
+from .call_recording_info_lanes_item import CallRecordingInfoLanesItem
 from .call_recording_info_state import CallRecordingInfoState
+from .call_recording_lane import CallRecordingLane
+from .call_recording_lane_lane import CallRecordingLaneLane
+from .call_recording_peaks import CallRecordingPeaks
 from .call_sentiment import CallSentiment
 from .call_source import CallSource
 from .call_status import CallStatus
@@ -236,6 +240,7 @@ from .campaign_status import CampaignStatus
 from .campaign_voicemail import CampaignVoicemail
 from .campaign_voicemail_mode import CampaignVoicemailMode
 from .campaign_window import CampaignWindow
+from .catalog_ambient_sound import CatalogAmbientSound
 from .catalog_language import CatalogLanguage
 from .catalog_model import CatalogModel
 from .catalog_model_defaults import CatalogModelDefaults
@@ -511,6 +516,7 @@ from .list_calls_web_tests import ListCallsWebTests
 from .list_campaign_contacts_state import ListCampaignContactsState
 from .list_campaigns_display_status import ListCampaignsDisplayStatus
 from .list_campaigns_status import ListCampaignsStatus
+from .list_catalog_ambient_sound import ListCatalogAmbientSound
 from .list_catalog_language import ListCatalogLanguage
 from .list_catalog_models_kind import ListCatalogModelsKind
 from .list_catalog_models_sort import ListCatalogModelsSort
@@ -969,7 +975,7 @@ __all__ = (
     "CallFlowEvents",
     "CallFlowVariables",
     "CallHandling",
-    "CallHandlingAmbientSound",
+    "CallHandlingAmbientLevel",
     "CallHandlingDtmfEndKey",
     "CallHandlingMaxReply",
     "CallHandlingSilenceEndS",
@@ -993,7 +999,11 @@ __all__ = (
     "CallReceiptRounding",
     "CallRecordingInfo",
     "CallRecordingInfoDeletedReason",
+    "CallRecordingInfoLanesItem",
     "CallRecordingInfoState",
+    "CallRecordingLane",
+    "CallRecordingLaneLane",
+    "CallRecordingPeaks",
     "CallSentiment",
     "CallSource",
     "CallStatus",
@@ -1051,6 +1061,7 @@ __all__ = (
     "CampaignVoicemail",
     "CampaignVoicemailMode",
     "CampaignWindow",
+    "CatalogAmbientSound",
     "CatalogLanguage",
     "CatalogModel",
     "CatalogModelDefaults",
@@ -1322,6 +1333,7 @@ __all__ = (
     "ListCampaignContactsState",
     "ListCampaignsDisplayStatus",
     "ListCampaignsStatus",
+    "ListCatalogAmbientSound",
     "ListCatalogLanguage",
     "ListCatalogModelsKind",
     "ListCatalogModelsSort",

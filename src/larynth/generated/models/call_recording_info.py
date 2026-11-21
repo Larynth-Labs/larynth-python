@@ -11,6 +11,10 @@ from ..models.call_recording_info_deleted_reason import (
     CallRecordingInfoDeletedReason,
     check_call_recording_info_deleted_reason,
 )
+from ..models.call_recording_info_lanes_item import (
+    CallRecordingInfoLanesItem,
+    check_call_recording_info_lanes_item,
+)
 from ..models.call_recording_info_state import (
     CallRecordingInfoState,
     check_call_recording_info_state,
@@ -25,22 +29,31 @@ class CallRecordingInfo:
     """
     Attributes:
         id (UUID):
+        lanes (list[CallRecordingInfoLanesItem]): Playable lanes of the call recording
         retention_until (datetime.datetime):
         state (CallRecordingInfoState):
         deleted_at (datetime.datetime | Unset):
         deleted_by_name (str | Unset):
         deleted_reason (CallRecordingInfoDeletedReason | Unset):
+        started_offset_ms (int | Unset): Recording start relative to answered_at
     """
 
     id: UUID
+    lanes: list[CallRecordingInfoLanesItem]
     retention_until: datetime.datetime
     state: CallRecordingInfoState
     deleted_at: datetime.datetime | Unset = UNSET
     deleted_by_name: str | Unset = UNSET
     deleted_reason: CallRecordingInfoDeletedReason | Unset = UNSET
+    started_offset_ms: int | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         id = str(self.id)
+
+        lanes = []
+        for lanes_item_data in self.lanes:
+            lanes_item: str = lanes_item_data
+            lanes.append(lanes_item)
 
         retention_until = self.retention_until.isoformat()
 
@@ -56,11 +69,14 @@ class CallRecordingInfo:
         if not isinstance(self.deleted_reason, Unset):
             deleted_reason = self.deleted_reason
 
+        started_offset_ms = self.started_offset_ms
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
             {
                 "id": id,
+                "lanes": lanes,
                 "retention_until": retention_until,
                 "state": state,
             }
@@ -71,6 +87,8 @@ class CallRecordingInfo:
             field_dict["deleted_by_name"] = deleted_by_name
         if deleted_reason is not UNSET:
             field_dict["deleted_reason"] = deleted_reason
+        if started_offset_ms is not UNSET:
+            field_dict["started_offset_ms"] = started_offset_ms
 
         return field_dict
 
@@ -78,6 +96,13 @@ class CallRecordingInfo:
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
         id = UUID(d.pop("id"))
+
+        lanes = []
+        _lanes = d.pop("lanes")
+        for lanes_item_data in _lanes:
+            lanes_item = check_call_recording_info_lanes_item(lanes_item_data)
+
+            lanes.append(lanes_item)
 
         retention_until = datetime.datetime.fromisoformat(d.pop("retention_until"))
 
@@ -99,13 +124,17 @@ class CallRecordingInfo:
         else:
             deleted_reason = check_call_recording_info_deleted_reason(_deleted_reason)
 
+        started_offset_ms = d.pop("started_offset_ms", UNSET)
+
         call_recording_info = cls(
             id=id,
+            lanes=lanes,
             retention_until=retention_until,
             state=state,
             deleted_at=deleted_at,
             deleted_by_name=deleted_by_name,
             deleted_reason=deleted_reason,
+            started_offset_ms=started_offset_ms,
         )
 
         return call_recording_info

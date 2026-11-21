@@ -5,9 +5,9 @@ from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from attrs import define as _attrs_define
 
-from ..models.call_handling_ambient_sound import (
-    CallHandlingAmbientSound,
-    check_call_handling_ambient_sound,
+from ..models.call_handling_ambient_level import (
+    CallHandlingAmbientLevel,
+    check_call_handling_ambient_level,
 )
 from ..models.call_handling_dtmf_end_key import (
     CallHandlingDtmfEndKey,
@@ -38,8 +38,9 @@ T = TypeVar("T", bound="CallHandling")
 class CallHandling:
     """
     Attributes:
-        ambient_sound (CallHandlingAmbientSound | Unset): Low background sound the caller hears; never recorded. Unset
-            is off
+        ambient_level (CallHandlingAmbientLevel | Unset): How loud the background sound is. Unset is medium
+        ambient_sound (str | Unset): Low background sound the caller hears; never recorded. A key from GET
+            /v1/catalog/ambient-sounds. Unset is off
         dtmf_end_key (CallHandlingDtmfEndKey | Unset): Key that ends a keypad entry. Unset is #
         dtmf_input (bool | Unset): Keypad entries reach the agent as caller input; digits are masked in transcripts.
             Unset is on. On outbound calls a lone 9 always opts the caller out
@@ -66,7 +67,8 @@ class CallHandling:
             number and any required opt-out line are added in a fixed template
     """
 
-    ambient_sound: CallHandlingAmbientSound | Unset = UNSET
+    ambient_level: CallHandlingAmbientLevel | Unset = UNSET
+    ambient_sound: str | Unset = UNSET
     dtmf_end_key: CallHandlingDtmfEndKey | Unset = UNSET
     dtmf_input: bool | Unset = UNSET
     dtmf_max_digits: int | Unset = UNSET
@@ -85,9 +87,11 @@ class CallHandling:
     voicemail_message: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
-        ambient_sound: str | Unset = UNSET
-        if not isinstance(self.ambient_sound, Unset):
-            ambient_sound = self.ambient_sound
+        ambient_level: str | Unset = UNSET
+        if not isinstance(self.ambient_level, Unset):
+            ambient_level = self.ambient_level
+
+        ambient_sound = self.ambient_sound
 
         dtmf_end_key: str | Unset = UNSET
         if not isinstance(self.dtmf_end_key, Unset):
@@ -134,6 +138,8 @@ class CallHandling:
         field_dict: dict[str, Any] = {}
 
         field_dict.update({})
+        if ambient_level is not UNSET:
+            field_dict["ambient_level"] = ambient_level
         if ambient_sound is not UNSET:
             field_dict["ambient_sound"] = ambient_sound
         if dtmf_end_key is not UNSET:
@@ -176,12 +182,14 @@ class CallHandling:
         from ..models.human_route import HumanRoute
 
         d = dict(src_dict)
-        _ambient_sound = d.pop("ambient_sound", UNSET)
-        ambient_sound: CallHandlingAmbientSound | Unset
-        if isinstance(_ambient_sound, Unset):
-            ambient_sound = UNSET
+        _ambient_level = d.pop("ambient_level", UNSET)
+        ambient_level: CallHandlingAmbientLevel | Unset
+        if isinstance(_ambient_level, Unset):
+            ambient_level = UNSET
         else:
-            ambient_sound = check_call_handling_ambient_sound(_ambient_sound)
+            ambient_level = check_call_handling_ambient_level(_ambient_level)
+
+        ambient_sound = d.pop("ambient_sound", UNSET)
 
         _dtmf_end_key = d.pop("dtmf_end_key", UNSET)
         dtmf_end_key: CallHandlingDtmfEndKey | Unset
@@ -241,6 +249,7 @@ class CallHandling:
         voicemail_message = d.pop("voicemail_message", UNSET)
 
         call_handling = cls(
+            ambient_level=ambient_level,
             ambient_sound=ambient_sound,
             dtmf_end_key=dtmf_end_key,
             dtmf_input=dtmf_input,
