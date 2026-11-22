@@ -155,6 +155,7 @@ from .call_flow_events import CallFlowEvents
 from .call_flow_variables import CallFlowVariables
 from .call_handling import CallHandling
 from .call_handling_ambient_level import CallHandlingAmbientLevel
+from .call_handling_claim_guard import CallHandlingClaimGuard
 from .call_handling_dtmf_end_key import CallHandlingDtmfEndKey
 from .call_handling_max_reply import CallHandlingMaxReply
 from .call_handling_silence_end_s import CallHandlingSilenceEndS
@@ -167,6 +168,7 @@ from .call_not_billed_reason import CallNotBilledReason
 from .call_outcome import CallOutcome
 from .call_outcome_group import CallOutcomeGroup
 from .call_outcome_label import CallOutcomeLabel
+from .call_overflow import CallOverflow
 from .call_page import CallPage
 from .call_quality import CallQuality
 from .call_quality_check import CallQualityCheck
@@ -183,6 +185,7 @@ from .call_recording_info_state import CallRecordingInfoState
 from .call_recording_lane import CallRecordingLane
 from .call_recording_lane_lane import CallRecordingLaneLane
 from .call_recording_peaks import CallRecordingPeaks
+from .call_redacted_categories_item import CallRedactedCategoriesItem
 from .call_sentiment import CallSentiment
 from .call_source import CallSource
 from .call_status import CallStatus
@@ -196,6 +199,9 @@ from .call_transfer_mode import CallTransferMode
 from .call_turn import CallTurn
 from .call_turn_spec_tts import CallTurnSpecTts
 from .call_turn_speculation import CallTurnSpeculation
+from .call_unbacked_claim import CallUnbackedClaim
+from .call_unbacked_claim_claimed import CallUnbackedClaimClaimed
+from .call_unbacked_claim_reason import CallUnbackedClaimReason
 from .caller_block_ref import CallerBlockRef
 from .calling_rule import CallingRule
 from .calling_rule_sunday import CallingRuleSunday
@@ -306,6 +312,8 @@ from .conversation_tool import ConversationTool
 from .conversation_tool_args import ConversationToolArgs
 from .conversation_tool_result import ConversationToolResult
 from .conversation_tool_status import ConversationToolStatus
+from .cost_per_answered_call import CostPerAnsweredCall
+from .cost_per_call_row import CostPerCallRow
 from .create_assistant_request import CreateAssistantRequest
 from .create_blocked_caller_request import CreateBlockedCallerRequest
 from .create_call_request import CreateCallRequest
@@ -443,6 +451,7 @@ from .instructions_diff import InstructionsDiff
 from .integration_provider import IntegrationProvider
 from .integration_provider_auth import IntegrationProviderAuth
 from .integration_provider_kind import IntegrationProviderKind
+from .integration_provider_resource_kind import IntegrationProviderResourceKind
 from .integration_provider_status import IntegrationProviderStatus
 from .interruption_profile import InterruptionProfile
 from .issue import Issue
@@ -535,6 +544,8 @@ from .list_issues_status import ListIssuesStatus
 from .list_knowledge_gaps_state import ListKnowledgeGapsState
 from .list_ledger_account import ListLedgerAccount
 from .list_ledger_kind import ListLedgerKind
+from .list_live_model import ListLiveModel
+from .list_live_models_direction import ListLiveModelsDirection
 from .list_mcp_server import ListMcpServer
 from .list_numbers_can_call_out import ListNumbersCanCallOut
 from .list_numbers_kind import ListNumbersKind
@@ -559,6 +570,8 @@ from .live_call_supervisor import LiveCallSupervisor
 from .live_call_supervisor_mode import LiveCallSupervisorMode
 from .live_call_supervisor_phase import LiveCallSupervisorPhase
 from .live_calls import LiveCalls
+from .live_model import LiveModel
+from .live_model_currency import LiveModelCurrency
 from .mcp_auth import McpAuth
 from .mcp_auth_kind import McpAuthKind
 from .mcp_server import McpServer
@@ -579,6 +592,7 @@ from .number_branded_status import NumberBrandedStatus
 from .number_cnam import NumberCNAM
 from .number_cnam_status import NumberCNAMStatus
 from .number_kind import NumberKind
+from .number_live_agent import NumberLiveAgent
 from .number_ref import NumberRef
 from .number_route_type import NumberRouteType
 from .number_routing import NumberRouting
@@ -686,6 +700,8 @@ from .problem_period import ProblemPeriod
 from .problem_request_kind import ProblemRequestKind
 from .problem_used_by_item import ProblemUsedByItem
 from .pronunciation import Pronunciation
+from .provider_fallback import ProviderFallback
+from .provider_fallback_kind import ProviderFallbackKind
 from .publish_assistant_version_request import PublishAssistantVersionRequest
 from .publish_result import PublishResult
 from .rate import Rate
@@ -976,6 +992,7 @@ __all__ = (
     "CallFlowVariables",
     "CallHandling",
     "CallHandlingAmbientLevel",
+    "CallHandlingClaimGuard",
     "CallHandlingDtmfEndKey",
     "CallHandlingMaxReply",
     "CallHandlingSilenceEndS",
@@ -988,6 +1005,7 @@ __all__ = (
     "CallOutcome",
     "CallOutcomeGroup",
     "CallOutcomeLabel",
+    "CallOverflow",
     "CallPage",
     "CallQuality",
     "CallQualityCheck",
@@ -1004,6 +1022,7 @@ __all__ = (
     "CallRecordingLane",
     "CallRecordingLaneLane",
     "CallRecordingPeaks",
+    "CallRedactedCategoriesItem",
     "CallSentiment",
     "CallSource",
     "CallStatus",
@@ -1017,6 +1036,9 @@ __all__ = (
     "CallTurn",
     "CallTurnSpecTts",
     "CallTurnSpeculation",
+    "CallUnbackedClaim",
+    "CallUnbackedClaimClaimed",
+    "CallUnbackedClaimReason",
     "CallerBlockRef",
     "CallingRule",
     "CallingRuleSunday",
@@ -1127,6 +1149,8 @@ __all__ = (
     "ConversationToolArgs",
     "ConversationToolResult",
     "ConversationToolStatus",
+    "CostPerAnsweredCall",
+    "CostPerCallRow",
     "CreateAssistantRequest",
     "CreateBlockedCallerRequest",
     "CreateCallRequest",
@@ -1260,6 +1284,7 @@ __all__ = (
     "IntegrationProvider",
     "IntegrationProviderAuth",
     "IntegrationProviderKind",
+    "IntegrationProviderResourceKind",
     "IntegrationProviderStatus",
     "InterruptionProfile",
     "Issue",
@@ -1352,6 +1377,8 @@ __all__ = (
     "ListKnowledgeGapsState",
     "ListLedgerAccount",
     "ListLedgerKind",
+    "ListLiveModel",
+    "ListLiveModelsDirection",
     "ListMcpServer",
     "ListNumbersCanCallOut",
     "ListNumbersKind",
@@ -1376,6 +1403,8 @@ __all__ = (
     "LiveCallSupervisorMode",
     "LiveCallSupervisorPhase",
     "LiveCalls",
+    "LiveModel",
+    "LiveModelCurrency",
     "McpAuth",
     "McpAuthKind",
     "McpServer",
@@ -1396,6 +1425,7 @@ __all__ = (
     "NumberCNAM",
     "NumberCNAMStatus",
     "NumberKind",
+    "NumberLiveAgent",
     "NumberRef",
     "NumberRouteType",
     "NumberRouting",
@@ -1501,6 +1531,8 @@ __all__ = (
     "ProblemRequestKind",
     "ProblemUsedByItem",
     "Pronunciation",
+    "ProviderFallback",
+    "ProviderFallbackKind",
     "PublishAssistantVersionRequest",
     "PublishResult",
     "Rate",
