@@ -14,6 +14,10 @@ from ..models.integration_provider_kind import (
     IntegrationProviderKind,
     check_integration_provider_kind,
 )
+from ..models.integration_provider_resource_kind import (
+    IntegrationProviderResourceKind,
+    check_integration_provider_resource_kind,
+)
 from ..models.integration_provider_status import (
     IntegrationProviderStatus,
     check_integration_provider_status,
@@ -26,23 +30,33 @@ T = TypeVar("T", bound="IntegrationProvider")
 class IntegrationProvider:
     """
     Attributes:
+        approval_supported (bool): whether bookings can wait for the owner's approval
         auth (IntegrationProviderAuth):
+        configured (bool): false while the platform has no client credentials for an OAuth provider
         display_name (str):
         id (UUID):
         kind (IntegrationProviderKind):
         logo_key (str):
+        resource_kind (IntegrationProviderResourceKind): what a connection of this provider exposes for booking
         status (IntegrationProviderStatus):
     """
 
+    approval_supported: bool
     auth: IntegrationProviderAuth
+    configured: bool
     display_name: str
     id: UUID
     kind: IntegrationProviderKind
     logo_key: str
+    resource_kind: IntegrationProviderResourceKind
     status: IntegrationProviderStatus
 
     def to_dict(self) -> dict[str, Any]:
+        approval_supported = self.approval_supported
+
         auth: str = self.auth
+
+        configured = self.configured
 
         display_name = self.display_name
 
@@ -52,17 +66,22 @@ class IntegrationProvider:
 
         logo_key = self.logo_key
 
+        resource_kind: str = self.resource_kind
+
         status: str = self.status
 
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
             {
+                "approval_supported": approval_supported,
                 "auth": auth,
+                "configured": configured,
                 "display_name": display_name,
                 "id": id,
                 "kind": kind,
                 "logo_key": logo_key,
+                "resource_kind": resource_kind,
                 "status": status,
             }
         )
@@ -72,7 +91,11 @@ class IntegrationProvider:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
+        approval_supported = d.pop("approval_supported")
+
         auth = check_integration_provider_auth(d.pop("auth"))
+
+        configured = d.pop("configured")
 
         display_name = d.pop("display_name")
 
@@ -82,14 +105,19 @@ class IntegrationProvider:
 
         logo_key = d.pop("logo_key")
 
+        resource_kind = check_integration_provider_resource_kind(d.pop("resource_kind"))
+
         status = check_integration_provider_status(d.pop("status"))
 
         integration_provider = cls(
+            approval_supported=approval_supported,
             auth=auth,
+            configured=configured,
             display_name=display_name,
             id=id,
             kind=kind,
             logo_key=logo_key,
+            resource_kind=resource_kind,
             status=status,
         )
 
