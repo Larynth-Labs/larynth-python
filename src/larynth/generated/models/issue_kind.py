@@ -10,6 +10,7 @@ IssueKind = Literal[
     "test_failed",
     "tool_error",
     "transfer_failed",
+    "unbacked_claim",
     "unresolved_call",
 ]
 
@@ -23,6 +24,7 @@ ISSUE_KIND_VALUES: set[IssueKind] = {
     "test_failed",
     "tool_error",
     "transfer_failed",
+    "unbacked_claim",
     "unresolved_call",
 }
 

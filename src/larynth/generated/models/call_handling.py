@@ -9,6 +9,10 @@ from ..models.call_handling_ambient_level import (
     CallHandlingAmbientLevel,
     check_call_handling_ambient_level,
 )
+from ..models.call_handling_claim_guard import (
+    CallHandlingClaimGuard,
+    check_call_handling_claim_guard,
+)
 from ..models.call_handling_dtmf_end_key import (
     CallHandlingDtmfEndKey,
     check_call_handling_dtmf_end_key,
@@ -41,6 +45,9 @@ class CallHandling:
         ambient_level (CallHandlingAmbientLevel | Unset): How loud the background sound is. Unset is medium
         ambient_sound (str | Unset): Low background sound the caller hears; never recorded. A key from GET
             /v1/catalog/ambient-sounds. Unset is off
+        claim_guard (CallHandlingClaimGuard | Unset): What happens when the agent says it booked, cancelled, saved, sent
+            or transferred something no successful tool result backs. count only counts it, rewrite also swaps the reply for
+            a safe line. Unset is count
         dtmf_end_key (CallHandlingDtmfEndKey | Unset): Key that ends a keypad entry. Unset is #
         dtmf_input (bool | Unset): Keypad entries reach the agent as caller input; digits are masked in transcripts.
             Unset is on. On outbound calls a lone 9 always opts the caller out
@@ -69,6 +76,7 @@ class CallHandling:
 
     ambient_level: CallHandlingAmbientLevel | Unset = UNSET
     ambient_sound: str | Unset = UNSET
+    claim_guard: CallHandlingClaimGuard | Unset = UNSET
     dtmf_end_key: CallHandlingDtmfEndKey | Unset = UNSET
     dtmf_input: bool | Unset = UNSET
     dtmf_max_digits: int | Unset = UNSET
@@ -92,6 +100,10 @@ class CallHandling:
             ambient_level = self.ambient_level
 
         ambient_sound = self.ambient_sound
+
+        claim_guard: str | Unset = UNSET
+        if not isinstance(self.claim_guard, Unset):
+            claim_guard = self.claim_guard
 
         dtmf_end_key: str | Unset = UNSET
         if not isinstance(self.dtmf_end_key, Unset):
@@ -142,6 +154,8 @@ class CallHandling:
             field_dict["ambient_level"] = ambient_level
         if ambient_sound is not UNSET:
             field_dict["ambient_sound"] = ambient_sound
+        if claim_guard is not UNSET:
+            field_dict["claim_guard"] = claim_guard
         if dtmf_end_key is not UNSET:
             field_dict["dtmf_end_key"] = dtmf_end_key
         if dtmf_input is not UNSET:
@@ -190,6 +204,13 @@ class CallHandling:
             ambient_level = check_call_handling_ambient_level(_ambient_level)
 
         ambient_sound = d.pop("ambient_sound", UNSET)
+
+        _claim_guard = d.pop("claim_guard", UNSET)
+        claim_guard: CallHandlingClaimGuard | Unset
+        if isinstance(_claim_guard, Unset):
+            claim_guard = UNSET
+        else:
+            claim_guard = check_call_handling_claim_guard(_claim_guard)
 
         _dtmf_end_key = d.pop("dtmf_end_key", UNSET)
         dtmf_end_key: CallHandlingDtmfEndKey | Unset
@@ -251,6 +272,7 @@ class CallHandling:
         call_handling = cls(
             ambient_level=ambient_level,
             ambient_sound=ambient_sound,
+            claim_guard=claim_guard,
             dtmf_end_key=dtmf_end_key,
             dtmf_input=dtmf_input,
             dtmf_max_digits=dtmf_max_digits,

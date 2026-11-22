@@ -25,6 +25,10 @@ from ..models.call_not_billed_reason import (
 from ..models.call_outcome import CallOutcome, check_call_outcome
 from ..models.call_outcome_group import CallOutcomeGroup, check_call_outcome_group
 from ..models.call_outcome_label import CallOutcomeLabel, check_call_outcome_label
+from ..models.call_redacted_categories_item import (
+    CallRedactedCategoriesItem,
+    check_call_redacted_categories_item,
+)
 from ..models.call_sentiment import CallSentiment, check_call_sentiment
 from ..models.call_source import CallSource, check_call_source
 from ..models.call_status import CallStatus, check_call_status
@@ -39,7 +43,9 @@ if TYPE_CHECKING:
     from ..models.call_receipt import CallReceipt
     from ..models.call_recording_info import CallRecordingInfo
     from ..models.call_transfer import CallTransfer
+    from ..models.call_unbacked_claim import CallUnbackedClaim
     from ..models.caller_block_ref import CallerBlockRef
+    from ..models.provider_fallback import ProviderFallback
 
 
 T = TypeVar("T", bound="Call")
@@ -85,6 +91,7 @@ class Call:
         cause (str | Unset):
         codec (CallCodec | Unset):
         contact_id (UUID | Unset):
+        content_removed_at (datetime.datetime | Unset): Detail only: when the call content was permanently removed
         coverage (CallCoverage | Unset): Why the agent got this call: inside hours, after hours, a holiday, or forwarded
             because the owner line was busy or unanswered
         cursor (str | Unset): Opaque; pass as after or before to page from this call
@@ -106,11 +113,17 @@ class Call:
         phone_leg_price_micro (int | Unset): Settled price of the phone legs in micro-USD at the transfer_minute rate;
             part of price_micro
         price_micro (int | Unset): Settled price in micro-USD
+        provider_fallbacks (list[ProviderFallback] | Unset): Detail only: each switch to a backup provider during the
+            call, in order
         quality (CallQuality | Unset):
         quality_score (int | Unset): Automatic call quality check score
         receipt (CallReceipt | Unset):
         recording (CallRecordingInfo | Unset):
         recording_notice_played_at (datetime.datetime | Unset):
+        redacted (bool | Unset): Detail only: stored content was checked and sensitive data in it hidden
+        redacted_categories (list[CallRedactedCategoriesItem] | Unset): Detail only: categories checked and hidden in
+            this call
+        redaction_pending (bool | Unset): Detail only: content is hidden until redaction finishes
         sentiment (CallSentiment | Unset): Caller sentiment from the post-call analysis, on every call
         sip_code (int | Unset):
         source (CallSource | Unset): widget: a website visitor called through the embedded widget (direction web_test)
@@ -118,6 +131,8 @@ class Call:
         summary (str | Unset): Short post-call summary, present on list items once analysed
         to_e164 (str | Unset):
         transfer (CallTransfer | Unset):
+        unbacked_claims (list[CallUnbackedClaim] | Unset): Detail only: things the agent said it did that no tool result
+            or booking backs up
     """
 
     call_id: str
@@ -154,6 +169,7 @@ class Call:
     cause: str | Unset = UNSET
     codec: CallCodec | Unset = UNSET
     contact_id: UUID | Unset = UNSET
+    content_removed_at: datetime.datetime | Unset = UNSET
     coverage: CallCoverage | Unset = UNSET
     cursor: str | Unset = UNSET
     disclosure_played_at: datetime.datetime | Unset = UNSET
@@ -171,11 +187,15 @@ class Call:
     phone_leg_ms: int | Unset = UNSET
     phone_leg_price_micro: int | Unset = UNSET
     price_micro: int | Unset = UNSET
+    provider_fallbacks: list[ProviderFallback] | Unset = UNSET
     quality: CallQuality | Unset = UNSET
     quality_score: int | Unset = UNSET
     receipt: CallReceipt | Unset = UNSET
     recording: CallRecordingInfo | Unset = UNSET
     recording_notice_played_at: datetime.datetime | Unset = UNSET
+    redacted: bool | Unset = UNSET
+    redacted_categories: list[CallRedactedCategoriesItem] | Unset = UNSET
+    redaction_pending: bool | Unset = UNSET
     sentiment: CallSentiment | Unset = UNSET
     sip_code: int | Unset = UNSET
     source: CallSource | Unset = UNSET
@@ -183,6 +203,7 @@ class Call:
     summary: str | Unset = UNSET
     to_e164: str | Unset = UNSET
     transfer: CallTransfer | Unset = UNSET
+    unbacked_claims: list[CallUnbackedClaim] | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         call_id = self.call_id
@@ -275,6 +296,10 @@ class Call:
         if not isinstance(self.contact_id, Unset):
             contact_id = str(self.contact_id)
 
+        content_removed_at: str | Unset = UNSET
+        if not isinstance(self.content_removed_at, Unset):
+            content_removed_at = self.content_removed_at.isoformat()
+
         coverage: str | Unset = UNSET
         if not isinstance(self.coverage, Unset):
             coverage = self.coverage
@@ -333,6 +358,13 @@ class Call:
 
         price_micro = self.price_micro
 
+        provider_fallbacks: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.provider_fallbacks, Unset):
+            provider_fallbacks = []
+            for provider_fallbacks_item_data in self.provider_fallbacks:
+                provider_fallbacks_item = provider_fallbacks_item_data.to_dict()
+                provider_fallbacks.append(provider_fallbacks_item)
+
         quality: dict[str, Any] | Unset = UNSET
         if not isinstance(self.quality, Unset):
             quality = self.quality.to_dict()
@@ -350,6 +382,17 @@ class Call:
         recording_notice_played_at: str | Unset = UNSET
         if not isinstance(self.recording_notice_played_at, Unset):
             recording_notice_played_at = self.recording_notice_played_at.isoformat()
+
+        redacted = self.redacted
+
+        redacted_categories: list[str] | Unset = UNSET
+        if not isinstance(self.redacted_categories, Unset):
+            redacted_categories = []
+            for redacted_categories_item_data in self.redacted_categories:
+                redacted_categories_item: str = redacted_categories_item_data
+                redacted_categories.append(redacted_categories_item)
+
+        redaction_pending = self.redaction_pending
 
         sentiment: str | Unset = UNSET
         if not isinstance(self.sentiment, Unset):
@@ -370,6 +413,13 @@ class Call:
         transfer: dict[str, Any] | Unset = UNSET
         if not isinstance(self.transfer, Unset):
             transfer = self.transfer.to_dict()
+
+        unbacked_claims: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.unbacked_claims, Unset):
+            unbacked_claims = []
+            for unbacked_claims_item_data in self.unbacked_claims:
+                unbacked_claims_item = unbacked_claims_item_data.to_dict()
+                unbacked_claims.append(unbacked_claims_item)
 
         field_dict: dict[str, Any] = {}
 
@@ -434,6 +484,8 @@ class Call:
             field_dict["codec"] = codec
         if contact_id is not UNSET:
             field_dict["contact_id"] = contact_id
+        if content_removed_at is not UNSET:
+            field_dict["content_removed_at"] = content_removed_at
         if coverage is not UNSET:
             field_dict["coverage"] = coverage
         if cursor is not UNSET:
@@ -468,6 +520,8 @@ class Call:
             field_dict["phone_leg_price_micro"] = phone_leg_price_micro
         if price_micro is not UNSET:
             field_dict["price_micro"] = price_micro
+        if provider_fallbacks is not UNSET:
+            field_dict["provider_fallbacks"] = provider_fallbacks
         if quality is not UNSET:
             field_dict["quality"] = quality
         if quality_score is not UNSET:
@@ -478,6 +532,12 @@ class Call:
             field_dict["recording"] = recording
         if recording_notice_played_at is not UNSET:
             field_dict["recording_notice_played_at"] = recording_notice_played_at
+        if redacted is not UNSET:
+            field_dict["redacted"] = redacted
+        if redacted_categories is not UNSET:
+            field_dict["redacted_categories"] = redacted_categories
+        if redaction_pending is not UNSET:
+            field_dict["redaction_pending"] = redaction_pending
         if sentiment is not UNSET:
             field_dict["sentiment"] = sentiment
         if sip_code is not UNSET:
@@ -492,6 +552,8 @@ class Call:
             field_dict["to_e164"] = to_e164
         if transfer is not UNSET:
             field_dict["transfer"] = transfer
+        if unbacked_claims is not UNSET:
+            field_dict["unbacked_claims"] = unbacked_claims
 
         return field_dict
 
@@ -505,7 +567,9 @@ class Call:
         from ..models.call_receipt import CallReceipt
         from ..models.call_recording_info import CallRecordingInfo
         from ..models.call_transfer import CallTransfer
+        from ..models.call_unbacked_claim import CallUnbackedClaim
         from ..models.caller_block_ref import CallerBlockRef
+        from ..models.provider_fallback import ProviderFallback
 
         d = dict(src_dict)
         call_id = d.pop("call_id")
@@ -633,6 +697,13 @@ class Call:
         else:
             contact_id = UUID(_contact_id)
 
+        _content_removed_at = d.pop("content_removed_at", UNSET)
+        content_removed_at: datetime.datetime | Unset
+        if isinstance(_content_removed_at, Unset):
+            content_removed_at = UNSET
+        else:
+            content_removed_at = datetime.datetime.fromisoformat(_content_removed_at)
+
         _coverage = d.pop("coverage", UNSET)
         coverage: CallCoverage | Unset
         if isinstance(_coverage, Unset):
@@ -729,6 +800,17 @@ class Call:
 
         price_micro = d.pop("price_micro", UNSET)
 
+        _provider_fallbacks = d.pop("provider_fallbacks", UNSET)
+        provider_fallbacks: list[ProviderFallback] | Unset = UNSET
+        if _provider_fallbacks is not UNSET:
+            provider_fallbacks = []
+            for provider_fallbacks_item_data in _provider_fallbacks:
+                provider_fallbacks_item = ProviderFallback.from_dict(
+                    provider_fallbacks_item_data
+                )
+
+                provider_fallbacks.append(provider_fallbacks_item)
+
         _quality = d.pop("quality", UNSET)
         quality: CallQuality | Unset
         if isinstance(_quality, Unset):
@@ -761,6 +843,21 @@ class Call:
                 _recording_notice_played_at
             )
 
+        redacted = d.pop("redacted", UNSET)
+
+        _redacted_categories = d.pop("redacted_categories", UNSET)
+        redacted_categories: list[CallRedactedCategoriesItem] | Unset = UNSET
+        if _redacted_categories is not UNSET:
+            redacted_categories = []
+            for redacted_categories_item_data in _redacted_categories:
+                redacted_categories_item = check_call_redacted_categories_item(
+                    redacted_categories_item_data
+                )
+
+                redacted_categories.append(redacted_categories_item)
+
+        redaction_pending = d.pop("redaction_pending", UNSET)
+
         _sentiment = d.pop("sentiment", UNSET)
         sentiment: CallSentiment | Unset
         if isinstance(_sentiment, Unset):
@@ -789,6 +886,17 @@ class Call:
             transfer = UNSET
         else:
             transfer = CallTransfer.from_dict(_transfer)
+
+        _unbacked_claims = d.pop("unbacked_claims", UNSET)
+        unbacked_claims: list[CallUnbackedClaim] | Unset = UNSET
+        if _unbacked_claims is not UNSET:
+            unbacked_claims = []
+            for unbacked_claims_item_data in _unbacked_claims:
+                unbacked_claims_item = CallUnbackedClaim.from_dict(
+                    unbacked_claims_item_data
+                )
+
+                unbacked_claims.append(unbacked_claims_item)
 
         call = cls(
             call_id=call_id,
@@ -825,6 +933,7 @@ class Call:
             cause=cause,
             codec=codec,
             contact_id=contact_id,
+            content_removed_at=content_removed_at,
             coverage=coverage,
             cursor=cursor,
             disclosure_played_at=disclosure_played_at,
@@ -842,11 +951,15 @@ class Call:
             phone_leg_ms=phone_leg_ms,
             phone_leg_price_micro=phone_leg_price_micro,
             price_micro=price_micro,
+            provider_fallbacks=provider_fallbacks,
             quality=quality,
             quality_score=quality_score,
             receipt=receipt,
             recording=recording,
             recording_notice_played_at=recording_notice_played_at,
+            redacted=redacted,
+            redacted_categories=redacted_categories,
+            redaction_pending=redaction_pending,
             sentiment=sentiment,
             sip_code=sip_code,
             source=source,
@@ -854,6 +967,7 @@ class Call:
             summary=summary,
             to_e164=to_e164,
             transfer=transfer,
+            unbacked_claims=unbacked_claims,
         )
 
         return call
