@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from ..models.forward_source import ForwardSource
     from ..models.number_branded import NumberBranded
     from ..models.number_cnam import NumberCNAM
+    from ..models.number_live_agent import NumberLiveAgent
     from ..models.number_usage import NumberUsage
     from ..models.number_verification import NumberVerification
     from ..models.routing_plan import RoutingPlan
@@ -46,6 +47,7 @@ class Number:
         forward_to_e164 (str | Unset):
         kind (NumberKind | Unset):
         label (str | Unset):
+        live_agent (NumberLiveAgent | Unset):
         next_renewal_at (datetime.datetime | Unset):
         purchased_at (datetime.datetime | Unset):
         region (str | Unset):
@@ -77,6 +79,7 @@ class Number:
     forward_to_e164: str | Unset = UNSET
     kind: NumberKind | Unset = UNSET
     label: str | Unset = UNSET
+    live_agent: NumberLiveAgent | Unset = UNSET
     next_renewal_at: datetime.datetime | Unset = UNSET
     purchased_at: datetime.datetime | Unset = UNSET
     region: str | Unset = UNSET
@@ -135,6 +138,10 @@ class Number:
             kind = self.kind
 
         label = self.label
+
+        live_agent: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.live_agent, Unset):
+            live_agent = self.live_agent.to_dict()
 
         next_renewal_at: str | Unset = UNSET
         if not isinstance(self.next_renewal_at, Unset):
@@ -208,6 +215,8 @@ class Number:
             field_dict["kind"] = kind
         if label is not UNSET:
             field_dict["label"] = label
+        if live_agent is not UNSET:
+            field_dict["live_agent"] = live_agent
         if next_renewal_at is not UNSET:
             field_dict["next_renewal_at"] = next_renewal_at
         if purchased_at is not UNSET:
@@ -240,6 +249,7 @@ class Number:
         from ..models.forward_source import ForwardSource
         from ..models.number_branded import NumberBranded
         from ..models.number_cnam import NumberCNAM
+        from ..models.number_live_agent import NumberLiveAgent
         from ..models.number_usage import NumberUsage
         from ..models.number_verification import NumberVerification
         from ..models.routing_plan import RoutingPlan
@@ -306,6 +316,13 @@ class Number:
             kind = check_number_kind(_kind)
 
         label = d.pop("label", UNSET)
+
+        _live_agent = d.pop("live_agent", UNSET)
+        live_agent: NumberLiveAgent | Unset
+        if isinstance(_live_agent, Unset):
+            live_agent = UNSET
+        else:
+            live_agent = NumberLiveAgent.from_dict(_live_agent)
 
         _next_renewal_at = d.pop("next_renewal_at", UNSET)
         next_renewal_at: datetime.datetime | Unset
@@ -393,6 +410,7 @@ class Number:
             forward_to_e164=forward_to_e164,
             kind=kind,
             label=label,
+            live_agent=live_agent,
             next_renewal_at=next_renewal_at,
             purchased_at=purchased_at,
             region=region,

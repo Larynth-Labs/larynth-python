@@ -37,7 +37,7 @@ class Assistant:
         number_ids (list[str]): Numbers routed to this assistant
         state (AssistantState):
         status (AssistantStatus):
-        type_ (AssistantType): Always single_prompt until flows ship
+        type_ (AssistantType): single_prompt, or flow for a flow agent
         updated_at (datetime.datetime):
         archived_at (datetime.datetime | Unset):
         coverage (AssistantCoverage | Unset):
