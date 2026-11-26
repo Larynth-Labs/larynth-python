@@ -1,10 +1,11 @@
 from typing import Literal
 
-CallNotBilledReason = Literal["agent_paused", "blocked", "short_call", "spam"]
+CallNotBilledReason = Literal["agent_paused", "blocked", "failed", "short_call", "spam"]
 
 CALL_NOT_BILLED_REASON_VALUES: set[CallNotBilledReason] = {
     "agent_paused",
     "blocked",
+    "failed",
     "short_call",
     "spam",
 }

@@ -1,9 +1,10 @@
 from typing import Literal
 
-PracticeTestSource = Literal["custom", "starter"]
+PracticeTestSource = Literal["custom", "from_call", "starter"]
 
 PRACTICE_TEST_SOURCE_VALUES: set[PracticeTestSource] = {
     "custom",
+    "from_call",
     "starter",
 }
 

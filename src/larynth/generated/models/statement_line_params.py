@@ -15,6 +15,7 @@ T = TypeVar("T", bound="StatementLineParams")
 class StatementLineParams:
     """
     Attributes:
+        attempts (int | Unset):
         bundle_key (str | Unset):
         calls (int | Unset):
         e164 (str | Unset):
@@ -23,6 +24,7 @@ class StatementLineParams:
         reason (str | Unset):
     """
 
+    attempts: int | Unset = UNSET
     bundle_key: str | Unset = UNSET
     calls: int | Unset = UNSET
     e164: str | Unset = UNSET
@@ -31,6 +33,8 @@ class StatementLineParams:
     reason: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        attempts = self.attempts
+
         bundle_key = self.bundle_key
 
         calls = self.calls
@@ -48,6 +52,8 @@ class StatementLineParams:
         field_dict: dict[str, Any] = {}
 
         field_dict.update({})
+        if attempts is not UNSET:
+            field_dict["attempts"] = attempts
         if bundle_key is not UNSET:
             field_dict["bundle_key"] = bundle_key
         if calls is not UNSET:
@@ -66,6 +72,8 @@ class StatementLineParams:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         d = dict(src_dict)
+        attempts = d.pop("attempts", UNSET)
+
         bundle_key = d.pop("bundle_key", UNSET)
 
         calls = d.pop("calls", UNSET)
@@ -84,6 +92,7 @@ class StatementLineParams:
         reason = d.pop("reason", UNSET)
 
         statement_line_params = cls(
+            attempts=attempts,
             bundle_key=bundle_key,
             calls=calls,
             e164=e164,

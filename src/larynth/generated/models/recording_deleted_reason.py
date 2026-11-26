@@ -1,8 +1,11 @@
 from typing import Literal
 
-RecordingDeletedReason = Literal["data_request", "key_destroyed", "retention", "user"]
+RecordingDeletedReason = Literal[
+    "content_removed", "data_request", "key_destroyed", "retention", "user"
+]
 
 RECORDING_DELETED_REASON_VALUES: set[RecordingDeletedReason] = {
+    "content_removed",
     "data_request",
     "key_destroyed",
     "retention",

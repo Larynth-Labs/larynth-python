@@ -155,6 +155,7 @@ from .call_flow_events import CallFlowEvents
 from .call_flow_variables import CallFlowVariables
 from .call_handling import CallHandling
 from .call_handling_ambient_level import CallHandlingAmbientLevel
+from .call_handling_claim_guard import CallHandlingClaimGuard
 from .call_handling_dtmf_end_key import CallHandlingDtmfEndKey
 from .call_handling_max_reply import CallHandlingMaxReply
 from .call_handling_silence_end_s import CallHandlingSilenceEndS
@@ -167,6 +168,7 @@ from .call_not_billed_reason import CallNotBilledReason
 from .call_outcome import CallOutcome
 from .call_outcome_group import CallOutcomeGroup
 from .call_outcome_label import CallOutcomeLabel
+from .call_overflow import CallOverflow
 from .call_page import CallPage
 from .call_quality import CallQuality
 from .call_quality_check import CallQualityCheck
@@ -183,6 +185,7 @@ from .call_recording_info_state import CallRecordingInfoState
 from .call_recording_lane import CallRecordingLane
 from .call_recording_lane_lane import CallRecordingLaneLane
 from .call_recording_peaks import CallRecordingPeaks
+from .call_redacted_categories_item import CallRedactedCategoriesItem
 from .call_sentiment import CallSentiment
 from .call_source import CallSource
 from .call_status import CallStatus
@@ -196,6 +199,9 @@ from .call_transfer_mode import CallTransferMode
 from .call_turn import CallTurn
 from .call_turn_spec_tts import CallTurnSpecTts
 from .call_turn_speculation import CallTurnSpeculation
+from .call_unbacked_claim import CallUnbackedClaim
+from .call_unbacked_claim_claimed import CallUnbackedClaimClaimed
+from .call_unbacked_claim_reason import CallUnbackedClaimReason
 from .caller_block_ref import CallerBlockRef
 from .calling_rule import CallingRule
 from .calling_rule_sunday import CallingRuleSunday
@@ -306,6 +312,8 @@ from .conversation_tool import ConversationTool
 from .conversation_tool_args import ConversationToolArgs
 from .conversation_tool_result import ConversationToolResult
 from .conversation_tool_status import ConversationToolStatus
+from .cost_per_answered_call import CostPerAnsweredCall
+from .cost_per_call_row import CostPerCallRow
 from .create_assistant_request import CreateAssistantRequest
 from .create_blocked_caller_request import CreateBlockedCallerRequest
 from .create_call_request import CreateCallRequest
@@ -337,7 +345,9 @@ from .create_knowledge_base_request import CreateKnowledgeBaseRequest
 from .create_knowledge_faq_source_request import CreateKnowledgeFaqSourceRequest
 from .create_knowledge_file_source_body import CreateKnowledgeFileSourceBody
 from .create_practice_run_input_body import CreatePracticeRunInputBody
+from .create_practice_run_input_body_mode import CreatePracticeRunInputBodyMode
 from .create_practice_run_input_body_target import CreatePracticeRunInputBodyTarget
+from .create_practice_run_input_body_trigger import CreatePracticeRunInputBodyTrigger
 from .create_revocation_request import CreateRevocationRequest
 from .create_revocation_request_channel import CreateRevocationRequestChannel
 from .create_web_call_request import CreateWebCallRequest
@@ -443,6 +453,7 @@ from .instructions_diff import InstructionsDiff
 from .integration_provider import IntegrationProvider
 from .integration_provider_auth import IntegrationProviderAuth
 from .integration_provider_kind import IntegrationProviderKind
+from .integration_provider_resource_kind import IntegrationProviderResourceKind
 from .integration_provider_status import IntegrationProviderStatus
 from .interruption_profile import InterruptionProfile
 from .issue import Issue
@@ -535,6 +546,8 @@ from .list_issues_status import ListIssuesStatus
 from .list_knowledge_gaps_state import ListKnowledgeGapsState
 from .list_ledger_account import ListLedgerAccount
 from .list_ledger_kind import ListLedgerKind
+from .list_live_model import ListLiveModel
+from .list_live_models_direction import ListLiveModelsDirection
 from .list_mcp_server import ListMcpServer
 from .list_numbers_can_call_out import ListNumbersCanCallOut
 from .list_numbers_kind import ListNumbersKind
@@ -559,6 +572,8 @@ from .live_call_supervisor import LiveCallSupervisor
 from .live_call_supervisor_mode import LiveCallSupervisorMode
 from .live_call_supervisor_phase import LiveCallSupervisorPhase
 from .live_calls import LiveCalls
+from .live_model import LiveModel
+from .live_model_currency import LiveModelCurrency
 from .mcp_auth import McpAuth
 from .mcp_auth_kind import McpAuthKind
 from .mcp_server import McpServer
@@ -579,6 +594,7 @@ from .number_branded_status import NumberBrandedStatus
 from .number_cnam import NumberCNAM
 from .number_cnam_status import NumberCNAMStatus
 from .number_kind import NumberKind
+from .number_live_agent import NumberLiveAgent
 from .number_ref import NumberRef
 from .number_route_type import NumberRouteType
 from .number_routing import NumberRouting
@@ -648,17 +664,26 @@ from .post_call_settings import PostCallSettings
 from .practice_check import PracticeCheck
 from .practice_check_result import PracticeCheckResult
 from .practice_check_type import PracticeCheckType
+from .practice_estimate import PracticeEstimate
 from .practice_result import PracticeResult
 from .practice_result_state import PracticeResultState
 from .practice_run import PracticeRun
 from .practice_run_detail import PracticeRunDetail
+from .practice_run_detail_error_code import PracticeRunDetailErrorCode
 from .practice_run_detail_state import PracticeRunDetailState
 from .practice_run_detail_target import PracticeRunDetailTarget
+from .practice_run_detail_trigger import PracticeRunDetailTrigger
+from .practice_run_error_code import PracticeRunErrorCode
 from .practice_run_state import PracticeRunState
 from .practice_run_target import PracticeRunTarget
+from .practice_run_trigger import PracticeRunTrigger
 from .practice_summary import PracticeSummary
 from .practice_test import PracticeTest
 from .practice_test_body import PracticeTestBody
+from .practice_test_body_traits_item import PracticeTestBodyTraitsItem
+from .practice_test_draft import PracticeTestDraft
+from .practice_test_draft_source import PracticeTestDraftSource
+from .practice_test_draft_traits_item import PracticeTestDraftTraitsItem
 from .practice_test_list import PracticeTestList
 from .practice_test_outcome import PracticeTestOutcome
 from .practice_test_outcome_outcome import PracticeTestOutcomeOutcome
@@ -668,6 +693,7 @@ from .practice_tool_call_args import PracticeToolCallArgs
 from .practice_totals import PracticeTotals
 from .practice_turn import PracticeTurn
 from .practice_turn_speaker import PracticeTurnSpeaker
+from .practice_usage import PracticeUsage
 from .preflight_check import PreflightCheck
 from .preflight_check_code import PreflightCheckCode
 from .preflight_check_params import PreflightCheckParams
@@ -686,6 +712,8 @@ from .problem_period import ProblemPeriod
 from .problem_request_kind import ProblemRequestKind
 from .problem_used_by_item import ProblemUsedByItem
 from .pronunciation import Pronunciation
+from .provider_fallback import ProviderFallback
+from .provider_fallback_kind import ProviderFallbackKind
 from .publish_assistant_version_request import PublishAssistantVersionRequest
 from .publish_result import PublishResult
 from .rate import Rate
@@ -773,6 +801,9 @@ from .update_knowledge_base_request import UpdateKnowledgeBaseRequest
 from .update_knowledge_document_request import UpdateKnowledgeDocumentRequest
 from .update_knowledge_faq_source_request import UpdateKnowledgeFaqSourceRequest
 from .update_practice_test_input_body import UpdatePracticeTestInputBody
+from .update_practice_test_input_body_traits_item import (
+    UpdatePracticeTestInputBodyTraitsItem,
+)
 from .update_webhook_request import UpdateWebhookRequest
 from .update_webhook_request_event_types_item import UpdateWebhookRequestEventTypesItem
 from .update_webhook_request_status import UpdateWebhookRequestStatus
@@ -976,6 +1007,7 @@ __all__ = (
     "CallFlowVariables",
     "CallHandling",
     "CallHandlingAmbientLevel",
+    "CallHandlingClaimGuard",
     "CallHandlingDtmfEndKey",
     "CallHandlingMaxReply",
     "CallHandlingSilenceEndS",
@@ -988,6 +1020,7 @@ __all__ = (
     "CallOutcome",
     "CallOutcomeGroup",
     "CallOutcomeLabel",
+    "CallOverflow",
     "CallPage",
     "CallQuality",
     "CallQualityCheck",
@@ -1004,6 +1037,7 @@ __all__ = (
     "CallRecordingLane",
     "CallRecordingLaneLane",
     "CallRecordingPeaks",
+    "CallRedactedCategoriesItem",
     "CallSentiment",
     "CallSource",
     "CallStatus",
@@ -1017,6 +1051,9 @@ __all__ = (
     "CallTurn",
     "CallTurnSpecTts",
     "CallTurnSpeculation",
+    "CallUnbackedClaim",
+    "CallUnbackedClaimClaimed",
+    "CallUnbackedClaimReason",
     "CallerBlockRef",
     "CallingRule",
     "CallingRuleSunday",
@@ -1127,6 +1164,8 @@ __all__ = (
     "ConversationToolArgs",
     "ConversationToolResult",
     "ConversationToolStatus",
+    "CostPerAnsweredCall",
+    "CostPerCallRow",
     "CreateAssistantRequest",
     "CreateBlockedCallerRequest",
     "CreateCallRequest",
@@ -1154,7 +1193,9 @@ __all__ = (
     "CreateKnowledgeFaqSourceRequest",
     "CreateKnowledgeFileSourceBody",
     "CreatePracticeRunInputBody",
+    "CreatePracticeRunInputBodyMode",
     "CreatePracticeRunInputBodyTarget",
+    "CreatePracticeRunInputBodyTrigger",
     "CreateRevocationRequest",
     "CreateRevocationRequestChannel",
     "CreateWebCallRequest",
@@ -1260,6 +1301,7 @@ __all__ = (
     "IntegrationProvider",
     "IntegrationProviderAuth",
     "IntegrationProviderKind",
+    "IntegrationProviderResourceKind",
     "IntegrationProviderStatus",
     "InterruptionProfile",
     "Issue",
@@ -1352,6 +1394,8 @@ __all__ = (
     "ListKnowledgeGapsState",
     "ListLedgerAccount",
     "ListLedgerKind",
+    "ListLiveModel",
+    "ListLiveModelsDirection",
     "ListMcpServer",
     "ListNumbersCanCallOut",
     "ListNumbersKind",
@@ -1376,6 +1420,8 @@ __all__ = (
     "LiveCallSupervisorMode",
     "LiveCallSupervisorPhase",
     "LiveCalls",
+    "LiveModel",
+    "LiveModelCurrency",
     "McpAuth",
     "McpAuthKind",
     "McpServer",
@@ -1396,6 +1442,7 @@ __all__ = (
     "NumberCNAM",
     "NumberCNAMStatus",
     "NumberKind",
+    "NumberLiveAgent",
     "NumberRef",
     "NumberRouteType",
     "NumberRouting",
@@ -1465,17 +1512,26 @@ __all__ = (
     "PracticeCheck",
     "PracticeCheckResult",
     "PracticeCheckType",
+    "PracticeEstimate",
     "PracticeResult",
     "PracticeResultState",
     "PracticeRun",
     "PracticeRunDetail",
+    "PracticeRunDetailErrorCode",
     "PracticeRunDetailState",
     "PracticeRunDetailTarget",
+    "PracticeRunDetailTrigger",
+    "PracticeRunErrorCode",
     "PracticeRunState",
     "PracticeRunTarget",
+    "PracticeRunTrigger",
     "PracticeSummary",
     "PracticeTest",
     "PracticeTestBody",
+    "PracticeTestBodyTraitsItem",
+    "PracticeTestDraft",
+    "PracticeTestDraftSource",
+    "PracticeTestDraftTraitsItem",
     "PracticeTestList",
     "PracticeTestOutcome",
     "PracticeTestOutcomeOutcome",
@@ -1485,6 +1541,7 @@ __all__ = (
     "PracticeTotals",
     "PracticeTurn",
     "PracticeTurnSpeaker",
+    "PracticeUsage",
     "PreflightCheck",
     "PreflightCheckCode",
     "PreflightCheckParams",
@@ -1501,6 +1558,8 @@ __all__ = (
     "ProblemRequestKind",
     "ProblemUsedByItem",
     "Pronunciation",
+    "ProviderFallback",
+    "ProviderFallbackKind",
     "PublishAssistantVersionRequest",
     "PublishResult",
     "Rate",
@@ -1588,6 +1647,7 @@ __all__ = (
     "UpdateKnowledgeDocumentRequest",
     "UpdateKnowledgeFaqSourceRequest",
     "UpdatePracticeTestInputBody",
+    "UpdatePracticeTestInputBodyTraitsItem",
     "UpdateWebhookRequest",
     "UpdateWebhookRequestEventTypesItem",
     "UpdateWebhookRequestStatus",

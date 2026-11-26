@@ -11,7 +11,9 @@ RateKind = Literal[
     "premium_model",
     "premium_voice",
     "rnd_check",
+    "simulation_attempt",
     "transfer_minute",
+    "widget_minute",
 ]
 
 RATE_KIND_VALUES: set[RateKind] = {
@@ -25,7 +27,9 @@ RATE_KIND_VALUES: set[RateKind] = {
     "premium_model",
     "premium_voice",
     "rnd_check",
+    "simulation_attempt",
     "transfer_minute",
+    "widget_minute",
 }
 
 
