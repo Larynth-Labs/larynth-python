@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -26,12 +26,15 @@ class PracticeTest:
         id (UUID):
         must (list[PracticeCheck]): What must happen
         name (str):
+        required (bool): A required practice call must pass before the agent can be published from the dashboard
         source (PracticeTestSource):
+        traits (list[str]): How the caller behaves
         updated_at (datetime.datetime):
         wants (str): What they want
         who (str): Who is calling
         caller_e164 (str | Unset): The number the agent sees as the caller; unset is the standard practice caller
         key (str | Unset): Stable id of a starter practice call
+        source_call_id (str | Unset): The call this practice call was made from
     """
 
     assistant_id: UUID
@@ -39,12 +42,15 @@ class PracticeTest:
     id: UUID
     must: list[PracticeCheck]
     name: str
+    required: bool
     source: PracticeTestSource
+    traits: list[str]
     updated_at: datetime.datetime
     wants: str
     who: str
     caller_e164: str | Unset = UNSET
     key: str | Unset = UNSET
+    source_call_id: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         assistant_id = str(self.assistant_id)
@@ -60,7 +66,11 @@ class PracticeTest:
 
         name = self.name
 
+        required = self.required
+
         source: str = self.source
+
+        traits = self.traits
 
         updated_at = self.updated_at.isoformat()
 
@@ -72,6 +82,8 @@ class PracticeTest:
 
         key = self.key
 
+        source_call_id = self.source_call_id
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -81,7 +93,9 @@ class PracticeTest:
                 "id": id,
                 "must": must,
                 "name": name,
+                "required": required,
                 "source": source,
+                "traits": traits,
                 "updated_at": updated_at,
                 "wants": wants,
                 "who": who,
@@ -91,6 +105,8 @@ class PracticeTest:
             field_dict["caller_e164"] = caller_e164
         if key is not UNSET:
             field_dict["key"] = key
+        if source_call_id is not UNSET:
+            field_dict["source_call_id"] = source_call_id
 
         return field_dict
 
@@ -114,7 +130,11 @@ class PracticeTest:
 
         name = d.pop("name")
 
+        required = d.pop("required")
+
         source = check_practice_test_source(d.pop("source"))
+
+        traits = cast(list[str], d.pop("traits"))
 
         updated_at = datetime.datetime.fromisoformat(d.pop("updated_at"))
 
@@ -126,18 +146,23 @@ class PracticeTest:
 
         key = d.pop("key", UNSET)
 
+        source_call_id = d.pop("source_call_id", UNSET)
+
         practice_test = cls(
             assistant_id=assistant_id,
             created_at=created_at,
             id=id,
             must=must,
             name=name,
+            required=required,
             source=source,
+            traits=traits,
             updated_at=updated_at,
             wants=wants,
             who=who,
             caller_e164=caller_e164,
             key=key,
+            source_call_id=source_call_id,
         )
 
         return practice_test

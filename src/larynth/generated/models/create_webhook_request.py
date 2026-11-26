@@ -18,7 +18,7 @@ T = TypeVar("T", bound="CreateWebhookRequest")
 class CreateWebhookRequest:
     """
     Attributes:
-        event_types (list[CreateWebhookRequestEventTypesItem]):
+        event_types (list[CreateWebhookRequestEventTypesItem]): Event types to deliver, or ["*"] for every event
         url (str):
         description (str | Unset):
     """

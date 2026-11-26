@@ -20,7 +20,10 @@ class PracticeCheck:
         text (str): The phrase, the tool name, the text that must not appear in the tool's arguments, or the statement
         type_ (PracticeCheckType): said and not_said look for a phrase in the agent's lines, tool_called and
             tool_not_called look at the tools it used, tool_args_not_contain passes when the arguments of the tool named in
-            tool never contain the text, judge asks a model whether the statement holds
+            tool never contain the text, judge asks a model whether the statement holds and must quote the call as evidence,
+            transferred passes when the agent transferred the call (text is unused; send -), outcome_is passes when the call
+            ended with the outcome named in text (booked_appointment, rescheduled, answered_question, message_taken or
+            no_resolution)
         tool (str | Unset): Only with tool_args_not_contain: the tool whose arguments are checked
     """
 

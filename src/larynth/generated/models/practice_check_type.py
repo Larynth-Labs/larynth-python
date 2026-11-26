@@ -3,19 +3,23 @@ from typing import Literal
 PracticeCheckType = Literal[
     "judge",
     "not_said",
+    "outcome_is",
     "said",
     "tool_args_not_contain",
     "tool_called",
     "tool_not_called",
+    "transferred",
 ]
 
 PRACTICE_CHECK_TYPE_VALUES: set[PracticeCheckType] = {
     "judge",
     "not_said",
+    "outcome_is",
     "said",
     "tool_args_not_contain",
     "tool_called",
     "tool_not_called",
+    "transferred",
 }
 
 
