@@ -1,10 +1,13 @@
 from typing import Literal
 
-RateCardLineUnit = Literal["at_cost", "free", "per_display", "per_minute", "per_month"]
+RateCardLineUnit = Literal[
+    "at_cost", "free", "per_attempt", "per_display", "per_minute", "per_month"
+]
 
 RATE_CARD_LINE_UNIT_VALUES: set[RateCardLineUnit] = {
     "at_cost",
     "free",
+    "per_attempt",
     "per_display",
     "per_minute",
     "per_month",

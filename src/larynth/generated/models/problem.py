@@ -43,6 +43,8 @@ class Problem:
         min_micro (int | Unset): Minimum top-up (billing.top_up_below_minimum)
         optout_line (bool | Unset): The number is the opt-out line (numbers.in_use)
         period (ProblemPeriod | Unset): Limit that was reached (billing.spend_limit_reached)
+        practice_run_id (str | Unset): The practice run that blocked the publish, unset when there was none
+            (publish.practice_failed)
         reason (str | Unset): Machine-readable cause (tools.url_blocked, mcp.discovery_failed)
         reauth_methods (list[str] | Unset): Ways to re-authenticate, in preference order (auth.reauth_required)
         request_kind (ProblemRequestKind | Unset): Spending request kind to file instead (spending.approval_required)
@@ -71,6 +73,7 @@ class Problem:
     min_micro: int | Unset = UNSET
     optout_line: bool | Unset = UNSET
     period: ProblemPeriod | Unset = UNSET
+    practice_run_id: str | Unset = UNSET
     reason: str | Unset = UNSET
     reauth_methods: list[str] | Unset = UNSET
     request_kind: ProblemRequestKind | Unset = UNSET
@@ -137,6 +140,8 @@ class Problem:
         if not isinstance(self.period, Unset):
             period = self.period
 
+        practice_run_id = self.practice_run_id
+
         reason = self.reason
 
         reauth_methods: list[str] | Unset = UNSET
@@ -202,6 +207,8 @@ class Problem:
             field_dict["optout_line"] = optout_line
         if period is not UNSET:
             field_dict["period"] = period
+        if practice_run_id is not UNSET:
+            field_dict["practice_run_id"] = practice_run_id
         if reason is not UNSET:
             field_dict["reason"] = reason
         if reauth_methods is not UNSET:
@@ -290,6 +297,8 @@ class Problem:
         else:
             period = check_problem_period(_period)
 
+        practice_run_id = d.pop("practice_run_id", UNSET)
+
         reason = d.pop("reason", UNSET)
 
         reauth_methods = cast(list[str], d.pop("reauth_methods", UNSET))
@@ -342,6 +351,7 @@ class Problem:
             min_micro=min_micro,
             optout_line=optout_line,
             period=period,
+            practice_run_id=practice_run_id,
             reason=reason,
             reauth_methods=reauth_methods,
             request_kind=request_kind,

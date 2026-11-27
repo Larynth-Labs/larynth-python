@@ -9,25 +9,25 @@ if TYPE_CHECKING:
     from ..models.catalog_voice import CatalogVoice
 
 
-T = TypeVar("T", bound="PageCatalogVoice")
+T = TypeVar("T", bound="VoicePage")
 
 
 @_attrs_define
-class PageCatalogVoice:
+class VoicePage:
     """
     Attributes:
-        data (list[CatalogVoice]):
+        items (list[CatalogVoice]):
         next_cursor (None | str): Cursor for the next page; null on the last page
     """
 
-    data: list[CatalogVoice]
+    items: list[CatalogVoice]
     next_cursor: None | str
 
     def to_dict(self) -> dict[str, Any]:
-        data = []
-        for data_item_data in self.data:
-            data_item = data_item_data.to_dict()
-            data.append(data_item)
+        items = []
+        for items_item_data in self.items:
+            items_item = items_item_data.to_dict()
+            items.append(items_item)
 
         next_cursor: None | str
         next_cursor = self.next_cursor
@@ -36,7 +36,7 @@ class PageCatalogVoice:
 
         field_dict.update(
             {
-                "data": data,
+                "items": items,
                 "next_cursor": next_cursor,
             }
         )
@@ -48,12 +48,12 @@ class PageCatalogVoice:
         from ..models.catalog_voice import CatalogVoice
 
         d = dict(src_dict)
-        data = []
-        _data = d.pop("data")
-        for data_item_data in _data:
-            data_item = CatalogVoice.from_dict(data_item_data)
+        items = []
+        _items = d.pop("items")
+        for items_item_data in _items:
+            items_item = CatalogVoice.from_dict(items_item_data)
 
-            data.append(data_item)
+            items.append(items_item)
 
         def _parse_next_cursor(data: object) -> None | str:
             if data is None:
@@ -62,9 +62,9 @@ class PageCatalogVoice:
 
         next_cursor = _parse_next_cursor(d.pop("next_cursor"))
 
-        page_catalog_voice = cls(
-            data=data,
+        voice_page = cls(
+            items=items,
             next_cursor=next_cursor,
         )
 
-        return page_catalog_voice
+        return voice_page

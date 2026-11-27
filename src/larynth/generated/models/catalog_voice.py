@@ -28,8 +28,7 @@ T = TypeVar("T", bound="CatalogVoice")
 class CatalogVoice:
     """
     Attributes:
-        attributes (CatalogVoiceAttributes):
-        id (UUID):
+        attributes (CatalogVoiceAttributes): Provider facts such as gender (male, female, neutral) and accent when known
         language (str):
         languages (list[str]): Languages the voice speaks well; the first is its main language
         name (str):
@@ -40,6 +39,7 @@ class CatalogVoice:
         tags (list[str]):
         voice_key (str):
         description (str | Unset): Plain description written by Larynth
+        id (UUID | Unset): Unset when the voice was fetched live from the provider and is not in the catalog
         latency_basis (CatalogVoiceLatencyBasis | Unset): Inherited from the TTS model. live: our own calls of the last
             7 days, written nightly once 50 turns exist. Turns are attributed per call to the single model of each kind the
             call used; calls that switched models mid-call (fallback) are excluded. lab: our direct probe from a US host,
@@ -54,7 +54,6 @@ class CatalogVoice:
     """
 
     attributes: CatalogVoiceAttributes
-    id: UUID
     language: str
     languages: list[str]
     name: str
@@ -64,6 +63,7 @@ class CatalogVoice:
     tags: list[str]
     voice_key: str
     description: str | Unset = UNSET
+    id: UUID | Unset = UNSET
     latency_basis: CatalogVoiceLatencyBasis | Unset = UNSET
     model_id: UUID | Unset = UNSET
     preview_url: str | Unset = UNSET
@@ -73,8 +73,6 @@ class CatalogVoice:
 
     def to_dict(self) -> dict[str, Any]:
         attributes = self.attributes.to_dict()
-
-        id = str(self.id)
 
         language = self.language
 
@@ -93,6 +91,10 @@ class CatalogVoice:
         voice_key = self.voice_key
 
         description = self.description
+
+        id: str | Unset = UNSET
+        if not isinstance(self.id, Unset):
+            id = str(self.id)
 
         latency_basis: str | Unset = UNSET
         if not isinstance(self.latency_basis, Unset):
@@ -117,7 +119,6 @@ class CatalogVoice:
         field_dict.update(
             {
                 "attributes": attributes,
-                "id": id,
                 "language": language,
                 "languages": languages,
                 "name": name,
@@ -130,6 +131,8 @@ class CatalogVoice:
         )
         if description is not UNSET:
             field_dict["description"] = description
+        if id is not UNSET:
+            field_dict["id"] = id
         if latency_basis is not UNSET:
             field_dict["latency_basis"] = latency_basis
         if model_id is not UNSET:
@@ -152,8 +155,6 @@ class CatalogVoice:
         d = dict(src_dict)
         attributes = CatalogVoiceAttributes.from_dict(d.pop("attributes"))
 
-        id = UUID(d.pop("id"))
-
         language = d.pop("language")
 
         languages = cast(list[str], d.pop("languages"))
@@ -171,6 +172,13 @@ class CatalogVoice:
         voice_key = d.pop("voice_key")
 
         description = d.pop("description", UNSET)
+
+        _id = d.pop("id", UNSET)
+        id: UUID | Unset
+        if isinstance(_id, Unset):
+            id = UNSET
+        else:
+            id = UUID(_id)
 
         _latency_basis = d.pop("latency_basis", UNSET)
         latency_basis: CatalogVoiceLatencyBasis | Unset
@@ -201,7 +209,6 @@ class CatalogVoice:
 
         catalog_voice = cls(
             attributes=attributes,
-            id=id,
             language=language,
             languages=languages,
             name=name,
@@ -211,6 +218,7 @@ class CatalogVoice:
             tags=tags,
             voice_key=voice_key,
             description=description,
+            id=id,
             latency_basis=latency_basis,
             model_id=model_id,
             preview_url=preview_url,

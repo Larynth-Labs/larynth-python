@@ -6,31 +6,47 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.page_catalog_voice import PageCatalogVoice
+from ...models.list_catalog_voices_gender import (
+    ListCatalogVoicesGender,
+)
 from ...models.problem import Problem
+from ...models.voice_page import VoicePage
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
-    limit: int | Unset = 50,
-    after: str | Unset = UNSET,
+    provider_key: str | Unset = UNSET,
     model_id: UUID | Unset = UNSET,
+    q: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    gender: ListCatalogVoicesGender | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
-    params["limit"] = limit
-
-    params["after"] = after
+    params["provider_key"] = provider_key
 
     json_model_id: str | Unset = UNSET
     if not isinstance(model_id, Unset):
         json_model_id = str(model_id)
     params["model_id"] = json_model_id
 
+    params["q"] = q
+
     params["language"] = language
+
+    json_gender: str | Unset = UNSET
+    if not isinstance(gender, Unset):
+        json_gender = gender
+
+    params["gender"] = json_gender
+
+    params["limit"] = limit
+
+    params["cursor"] = cursor
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -45,9 +61,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> PageCatalogVoice | Problem | None:
+) -> Problem | VoicePage | None:
     if response.status_code == 200:
-        response_200 = PageCatalogVoice.from_dict(response.json())
+        response_200 = VoicePage.from_dict(response.json())
 
         return response_200
 
@@ -89,7 +105,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[PageCatalogVoice | Problem]:
+) -> Response[Problem | VoicePage]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -101,32 +117,41 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    limit: int | Unset = 50,
-    after: str | Unset = UNSET,
+    provider_key: str | Unset = UNSET,
     model_id: UUID | Unset = UNSET,
+    q: str | Unset = UNSET,
     language: str | Unset = UNSET,
-) -> Response[PageCatalogVoice | Problem]:
+    gender: ListCatalogVoicesGender | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | VoicePage]:
     """List enabled voices
 
     Args:
+        provider_key (str | Unset): Only voices of this provider
+        model_id (UUID | Unset): Only voices usable with this TTS model
+        q (str | Unset): Case-insensitive search over name, description and tags
+        language (str | Unset): Voices that speak this language; a region suffix is ignored
+        gender (ListCatalogVoicesGender | Unset):
         limit (int | Unset): Page size Default: 50.
-        after (str | Unset): Opaque cursor from next_cursor of the previous page
-        model_id (UUID | Unset):
-        language (str | Unset):
+        cursor (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PageCatalogVoice | Problem]
+        Response[Problem | VoicePage]
     """
 
     kwargs = _get_kwargs(
-        limit=limit,
-        after=after,
+        provider_key=provider_key,
         model_id=model_id,
+        q=q,
         language=language,
+        gender=gender,
+        limit=limit,
+        cursor=cursor,
     )
 
     response = client.get_httpx_client().request(
@@ -139,65 +164,83 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    limit: int | Unset = 50,
-    after: str | Unset = UNSET,
+    provider_key: str | Unset = UNSET,
     model_id: UUID | Unset = UNSET,
+    q: str | Unset = UNSET,
     language: str | Unset = UNSET,
-) -> PageCatalogVoice | Problem | None:
+    gender: ListCatalogVoicesGender | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | VoicePage | None:
     """List enabled voices
 
     Args:
+        provider_key (str | Unset): Only voices of this provider
+        model_id (UUID | Unset): Only voices usable with this TTS model
+        q (str | Unset): Case-insensitive search over name, description and tags
+        language (str | Unset): Voices that speak this language; a region suffix is ignored
+        gender (ListCatalogVoicesGender | Unset):
         limit (int | Unset): Page size Default: 50.
-        after (str | Unset): Opaque cursor from next_cursor of the previous page
-        model_id (UUID | Unset):
-        language (str | Unset):
+        cursor (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PageCatalogVoice | Problem
+        Problem | VoicePage
     """
 
     return sync_detailed(
         client=client,
-        limit=limit,
-        after=after,
+        provider_key=provider_key,
         model_id=model_id,
+        q=q,
         language=language,
+        gender=gender,
+        limit=limit,
+        cursor=cursor,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    limit: int | Unset = 50,
-    after: str | Unset = UNSET,
+    provider_key: str | Unset = UNSET,
     model_id: UUID | Unset = UNSET,
+    q: str | Unset = UNSET,
     language: str | Unset = UNSET,
-) -> Response[PageCatalogVoice | Problem]:
+    gender: ListCatalogVoicesGender | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | VoicePage]:
     """List enabled voices
 
     Args:
+        provider_key (str | Unset): Only voices of this provider
+        model_id (UUID | Unset): Only voices usable with this TTS model
+        q (str | Unset): Case-insensitive search over name, description and tags
+        language (str | Unset): Voices that speak this language; a region suffix is ignored
+        gender (ListCatalogVoicesGender | Unset):
         limit (int | Unset): Page size Default: 50.
-        after (str | Unset): Opaque cursor from next_cursor of the previous page
-        model_id (UUID | Unset):
-        language (str | Unset):
+        cursor (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PageCatalogVoice | Problem]
+        Response[Problem | VoicePage]
     """
 
     kwargs = _get_kwargs(
-        limit=limit,
-        after=after,
+        provider_key=provider_key,
         model_id=model_id,
+        q=q,
         language=language,
+        gender=gender,
+        limit=limit,
+        cursor=cursor,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -208,33 +251,42 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    limit: int | Unset = 50,
-    after: str | Unset = UNSET,
+    provider_key: str | Unset = UNSET,
     model_id: UUID | Unset = UNSET,
+    q: str | Unset = UNSET,
     language: str | Unset = UNSET,
-) -> PageCatalogVoice | Problem | None:
+    gender: ListCatalogVoicesGender | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | VoicePage | None:
     """List enabled voices
 
     Args:
+        provider_key (str | Unset): Only voices of this provider
+        model_id (UUID | Unset): Only voices usable with this TTS model
+        q (str | Unset): Case-insensitive search over name, description and tags
+        language (str | Unset): Voices that speak this language; a region suffix is ignored
+        gender (ListCatalogVoicesGender | Unset):
         limit (int | Unset): Page size Default: 50.
-        after (str | Unset): Opaque cursor from next_cursor of the previous page
-        model_id (UUID | Unset):
-        language (str | Unset):
+        cursor (str | Unset): Opaque cursor from next_cursor of the previous page
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PageCatalogVoice | Problem
+        Problem | VoicePage
     """
 
     return (
         await asyncio_detailed(
             client=client,
-            limit=limit,
-            after=after,
+            provider_key=provider_key,
             model_id=model_id,
+            q=q,
             language=language,
+            gender=gender,
+            limit=limit,
+            cursor=cursor,
         )
     ).parsed
