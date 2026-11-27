@@ -25,7 +25,8 @@ class Rate:
         id (UUID):
         kind (RateKind):
         price_micro (int): Per minute for the *_minute and premium kinds, per month for number_month*,
-            branded_brand_month, per display for branded_call, per number checked for rnd_check
+            branded_brand_month, per display for branded_call, per number checked for rnd_check, per attempt for
+            simulation_attempt
         ai_model_id (UUID | Unset): premium_model only
         direction (RateDirection | Unset):
         effective_to (datetime.datetime | Unset):

@@ -21,6 +21,7 @@ class UsageLines:
         number_micro (int):
         premium_micro (int):
         simulation_micro (int):
+        widget_micro (int):
     """
 
     agent_micro: int
@@ -32,6 +33,7 @@ class UsageLines:
     number_micro: int
     premium_micro: int
     simulation_micro: int
+    widget_micro: int
 
     def to_dict(self) -> dict[str, Any]:
         agent_micro = self.agent_micro
@@ -52,6 +54,8 @@ class UsageLines:
 
         simulation_micro = self.simulation_micro
 
+        widget_micro = self.widget_micro
+
         field_dict: dict[str, Any] = {}
 
         field_dict.update(
@@ -65,6 +69,7 @@ class UsageLines:
                 "number_micro": number_micro,
                 "premium_micro": premium_micro,
                 "simulation_micro": simulation_micro,
+                "widget_micro": widget_micro,
             }
         )
 
@@ -91,6 +96,8 @@ class UsageLines:
 
         simulation_micro = d.pop("simulation_micro")
 
+        widget_micro = d.pop("widget_micro")
+
         usage_lines = cls(
             agent_micro=agent_micro,
             branded_micro=branded_micro,
@@ -101,6 +108,7 @@ class UsageLines:
             number_micro=number_micro,
             premium_micro=premium_micro,
             simulation_micro=simulation_micro,
+            widget_micro=widget_micro,
         )
 
         return usage_lines

@@ -42,6 +42,7 @@ if TYPE_CHECKING:
     from ..models.post_call_settings import PostCallSettings
     from ..models.turn_profile import TurnProfile
     from ..models.vocabulary import Vocabulary
+    from ..models.voice_ref import VoiceRef
 
 
 T = TypeVar("T", bound="AssistantVersionSpec")
@@ -75,6 +76,8 @@ class AssistantVersionSpec:
         llm_params (AssistantVersionSpecLlmParams | Unset):
         max_call_seconds (int | Unset):  Default: 1800.
         post_call (PostCallSettings | Unset):
+        s2s_fallback_model_ids (list[str] | Unset): Live models tried in order when the s2s model fails to start or
+            drops mid-call
         s2s_model_id (UUID | Unset): Required for s2s
         s2s_params (AssistantVersionSpecS2SParams | Unset):
         stt_fallback_model_ids (list[str] | Unset):
@@ -85,7 +88,8 @@ class AssistantVersionSpec:
         tts_fallback_model_ids (list[str] | Unset):
         tts_model_id (UUID | Unset): Required for cascade
         tts_params (AssistantVersionSpecTtsParams | Unset):
-        tts_voice_id (UUID | Unset): Required for cascade
+        tts_voice (VoiceRef | Unset):
+        tts_voice_id (UUID | Unset): Required for cascade unless tts_voice is given
         turn_preset (AssistantVersionSpecTurnPreset | Unset): Turn-taking preset from listTurnPresets; custom means
             turn_profile and interruption_profile hold the advanced values. Unset is balanced
         turn_profile (TurnProfile | Unset):
@@ -113,6 +117,7 @@ class AssistantVersionSpec:
     llm_params: AssistantVersionSpecLlmParams | Unset = UNSET
     max_call_seconds: int | Unset = 1800
     post_call: PostCallSettings | Unset = UNSET
+    s2s_fallback_model_ids: list[str] | Unset = UNSET
     s2s_model_id: UUID | Unset = UNSET
     s2s_params: AssistantVersionSpecS2SParams | Unset = UNSET
     stt_fallback_model_ids: list[str] | Unset = UNSET
@@ -123,6 +128,7 @@ class AssistantVersionSpec:
     tts_fallback_model_ids: list[str] | Unset = UNSET
     tts_model_id: UUID | Unset = UNSET
     tts_params: AssistantVersionSpecTtsParams | Unset = UNSET
+    tts_voice: VoiceRef | Unset = UNSET
     tts_voice_id: UUID | Unset = UNSET
     turn_preset: AssistantVersionSpecTurnPreset | Unset = UNSET
     turn_profile: TurnProfile | Unset = UNSET
@@ -201,6 +207,10 @@ class AssistantVersionSpec:
         if not isinstance(self.post_call, Unset):
             post_call = self.post_call.to_dict()
 
+        s2s_fallback_model_ids: list[str] | Unset = UNSET
+        if not isinstance(self.s2s_fallback_model_ids, Unset):
+            s2s_fallback_model_ids = self.s2s_fallback_model_ids
+
         s2s_model_id: str | Unset = UNSET
         if not isinstance(self.s2s_model_id, Unset):
             s2s_model_id = str(self.s2s_model_id)
@@ -243,6 +253,10 @@ class AssistantVersionSpec:
         tts_params: dict[str, Any] | Unset = UNSET
         if not isinstance(self.tts_params, Unset):
             tts_params = self.tts_params.to_dict()
+
+        tts_voice: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.tts_voice, Unset):
+            tts_voice = self.tts_voice.to_dict()
 
         tts_voice_id: str | Unset = UNSET
         if not isinstance(self.tts_voice_id, Unset):
@@ -304,6 +318,8 @@ class AssistantVersionSpec:
             field_dict["max_call_seconds"] = max_call_seconds
         if post_call is not UNSET:
             field_dict["post_call"] = post_call
+        if s2s_fallback_model_ids is not UNSET:
+            field_dict["s2s_fallback_model_ids"] = s2s_fallback_model_ids
         if s2s_model_id is not UNSET:
             field_dict["s2s_model_id"] = s2s_model_id
         if s2s_params is not UNSET:
@@ -324,6 +340,8 @@ class AssistantVersionSpec:
             field_dict["tts_model_id"] = tts_model_id
         if tts_params is not UNSET:
             field_dict["tts_params"] = tts_params
+        if tts_voice is not UNSET:
+            field_dict["tts_voice"] = tts_voice
         if tts_voice_id is not UNSET:
             field_dict["tts_voice_id"] = tts_voice_id
         if turn_preset is not UNSET:
@@ -362,6 +380,7 @@ class AssistantVersionSpec:
         from ..models.post_call_settings import PostCallSettings
         from ..models.turn_profile import TurnProfile
         from ..models.vocabulary import Vocabulary
+        from ..models.voice_ref import VoiceRef
 
         d = dict(src_dict)
         greeting_text = d.pop("greeting_text")
@@ -463,6 +482,8 @@ class AssistantVersionSpec:
         else:
             post_call = PostCallSettings.from_dict(_post_call)
 
+        s2s_fallback_model_ids = cast(list[str], d.pop("s2s_fallback_model_ids", UNSET))
+
         _s2s_model_id = d.pop("s2s_model_id", UNSET)
         s2s_model_id: UUID | Unset
         if isinstance(_s2s_model_id, Unset):
@@ -527,6 +548,13 @@ class AssistantVersionSpec:
         else:
             tts_params = AssistantVersionSpecTtsParams.from_dict(_tts_params)
 
+        _tts_voice = d.pop("tts_voice", UNSET)
+        tts_voice: VoiceRef | Unset
+        if isinstance(_tts_voice, Unset):
+            tts_voice = UNSET
+        else:
+            tts_voice = VoiceRef.from_dict(_tts_voice)
+
         _tts_voice_id = d.pop("tts_voice_id", UNSET)
         tts_voice_id: UUID | Unset
         if isinstance(_tts_voice_id, Unset):
@@ -577,6 +605,7 @@ class AssistantVersionSpec:
             llm_params=llm_params,
             max_call_seconds=max_call_seconds,
             post_call=post_call,
+            s2s_fallback_model_ids=s2s_fallback_model_ids,
             s2s_model_id=s2s_model_id,
             s2s_params=s2s_params,
             stt_fallback_model_ids=stt_fallback_model_ids,
@@ -587,6 +616,7 @@ class AssistantVersionSpec:
             tts_fallback_model_ids=tts_fallback_model_ids,
             tts_model_id=tts_model_id,
             tts_params=tts_params,
+            tts_voice=tts_voice,
             tts_voice_id=tts_voice_id,
             turn_preset=turn_preset,
             turn_profile=turn_profile,

@@ -1,10 +1,11 @@
 from typing import Literal
 
 CallRecordingInfoDeletedReason = Literal[
-    "data_request", "key_destroyed", "retention", "user"
+    "content_removed", "data_request", "key_destroyed", "retention", "user"
 ]
 
 CALL_RECORDING_INFO_DELETED_REASON_VALUES: set[CallRecordingInfoDeletedReason] = {
+    "content_removed",
     "data_request",
     "key_destroyed",
     "retention",

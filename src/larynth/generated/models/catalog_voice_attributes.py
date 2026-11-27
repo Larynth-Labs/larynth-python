@@ -11,6 +11,8 @@ T = TypeVar("T", bound="CatalogVoiceAttributes")
 
 @_attrs_define
 class CatalogVoiceAttributes:
+    """Provider facts such as gender (male, female, neutral) and accent when known"""
+
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

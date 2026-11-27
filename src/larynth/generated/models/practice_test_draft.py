@@ -1,0 +1,156 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, Self, TypeVar
+from uuid import UUID
+
+from attrs import define as _attrs_define
+
+from ..models.practice_test_draft_source import (
+    PracticeTestDraftSource,
+    check_practice_test_draft_source,
+)
+from ..models.practice_test_draft_traits_item import (
+    PracticeTestDraftTraitsItem,
+    check_practice_test_draft_traits_item,
+)
+from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.practice_check import PracticeCheck
+
+
+T = TypeVar("T", bound="PracticeTestDraft")
+
+
+@_attrs_define
+class PracticeTestDraft:
+    """
+    Attributes:
+        assistant_id (UUID):
+        must (list[PracticeCheck]):
+        name (str):
+        source (PracticeTestDraftSource):
+        wants (str):
+        who (str):
+        caller_e164 (str | Unset): The number the agent sees as the caller, in E.164. Only test numbers are allowed: +1,
+            an optional area code, then 555 01 and two digits
+        required (bool | Unset): Must pass before the agent can be published from the dashboard
+        source_call_id (str | Unset): The call this practice call was drafted from; sets source to from_call
+        traits (list[PracticeTestDraftTraitsItem] | Unset): How the caller behaves, at most 3
+    """
+
+    assistant_id: UUID
+    must: list[PracticeCheck]
+    name: str
+    source: PracticeTestDraftSource
+    wants: str
+    who: str
+    caller_e164: str | Unset = UNSET
+    required: bool | Unset = UNSET
+    source_call_id: str | Unset = UNSET
+    traits: list[PracticeTestDraftTraitsItem] | Unset = UNSET
+
+    def to_dict(self) -> dict[str, Any]:
+        assistant_id = str(self.assistant_id)
+
+        must = []
+        for must_item_data in self.must:
+            must_item = must_item_data.to_dict()
+            must.append(must_item)
+
+        name = self.name
+
+        source: str = self.source
+
+        wants = self.wants
+
+        who = self.who
+
+        caller_e164 = self.caller_e164
+
+        required = self.required
+
+        source_call_id = self.source_call_id
+
+        traits: list[str] | Unset = UNSET
+        if not isinstance(self.traits, Unset):
+            traits = []
+            for traits_item_data in self.traits:
+                traits_item: str = traits_item_data
+                traits.append(traits_item)
+
+        field_dict: dict[str, Any] = {}
+
+        field_dict.update(
+            {
+                "assistant_id": assistant_id,
+                "must": must,
+                "name": name,
+                "source": source,
+                "wants": wants,
+                "who": who,
+            }
+        )
+        if caller_e164 is not UNSET:
+            field_dict["caller_e164"] = caller_e164
+        if required is not UNSET:
+            field_dict["required"] = required
+        if source_call_id is not UNSET:
+            field_dict["source_call_id"] = source_call_id
+        if traits is not UNSET:
+            field_dict["traits"] = traits
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.practice_check import PracticeCheck
+
+        d = dict(src_dict)
+        assistant_id = UUID(d.pop("assistant_id"))
+
+        must = []
+        _must = d.pop("must")
+        for must_item_data in _must:
+            must_item = PracticeCheck.from_dict(must_item_data)
+
+            must.append(must_item)
+
+        name = d.pop("name")
+
+        source = check_practice_test_draft_source(d.pop("source"))
+
+        wants = d.pop("wants")
+
+        who = d.pop("who")
+
+        caller_e164 = d.pop("caller_e164", UNSET)
+
+        required = d.pop("required", UNSET)
+
+        source_call_id = d.pop("source_call_id", UNSET)
+
+        _traits = d.pop("traits", UNSET)
+        traits: list[PracticeTestDraftTraitsItem] | Unset = UNSET
+        if _traits is not UNSET:
+            traits = []
+            for traits_item_data in _traits:
+                traits_item = check_practice_test_draft_traits_item(traits_item_data)
+
+                traits.append(traits_item)
+
+        practice_test_draft = cls(
+            assistant_id=assistant_id,
+            must=must,
+            name=name,
+            source=source,
+            wants=wants,
+            who=who,
+            caller_e164=caller_e164,
+            required=required,
+            source_call_id=source_call_id,
+            traits=traits,
+        )
+
+        return practice_test_draft
